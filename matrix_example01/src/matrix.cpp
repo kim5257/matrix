@@ -24,7 +24,7 @@ Matrix::~Matrix	(	void	)
 	deallocMatrix();
 }
 
-bool	Matrix::allocMatrix		(	size_t		col,
+bool	Matrix::allocElems		(	size_t		col,
 										size_t		row
 									)
 {
@@ -42,7 +42,7 @@ bool	Matrix::allocMatrix		(	size_t		col,
 		}
 		catch	(	std::bad_alloc&	exception	)
 		{
-			exception	=	exception;
+			throw	matrix::ErrMsg::CreateErrMsg("할당에 실패했습니다.");
 			break;
 		}
 
@@ -96,7 +96,7 @@ void		Matrix::equal				(	Matrix*	matrix		)
 			);
 }
 
-void		Matrix::Add				(	Matrix*	operand,
+void		Matrix::add				(	Matrix*	operand,
 											Matrix*	result
 										)
 {
@@ -115,7 +115,7 @@ void		Matrix::Add				(	Matrix*	operand,
 	}
 }
 
-void		Matrix::Sub				(	Matrix*	operand,
+void		Matrix::sub				(	Matrix*	operand,
 											Matrix*	result
 										)
 {
@@ -134,7 +134,7 @@ void		Matrix::Sub				(	Matrix*	operand,
 	}
 }
 
-void		Matrix::Multiply			(	Matrix*	operand,
+void		Matrix::multiply			(	Matrix*	operand,
 											Matrix*	result
 										)
 {
@@ -164,7 +164,7 @@ void		Matrix::Multiply			(	Matrix*	operand,
 	}
 }
 
-void		Matrix::Multiply			(	elem_t		operand,
+void		Matrix::multiply			(	elem_t		operand,
 											Matrix*	result
 										)
 {
@@ -182,6 +182,28 @@ void		Matrix::Multiply			(	elem_t		operand,
 	}
 }
 
+void		Matrix::transpose			(	Matrix*	result		)
+{
+	chkSameSize(result);
+
+	for(size_t col=0;col<getCol();col++)
+	{
+		for(size_t row=0;row<getRow();row++)
+		{
+			result->setValue	(	row,
+									col,
+									this->getValue(col, row)
+								);
+		}
+	}
+}
+
+void		Matrix::solution			(	Matrix*	operand,
+											Matrix*	result
+										)
+{
+
+}
 
 void		Matrix::chkBound			(	size_t		col,
 											size_t		row
@@ -203,36 +225,45 @@ void		Matrix::chkSameSize		(	Matrix*	matrix		)
 	}
 }
 
+Matrix*	Matrix::allocMatrix		(	void	)
+{
+	Matrix*	newMatrix	=	NULL;
+
+	try
+	{
+		newMatrix	=	new Matrix();
+	}
+	catch	(	std::bad_alloc&	exception	)
+	{
+		throw	matrix::ErrMsg::CreateErrMsg("할당에 실패했습니다.");
+	}
+
+	return	newMatrix;
+}
+
 Matrix*	Matrix::createMatrix		(	size_t		col,
 											size_t		row
 										)
 {
 	Matrix*	newMatrix	=	NULL;
 
-	do
+	try
 	{
-		try
-		{
-			newMatrix	=	new Matrix();
-			if( newMatrix == NULL )
-			{
-				break;
-			}
-		}
-		catch	(	std::bad_alloc&	exception	)
-		{
-			exception	=	exception;
-			break;
-		}
+		newMatrix	=	allocMatrix();
+		newMatrix->allocElems(col, row);
+	}
+	catch (	matrix::ErrMsg*	err		)
+	{
+		fprintf(stderr, "%s\n", err->getErrString());
 
-		if( newMatrix->allocMatrix(col, row) == false )
+		matrix::ErrMsg::DestroyErrMsg(err);
+
+		if( newMatrix != NULL )
 		{
-			delete		newMatrix;
+			delete	newMatrix;
 			newMatrix	=	NULL;
-			break;
 		}
-
-	}while(0);
+	}
 
 	return	newMatrix;
 }
@@ -241,32 +272,24 @@ Matrix*	Matrix::createMatrix		(	Matrix*	matrix		)
 {
 	Matrix*	newMatrix	=	NULL;
 
-	do
+	try
 	{
-		try
-		{
-			newMatrix	=	new Matrix();
-			if( newMatrix == NULL )
-			{
-				break;
-			}
-		}
-		catch	(	std::bad_alloc&	exception	)
-		{
-			exception	=	exception;
-			break;
-		}
-
-		if( newMatrix->allocMatrix(matrix->getCol(), matrix->getRow()) == false )
-		{
-			delete		newMatrix;
-			newMatrix	=	NULL;
-			break;
-		}
-
+		newMatrix	=	allocMatrix();
+		newMatrix->allocElems(matrix->getCol(), matrix->getRow());
 		newMatrix->equal(matrix);
+	}
+	catch (	matrix::ErrMsg*	err		)
+	{
+		fprintf(stderr, "%s\n", err->getErrString());
 
-	}while(0);
+		matrix::ErrMsg::DestroyErrMsg(err);
+
+		if( newMatrix != NULL )
+		{
+			delete	newMatrix;
+			newMatrix	=	NULL;
+		}
+	}
 
 	return	newMatrix;
 }

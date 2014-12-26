@@ -24,8 +24,10 @@ private:
 				ErrMsg		(	void	);
 	virtual	~ErrMsg	(	void	);
 private:
-	inline bool	SetErrString		(	const char		string[]	);
-	inline void	DelErrString		(	void	);
+	inline bool	setErrString		(	const char		string[]	);
+	inline void	delErrString		(	void	);
+public:
+	inline const char*	getErrString		(	void	);
 public:
 	inline static ErrMsg*	CreateErrMsg	(	const char		string[]	);
 	inline static void		DestroyErrMsg	(	ErrMsg*	errMsg			);
@@ -39,10 +41,10 @@ ErrMsg::ErrMsg	(	void	)
 
 ErrMsg::~ErrMsg	(	void	)
 {
-	DelErrString();
+	delErrString();
 }
 
-bool		ErrMsg::SetErrString		(	const char		string[]	)
+bool		ErrMsg::setErrString		(	const char		string[]	)
 {
 	bool	ret	=	false;
 
@@ -68,14 +70,22 @@ bool		ErrMsg::SetErrString		(	const char		string[]	)
 	return	ret;
 }
 
-void		ErrMsg::DelErrString		(	void	)
+void		ErrMsg::delErrString		(	void	)
 {
 	delete[]	errString;
+}
+
+const char*	ErrMsg::getErrString		(	void	)
+{
+	return	errString;
 }
 
 ErrMsg*	ErrMsg::CreateErrMsg		(	const char		string[]	)
 {
 	ErrMsg*	errMsg	=	NULL;
+
+	errMsg	=	new ErrMsg();
+	errMsg->setErrString(string);
 
 	return	errMsg;
 }

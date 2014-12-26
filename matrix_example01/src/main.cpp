@@ -47,7 +47,7 @@ int		main	(	int		argc,
 
 	printf("\n");
 
-	matrixA->Multiply(matrixB, matrixC);
+	matrixA->transpose(matrixC);
 
 	for(size_t col=0;col<matrixC->getCol();col++)
 	{

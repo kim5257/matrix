@@ -22,7 +22,7 @@ private:
 				Matrix		(	void	);
 	virtual	~Matrix	(	void	);
 private:
-	bool		allocMatrix		(	size_t		col,
+	bool		allocElems			(	size_t		col,
 										size_t		row
 									);
 	void		deallocMatrix		(	void	);
@@ -36,16 +36,20 @@ public:
 									);
 	void		equal				(	Matrix*	matrix		);
 public:
-	void		Add					(	Matrix*	operand,
+	void		add					(	Matrix*	operand,
 										Matrix*	result
 									);
-	void		Sub					(	Matrix*	operand,
+	void		sub					(	Matrix*	operand,
 										Matrix*	result
 									);
-	void		Multiply			(	Matrix*	operand,
+	void		multiply			(	Matrix*	operand,
 										Matrix*	result
 									);
-	void		Multiply			(	elem_t		operand,
+	void		multiply			(	elem_t		operand,
+										Matrix*	result
+									);
+	void		transpose			(	Matrix*	result		);
+	void		solution			(	Matrix*	operand,
 										Matrix*	result
 									);
 public:
@@ -56,6 +60,8 @@ public:
 public:
 	inline size_t		getRow		(	void	);
 	inline size_t		getCol		(	void	);
+private:
+	static Matrix*	allocMatrix		(	void	);
 public:
 	static Matrix*	createMatrix		(	size_t		col,
 												size_t		row
