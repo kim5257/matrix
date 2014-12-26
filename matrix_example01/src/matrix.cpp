@@ -157,7 +157,7 @@ void		Matrix::multiply			(	Matrix*	operand,
 			int value	=	0;
 			for(size_t x=0;x<this->getRow();x++)
 			{
-				value	+=	this->getValue(col, x) * this->getValue(x, row);
+				value	+=	this->getValue(col, x) * operand->getValue(x, row);
 			}
 			result->setValue(col, row, value);
 		}
