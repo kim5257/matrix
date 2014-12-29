@@ -176,45 +176,48 @@ const Matrix&		Matrix::equal			(	const Matrix&	operand	)
 
 Matrix		Matrix::solution		(	const Matrix&	operand	)
 {
-	Matrix		result	=	Matrix(operand.getCol(), operand.getRow());
-	Matrix		x0		=	Matrix(operand.getCol(), operand.getRow());
+	Matrix		x			=	Matrix(this->getRow(), operand.getRow());
+	Matrix		r			=	operand - ( (*this) * x );
+	Matrix		p			=	r;
+	Matrix		rSold		=	r.transpose() * r;
+	Matrix		result		=	x;
+	elem_t		min			=	1;
+	bool		foundFlag	=	false;
 
-	Matrix		r0		=	operand - ((*this) * x0);
-	Matrix		p0		=	Matrix(r0);
-
-	for(int cnt=0;cnt<100;cnt++)
+	for(size_t cnt=0;cnt<1000000;cnt++)
 	{
-		elem_t	alpha	=	(r0.transpose() * r0).getElem(0,0)
-						/	(p0.transpose() * (*this) * p0).getElem(0,0);
+		Matrix		ap			=	(*this) * p;
+		elem_t		alpha		=	rSold.getElem(0,0) / (p.transpose() * ap).getElem(0,0);
 
-		x0		=	x0 + (p0 * alpha);
+		x	=	x + (p * alpha);
+		r	=	r - (ap * alpha);
 
-		Matrix	r1		=	r0 - (((*this) * alpha) * p0);
+		Matrix		rsNew		=	r.transpose() * r;
 
-		printf("r1 = \n");
-		for(size_t col=0;col<r1.getCol();col++)
+		elem_t		sqrtVal	=	sqrt(rsNew.getElem(0,0));
+
+		if( min > sqrtVal )
 		{
-			for(size_t row=0;row<r1.getRow();row++)
-			{
-				printf("%3.5f ", r1.getElem(col, row));
-			}
-			printf("\n");
-
+			min		=	sqrtVal;
+			result	=	x;
 		}
 
-		if( r1.getElem(0,0) == 0 )
+		if( sqrtVal < 0.0001 )
 		{
+			foundFlag	=	true;
 			break;
 		}
 
-		elem_t	beta	=	(r1.transpose() * r1).getElem(0,0)
-						/	(r0.transpose() * r0).getElem(0,0);
-
-		p0		=	r1 + (p0 * beta);
-		r0		=	r1;
+		p		=	r + ( p * (rsNew.getElem(0,0) / rSold.getElem(0,0) ) );
+		rSold	=	rsNew;
 	}
 
-	return	x0;
+	if( foundFlag != true )
+	{
+		x	=	result;
+	}
+
+	return	x;
 }
 
 void		Matrix::allocElems		(	size_t		col,
