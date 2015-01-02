@@ -9,42 +9,27 @@
 #define SPARSE_MATRIX_H_
 
 #include <stdio.h>
-#include <list>
+#include <vector>
 #include <array>
 #include <unordered_map>
 #include <bits/unordered_map.h>
 #include <map>
 #include <numeric>
 
-typedef	double						elem_t;
-typedef	std::array<size_t, 2>	index_t;
-
-namespace std
-{
-
-template <>
-class	hash<index_t>:
-		public	std::unary_function<index_t, size_t>
-{
-public:
-	size_t		operator()		(	const	index_t&	index	) const
-	{
-		return	std::accumulate(index.begin(), index.end(), 0);
-	}
-};
-
-}
-
-typedef	std::unordered_map<index_t, elem_t>	elem_node_t;
-typedef	elem_node_t::const_iterator				elem_node_itor;
-
 namespace	matrix
 {
+
+typedef	double		elem_t;
+typedef	size_t		col_t;
+typedef	size_t		row_t;
+
+typedef	std::map<row_t, elem_t>			elem_node_t;
+typedef	elem_node_t::const_iterator		elem_node_itor;
 
 class	SparseMatrix
 {
 private:
-	elem_node_t	mData;
+	elem_node_t*	mData;
 	size_t			mCol;
 	size_t			mRow;
 public:
@@ -66,6 +51,15 @@ public:
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	elem_t		operand	) const;
+	SparseMatrix	tmultiply	(	const SparseMatrix&	operand	) const;
+	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
+	SparseMatrix	solution	(	const SparseMatrix&	operand	);
+public:
+	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
+	inline SparseMatrix		operator-		(	const SparseMatrix&	operand	) const;
+	inline SparseMatrix		operator*		(	const SparseMatrix&	operand	) const;
+	inline SparseMatrix		operator*		(	elem_t		operand		) const;
+	inline const SparseMatrix&		operator=		(	const SparseMatrix&	operand	);
 public:
 	inline bool	isValid		(	void	);
 	inline size_t	getCol			(	void	) const;
@@ -75,11 +69,38 @@ private:
 	void		allocElems		(	size_t		col,
 									size_t		row
 								);
+	void		freeElems		(	void	);
+	void		copyElems		(	const SparseMatrix&		matrix		);
 	void		chkSameSize	(	const SparseMatrix&		matrix		) const;
 	void		chkBound		(	size_t		col,
 									size_t		row
 								) const;
 };
+
+SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	) const
+{
+	return	add(operand);
+}
+
+SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	) const
+{
+	return	sub(operand);
+}
+
+SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	) const
+{
+	return	multiply(operand);
+}
+
+SparseMatrix		SparseMatrix::operator*		(	elem_t		operand		) const
+{
+	return	multiply(operand);
+}
+
+const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	)
+{
+	return	equal(operand);
+}
 
 bool	SparseMatrix::isValid		(	void	)
 {
@@ -106,7 +127,7 @@ size_t	SparseMatrix::getRow			(	void	) const
 
 size_t	SparseMatrix::getSize		(	void	) const
 {
-	return	mData.size();
+	return	0;
 }
 
 }

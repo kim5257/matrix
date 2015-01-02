@@ -23,12 +23,12 @@ int		main	(	int		argc,
 		matrixA.setElem(1,0,8);
 		matrixA.setElem(1,1,9);
 
-		matrixB.setElem(2,0,1);
-		matrixB.setElem(2,1,2);
-		matrixB.setElem(3,0,8);
-		matrixB.setElem(3,1,9);
+		matrixB.setElem(0,0,1);
+		matrixB.setElem(0,1,2);
+		matrixB.setElem(1,0,8);
+		matrixB.setElem(1,1,9);
 
-		matrix::SparseMatrix		matrixC	=	matrixA.sub(matrixB);
+		matrix::SparseMatrix		matrixC	=	matrixA.multiply(matrixB);
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)

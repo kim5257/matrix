@@ -112,7 +112,7 @@ SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	) const
 
 	SparseMatrix	result		=	SparseMatrix(getCol(), getRow());
 
-	for(elem_node_t::const_iterator	itor=mData.begin();itor!=mData.end();itor++)
+	for(elem_node_itor itor=mData.begin();itor!=mData.end();itor++)
 	{
 		index_t	index	=	itor->first;
 
@@ -122,7 +122,7 @@ SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	) const
 							);
 	}
 
-	for(elem_node_t::const_iterator	itor=operand.mData.begin();itor!=operand.mData.end();itor++)
+	for(elem_node_itor itor=operand.mData.begin();itor!=operand.mData.end();itor++)
 	{
 		index_t	index	=	itor->first;
 
@@ -133,6 +133,26 @@ SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	) const
 	}
 
 	return	result;
+}
+
+SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	) const
+{
+	if( ( getCol() != operand.getRow() ) &&
+		( getRow() != operand.getCol() ) )
+	{
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
+	}
+
+	SparseMatrix	result		=	SparseMatrix(getCol(), operand.getRow());
+
+
+
+	return	result;
+}
+
+SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	) const
+{
+
 }
 
 void		SparseMatrix::allocElems		(	size_t		col,
