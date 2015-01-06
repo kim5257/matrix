@@ -14,7 +14,8 @@ namespace matrix
 
 SparseMatrix::SparseMatrix			(	void	)
 :mCol(0),
- mRow(0)
+ mRow(0),
+ mData(NULL)
 {
 }
 
@@ -31,7 +32,8 @@ SparseMatrix::SparseMatrix			(	const SparseMatrix&		matrix		)
 :mCol(matrix.getCol()),
  mRow(matrix.getRow())
 {
-	this->mData	=	matrix.mData;
+	allocElems(matrix.getCol(), matrix.getRow());
+	copyElems(matrix);
 }
 
 SparseMatrix::~SparseMatrix			(	void	)
@@ -88,7 +90,7 @@ SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	) const
 
 	for(size_t col=0;col<getCol();col++)
 	{
-		for(elem_node_itor itor=mData[col].begin();itor!=mData[col].end();itor++)
+		for(elem_node_itor itor=operand.mData[col].begin();itor!=operand.mData[col].end();itor++)
 		{
 			result.setElem	(	col,
 									itor->first,
@@ -218,10 +220,11 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	)
 	SparseMatrix		p			=	r;
 	SparseMatrix		rSold		=	r.tmultiply(r);
 	SparseMatrix		result		=	x;
-	elem_t		min			=	1;
+	elem_t		min			=	1000;
+	size_t		num			=	0;
 	bool		foundFlag	=	false;
 
-	for(size_t cnt=0;cnt<1000;cnt++)
+	for(size_t cnt=0;cnt<1000000;cnt++)
 	{
 		SparseMatrix	ap		=	(*this) * p;
 		elem_t			alpha	=	rSold.getElem(0,0) / (p.tmultiply(ap)).getElem(0,0);
@@ -235,11 +238,12 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	)
 
 		if( min > sqrtVal )
 		{
+			num		=	cnt;
 			min		=	sqrtVal;
 			result	=	x;
 		}
 
-		if( sqrtVal < 0.0001 )
+		if( sqrtVal < 0.001 )
 		{
 			foundFlag	=	true;
 			break;
@@ -249,6 +253,7 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	)
 		rSold	=	rsNew;
 	}
 
+	printf("min = %3.5f\nnum = %ld\n", min, num);
 	if( foundFlag != true )
 	{
 		x	=	result;

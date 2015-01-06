@@ -29,9 +29,9 @@ typedef	elem_node_t::const_iterator		elem_node_itor;
 class	SparseMatrix
 {
 private:
-	elem_node_t*	mData;
 	size_t			mCol;
 	size_t			mRow;
+	elem_node_t*	mData;
 public:
 				SparseMatrix			(	void	);
 				SparseMatrix			(	size_t		col,
