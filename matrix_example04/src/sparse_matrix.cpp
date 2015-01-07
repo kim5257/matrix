@@ -12,37 +12,47 @@
 namespace matrix
 {
 
+/**
+ * 생성자
+ */
 SparseMatrix::SparseMatrix			(	void	)
-:mCol(0),
- mRow(0),
- mData(NULL)
 {
 }
 
-SparseMatrix::SparseMatrix			(	size_t		col,
-											size_t		row
+/**
+ * 생성자
+ */
+SparseMatrix::SparseMatrix			(	size_t		col,	///< 행 크기
+											size_t		row		///< 열 크기
 										)
-:mCol(0),
- mRow(0)
 {
 	allocElems(col, row);
 }
 
-SparseMatrix::SparseMatrix			(	const SparseMatrix&		matrix		)
-:mCol(matrix.getCol()),
- mRow(matrix.getRow())
+/**
+ * 복사 생성자
+ */
+SparseMatrix::SparseMatrix			(	const SparseMatrix&		matrix		///< 복사 될 객체
+										)
 {
 	allocElems(matrix.getCol(), matrix.getRow());
 	copyElems(matrix);
 }
 
+/**
+ * 소멸자
+ */
 SparseMatrix::~SparseMatrix			(	void	)
 {
 	freeElems();
 }
 
-elem_t		SparseMatrix::getElem		(	size_t		col,
-												size_t		row
+/**
+ * 행렬 요소 값 참조
+ * @return		참조한 행렬 요소 값
+ */
+elem_t		SparseMatrix::getElem		(	size_t		col,	///< 참조 할 행 위치
+												size_t		row		///< 참조 할 열 위치
 											) const
 {
 	chkBound(col, row);
@@ -61,9 +71,12 @@ elem_t		SparseMatrix::getElem		(	size_t		col,
 	return	value;
 }
 
-void		SparseMatrix::setElem		(	size_t		col,
-												size_t		row,
-												elem_t		elem
+/**
+ * 행렬 요소 값 설정
+ */
+void		SparseMatrix::setElem		(	size_t		col,	///< 설정 할 행 위치
+												size_t		row,	///< 설정 할 열 위치
+												elem_t		elem	///< 설정 할 요소 값
 											)
 {
 	chkBound(col, row);
@@ -71,7 +84,12 @@ void		SparseMatrix::setElem		(	size_t		col,
 	mData[col][row]	=	elem;
 }
 
-SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 덧셈
+ * @return		행렬 덧셈 결과
+ */
+SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	///< 피연산자
+										) const
 {
 	chkSameSize(operand);
 
@@ -102,7 +120,12 @@ SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	) const
 	return	result;
 }
 
-SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 뺄셈
+ * @return		행렬 뺄셈 결과
+ */
+SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	///< 피연산자
+										) const
 {
 	chkSameSize(operand);
 
@@ -133,7 +156,12 @@ SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	) const
 	return	result;
 }
 
-SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 곱셈
+ * @return		행렬 곱셈 결과
+ */
+SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	///< 피연산자
+											) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
@@ -160,7 +188,12 @@ SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	) const
 	return	result;
 }
 
-SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	) const
+/**
+ * 행렬 곱셈
+ * @return		행렬 곱셈 결과
+ */
+SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	///< 피연산자
+											) const
 {
 	SparseMatrix	result	=	SparseMatrix(getCol(), getRow());
 
@@ -178,7 +211,12 @@ SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	) const
 	return	result;
 }
 
-SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	) const
+/**
+ * 전치 행렬 변환 후 곱셈
+ * @return		행렬 곱셈 결과
+ */
+SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< 피연산자
+											) const
 {
 	if( ( getCol() != operand.getCol() ) &&
 		( getRow() != operand.getRow() ) )
@@ -205,7 +243,12 @@ SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	) const
 	return	result;
 }
 
-const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	)
+/**
+ * 행렬 대입
+ * @return		대입 할 행렬
+ */
+const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	///< 피연산자
+															)
 {
 	chkSameSize(operand);
 	copyElems(operand);
@@ -213,7 +256,12 @@ const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	)
 	return	*this;
 }
 
-SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	)
+/**
+ * 행렬 방정식 해 계산
+ * @return		해 계산 결과
+ */
+SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연산자
+													)
 {
 	SparseMatrix		x			=	SparseMatrix(this->getRow(), operand.getRow());
 	SparseMatrix		r			=	operand - ( (*this) * x );
@@ -262,8 +310,12 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	)
 	return	x;
 }
 
-void		SparseMatrix::allocElems		(	size_t		col,
-												size_t		row
+/**
+ * 행렬 데이터 공간 할당
+ * @exception		메모리 할당 실패 시 에러 발생
+ */
+void		SparseMatrix::allocElems		(	size_t		col,	///< 행 크기
+												size_t		row		///< 열 크기
 											)
 {
 	try
@@ -279,6 +331,9 @@ void		SparseMatrix::allocElems		(	size_t		col,
 	}
 }
 
+/**
+ * 행렬 데이터 공간 할당 해제
+ */
 void		SparseMatrix::freeElems		(	void	)
 {
 	delete[]	mData;
@@ -286,7 +341,11 @@ void		SparseMatrix::freeElems		(	void	)
 	mRow	=	0;
 }
 
-void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		)
+/**
+ * 행렬 데이터 복사
+ */
+void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		///< 복사 할 행렬
+											)
 {
 	for(size_t col=0;col<getCol();col++)
 	{
@@ -295,7 +354,12 @@ void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		)
 	}
 }
 
-void		SparseMatrix::chkSameSize	(	const SparseMatrix&		matrix		) const
+/**
+ * 같은 크기의 행렬인지 검사
+ * @exception		행렬이 같은 크기가 아닐 경우 예외 발생
+ */
+void		SparseMatrix::chkSameSize	(	const SparseMatrix&		matrix		///< 비교 할 행렬
+											) const
 {
 	if( ( getCol() != matrix.getCol() ) ||
 		( getRow() != matrix.getRow() ) )
@@ -304,8 +368,12 @@ void		SparseMatrix::chkSameSize	(	const SparseMatrix&		matrix		) const
 	}
 }
 
-void		SparseMatrix::chkBound		(	size_t		col,
-												size_t		row
+/**
+ * 행렬 요소 참조 범위 검사
+ * @exception		참조 범위 밖일 경우 예외 발생
+ */
+void		SparseMatrix::chkBound		(	size_t		col,	///< 참조 할 행 위치
+												size_t		row		///< 참조 할 열 위치
 											) const
 {
 	if( ( col >= mCol ) ||

@@ -19,19 +19,22 @@
 namespace	matrix
 {
 
-typedef	double		elem_t;
-typedef	size_t		col_t;
-typedef	size_t		row_t;
+typedef	double		elem_t;		///< 요소 데이터 형식
+typedef	size_t		col_t;			///< 행 위치 데이터 형식
+typedef	size_t		row_t;			///< 열 위치 데이터 형식
 
-typedef	std::map<row_t, elem_t>			elem_node_t;
-typedef	elem_node_t::const_iterator		elem_node_itor;
+typedef	std::map<row_t, elem_t>			elem_node_t;		///< 한 개 행 데이터 형식
+typedef	elem_node_t::const_iterator		elem_node_itor;	///< 한 개 행 데이터 참조자
 
+/**
+ * 희소 행렬 표현 클래스
+ */
 class	SparseMatrix
 {
 private:
-	size_t			mCol;
-	size_t			mRow;
-	elem_node_t*	mData;
+	size_t			mCol	=	0;			///< 행 크기
+	size_t			mRow	=	0;			///< 열 크기
+	elem_node_t*	mData	=	NULL;		///< 행렬 데이터
 public:
 				SparseMatrix			(	void	);
 				SparseMatrix			(	size_t		col,
@@ -77,31 +80,60 @@ private:
 								) const;
 };
 
-SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 덧셈
+ * @return		행렬 덧셈 결과
+ */
+SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연산자
+													) const
 {
 	return	add(operand);
 }
 
-SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 뺄셈
+ * @return		행렬 뺄셈 결과
+ */
+SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연산자
+													) const
 {
 	return	sub(operand);
 }
 
-SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	) const
+/**
+ * 행렬 곱셈
+ * @return		행렬 곱셈 결과
+ */
+SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연산자
+													) const
 {
 	return	multiply(operand);
 }
 
-SparseMatrix		SparseMatrix::operator*		(	elem_t		operand		) const
+/**
+ * 행렬 곱셈
+ * @return		행렬 곱셈 결과
+ */
+SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
+													) const
 {
 	return	multiply(operand);
 }
 
-const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	)
+/**
+ * 행렬 대입
+ * @return		대입 할 행렬
+ */
+const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< 피연산자
+															)
 {
 	return	equal(operand);
 }
 
+/**
+ * 행렬 객체가 유효한지 검사
+ * @return		행렬 객체가 유효하면 true, 유효하지 않으면 false
+ */
 bool	SparseMatrix::isValid		(	void	)
 {
 	bool	ret		=	false;
@@ -115,19 +147,38 @@ bool	SparseMatrix::isValid		(	void	)
 	return	ret;
 }
 
+/**
+ * 행 크기 가져오기
+ * @return		행 크기
+ */
 size_t	SparseMatrix::getCol			(	void	) const
 {
 	return	mCol;
 }
 
+/**
+ * 열 크기 가져오기
+ * @return		열 크기
+ */
 size_t	SparseMatrix::getRow			(	void	) const
 {
 	return	mRow;
 }
 
+/**
+ * 행렬 요소 데이터 수 가져오기
+ * @return		요소 데이터 크기
+ */
 size_t	SparseMatrix::getSize		(	void	) const
 {
-	return	0;
+	size_t		sum		=	0;
+
+	for(size_t cnt=0;cnt<getCol();cnt++)
+	{
+		sum		+=	mData[cnt].size();
+	}
+
+	return	sum;
 }
 
 }
