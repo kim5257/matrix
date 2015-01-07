@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>matrix_example04</name>
+	<name>matrix</name>
 	<comment></comment>
 	<projects>
-		<project>matrix</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
