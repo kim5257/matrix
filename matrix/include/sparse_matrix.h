@@ -15,13 +15,10 @@
 #include <bits/unordered_map.h>
 #include <map>
 #include <numeric>
+#include "matrix_typedef.h"
 
 namespace	matrix
 {
-
-typedef	double		elem_t;		///< 요소 데이터 형식
-typedef	size_t		col_t;			///< 행 위치 데이터 형식
-typedef	size_t		row_t;			///< 열 위치 데이터 형식
 
 typedef	std::map<row_t, elem_t>			elem_node_t;		///< 한 개 행 데이터 형식
 typedef	elem_node_t::const_iterator		elem_node_itor;	///< 한 개 행 데이터 참조자

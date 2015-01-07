@@ -250,8 +250,17 @@ SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< 피연�
 const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	///< 피연산자
 															)
 {
-	chkSameSize(operand);
-	copyElems(operand);
+	try
+	{
+		chkSameSize(operand);
+		copyElems(operand);
+	}
+	catch( ErrMsg*	exception	)
+	{
+		freeElems();
+		allocElems(operand.getCol(), operand.getRow());
+		copyElems(operand);
+	}
 
 	return	*this;
 }
