@@ -10,41 +10,56 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <new>
 
 namespace	matrix
 {
 
-#define	MAX_ERR_STRING_LEN	(255)
+#define	MAX_ERR_STRING_LEN	(255)		///< 최대 문자열 길이
 
+
+/**
+ * 에러메시지 전달 클래스
+ */
 class	ErrMsg
 {
 private:
-	char*		errString;
+	char*		mErrString		=	NULL;		///< 에러 문자열
 private:
 	inline				ErrMsg		(	void	);
 	inline virtual	~ErrMsg	(	void	);
 private:
-	inline bool	setErrString		(	const char		string[]	);
-	inline void	delErrString		(	void	);
+	inline bool		setErrString		(	const char		string[]	);
+	inline void		delErrString		(	void	);
 public:
-	inline const char*	getErrString		(	void	);
+	inline const char*		getErrString		(	void	);
 public:
-	inline static ErrMsg*	createErrMsg	(	const char		string[]	);
-	inline static void		destroyErrMsg	(	ErrMsg*	errMsg			);
+	inline static ErrMsg*	createErrMsg		(	const char		string[]	);
+	inline static void		destroyErrMsg		(	ErrMsg*	errMsg			);
 };
 
+/**
+ * 생성자
+ */
 ErrMsg::ErrMsg	(	void	)
-:errString(NULL)
 {
 
 }
 
+/**
+ * 소멸자
+ */
 ErrMsg::~ErrMsg	(	void	)
 {
 	delErrString();
 }
 
-bool		ErrMsg::setErrString		(	const char		string[]	)
+/**
+ * 에러 메시지 문자열 할당 및 메시지 설정
+ * @return		에러 메시지 문자열 할당 및 설정에 성공하면 true, 할당에 실패하면 false
+ */
+bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
+										)
 {
 	bool	ret	=	false;
 
@@ -56,13 +71,17 @@ bool		ErrMsg::setErrString		(	const char		string[]	)
 			break;
 		}
 
-		errString	=	new char[length+1];
-		if( errString == NULL )
+		try
 		{
+			mErrString		=	new char[length+1];
+		}
+		catch( std::bad_alloc&	exception	)
+		{
+			exception.what();
 			break;
 		}
 
-		memcpy(errString, string, length+1);
+		memcpy(mErrString, string, length+1);
 
 		ret		=	true;
 	}while(0);
@@ -70,27 +89,47 @@ bool		ErrMsg::setErrString		(	const char		string[]	)
 	return	ret;
 }
 
+/**
+ * 에러 메시지 문자열 할당 해제
+ */
 void		ErrMsg::delErrString		(	void	)
 {
-	delete[]	errString;
+	delete[]	mErrString;
 }
 
+/**
+ * 에러 메시지 가져오기
+ * @return		저장 된 에러메시지
+ */
 const char*	ErrMsg::getErrString		(	void	)
 {
-	return	errString;
+	return	mErrString;
 }
 
-ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	)
+/**
+ * 에러 메시지 전달 객체 생성
+ * @return		생성한 에러 메시지 전달 객체
+ */
+ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	///< 에러 메시지
+										)
 {
 	ErrMsg*	errMsg	=	NULL;
 
 	errMsg	=	new ErrMsg();
-	errMsg->setErrString(string);
+	if( errMsg->setErrString(string) == false )
+	{
+		delete	errMsg;
+		errMsg	=	NULL;
+	}
 
 	return	errMsg;
 }
 
-void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			)
+/**
+ * 에러 메시지 전달 객체 제거
+ */
+void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			///< 에러 메시지 전달 객체
+										)
 {
 	delete	errMsg;
 }
