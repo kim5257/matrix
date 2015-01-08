@@ -3,6 +3,7 @@
 	<name>matrix_example03</name>
 	<comment></comment>
 	<projects>
+		<project>matrix</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

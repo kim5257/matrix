@@ -8,6 +8,30 @@
 #include "sparse_matrix.h"
 #include "matrix_error.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+#define	COL_SIZE				(5000000)
+#define	ROW_SIZE				(5000000)
+
+#define	VAL_RANGE_START		(0)
+#define	VAL_RANGE_END			(10)
+
+#define	COL_PER_VAL			(6)
+
+void	initRandomVal		(	void	)
+{
+	srand(time(NULL));
+}
+
+matrix::elem_t	getRandomVal		(	size_t		start,
+											size_t		end
+										)
+{
+	matrix::elem_t	val		=	(matrix::elem_t)((rand() % (end - start + 1)) + start);
+
+	return	val;
+}
 
 int		main	(	int		argc,
 					char*	argv[]
@@ -15,34 +39,59 @@ int		main	(	int		argc,
 {
 	try
 	{
-		matrix::SparseMatrix		matrixA	=	matrix::SparseMatrix(5,5);
-		matrix::SparseMatrix		matrixB	=	matrix::SparseMatrix(5,5);
+		matrix::SparseMatrix		matrixA	=	matrix::SparseMatrix(COL_SIZE,ROW_SIZE);
+		matrix::SparseMatrix		matrixB	=	matrix::SparseMatrix(COL_SIZE,1);
 
-		matrixA.setElem(0,0,1);
-		matrixA.setElem(0,1,2);
-		matrixA.setElem(1,0,8);
-		matrixA.setElem(1,1,9);
+		timeval	startTime;
+		timeval	endTime;
+		timeval	diffTime;
 
-		matrixB.setElem(2,0,1);
-		matrixB.setElem(2,1,2);
-		matrixB.setElem(3,0,8);
-		matrixB.setElem(3,1,9);
+		initRandomVal();
 
-		matrix::SparseMatrix		matrixC	=	matrixA.sub(matrixB);
+		printf("데이터 입력중...\n");
 
-		printf("C = \n");
-		for(size_t col=0;col<matrixC.getCol();col++)
+		gettimeofday(&startTime, NULL);
+
+		// 랜덤 값으로 대각선 열에 값 넣기
+		for(size_t cnt=0;cnt<matrixA.getCol();cnt++)
 		{
-			for(size_t row=0;row<matrixC.getRow();row++)
-			{
-				printf("%3.5f ", matrixC.getElem(col, row));
-			}
-			printf("\n");
+			matrixA.setElem(cnt,cnt,getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 		}
 
-		printf("A size = %ld\n", matrixA.getSize());
-		printf("B size = %ld\n", matrixB.getSize());
-		printf("C size = %ld\n", matrixC.getSize());
+		// 랜덤 값으로 나머지 열에 값 넣기
+		for(size_t cnt=0;cnt<matrixA.getCol();cnt++)
+		{
+			for(size_t cnt2=0;cnt2<COL_PER_VAL;cnt2++)
+			{
+				matrixA.setElem(cnt,getRandomVal(0,matrixA.getRow()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
+			}
+		}
+
+		// 랜덤 값으로 B 행렬에 값 넣기
+		for(size_t cnt=0;cnt<matrixB.getCol();cnt++)
+		{
+			matrixB.setElem(cnt,0,getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
+		}
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+		printf("matrixA 크기: %ld\n"
+				"matrixB 크기: %ld\n",
+				matrixA.getSize(),
+				matrixB.getSize());
+
+		printf("곱셈 중...\n");
+
+		gettimeofday(&startTime, NULL);
+
+		matrix::SparseMatrix		matrixC	=	matrixA * matrixB;
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
 	}
 	catch( matrix::ErrMsg*	exception	)
 	{

@@ -278,7 +278,6 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연�
 	SparseMatrix		rSold		=	r.tmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
-	size_t		num			=	0;
 	bool		foundFlag	=	false;
 
 	for(size_t cnt=0;cnt<1000000;cnt++)
@@ -295,7 +294,6 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연�
 
 		if( min > sqrtVal )
 		{
-			num		=	cnt;
 			min		=	sqrtVal;
 			result	=	x;
 		}
@@ -310,7 +308,6 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연�
 		rSold	=	rsNew;
 	}
 
-	printf("min = %3.5f\nnum = %ld\n", min, num);
 	if( foundFlag != true )
 	{
 		x	=	result;

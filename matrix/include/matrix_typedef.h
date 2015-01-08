@@ -11,9 +11,9 @@
 namespace	matrix
 {
 
-typedef	double		elem_t;		///< 요소 데이터 형식
-typedef	size_t		col_t;			///< 행 위치 데이터 형식
-typedef	size_t		row_t;			///< 열 위치 데이터 형식
+typedef	double			elem_t;		///< 요소 데이터 형식
+typedef	size_t			col_t;			///< 행 위치 데이터 형식
+typedef	size_t			row_t;			///< 열 위치 데이터 형식
 
 };
 
