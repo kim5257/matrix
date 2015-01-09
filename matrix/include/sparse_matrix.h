@@ -50,9 +50,11 @@ public:
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	const SparseMatrix&	operand	) const;
+	SparseMatrix	pmultiply	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	elem_t		operand	) const;
 	SparseMatrix	tmultiply	(	const SparseMatrix&	operand	) const;
 	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
+	bool			compare	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	solution	(	const SparseMatrix&	operand	);
 public:
 	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
@@ -60,6 +62,7 @@ public:
 	inline SparseMatrix		operator*		(	const SparseMatrix&	operand	) const;
 	inline SparseMatrix		operator*		(	elem_t		operand		) const;
 	inline const SparseMatrix&		operator=		(	const SparseMatrix&	operand	);
+	inline bool	operator==		(	const SparseMatrix&	operand	) const;
 public:
 	inline bool	isValid		(	void	);
 	inline size_t	getCol			(	void	) const;
@@ -75,6 +78,11 @@ private:
 	void		chkBound		(	size_t		col,
 									size_t		row
 								) const;
+private:
+	static void*	threadFunc			(	void*	pData	);
+	static void*	threadAdd			(	void*	pData	);
+	static void*	threadSub			(	void*	pData	);
+	static void*	threadMultiply	(	void*	pData	);
 };
 
 /**
@@ -125,6 +133,16 @@ const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///<
 															)
 {
 	return	equal(operand);
+}
+
+/**
+ * 행렬 비교
+ * @return		비교 결과
+ */
+bool	SparseMatrix::operator==		(	const SparseMatrix&	operand	///< 피연산자
+										) const
+{
+	return	compare(operand);
 }
 
 /**

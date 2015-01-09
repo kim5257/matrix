@@ -14,7 +14,7 @@
 #define	COL_SIZE				(5000000)
 #define	ROW_SIZE				(5000000)
 
-#define	VAL_RANGE_START		(0)
+#define	VAL_RANGE_START		(1)
 #define	VAL_RANGE_END			(10)
 
 #define	COL_PER_VAL			(6)
@@ -40,6 +40,7 @@ int		main	(	int		argc,
 	try
 	{
 		matrix::SparseMatrix		matrixA	=	matrix::SparseMatrix(COL_SIZE,ROW_SIZE);
+		matrix::SparseMatrix		matrixComp;
 		matrix::SparseMatrix		matrixB	=	matrix::SparseMatrix(COL_SIZE,1);
 
 		timeval	startTime;
@@ -77,6 +78,36 @@ int		main	(	int		argc,
 		timersub(&endTime, &startTime, &diffTime);
 
 		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+
+		printf("대입 중...\n");
+
+		gettimeofday(&startTime, NULL);
+
+		matrixComp		=	matrixA;
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+
+		printf("비교 중...\n");
+
+		gettimeofday(&startTime, NULL);
+
+		if( matrixComp == matrixA )
+		{
+			printf("비교 결과 일치\n");
+		}
+		else
+		{
+			printf("비교 결과 불일치\n");
+		}
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+
 		printf("matrixA 크기: %ld\n"
 				"matrixB 크기: %ld\n",
 				matrixA.getSize(),
@@ -86,7 +117,36 @@ int		main	(	int		argc,
 
 		gettimeofday(&startTime, NULL);
 
-		matrix::SparseMatrix		matrixC	=	matrixA * matrixB;
+		matrix::SparseMatrix		matrixC1	=	matrixA * matrixB;
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+
+		printf("쓰레드 곱셈 중...\n");
+
+		gettimeofday(&startTime, NULL);
+
+		matrix::SparseMatrix		matrixC2	=	matrixA.pmultiply(matrixB);
+
+		gettimeofday(&endTime, NULL);
+		timersub(&endTime, &startTime, &diffTime);
+
+		printf("완료 - %ld:%06ld\n", diffTime.tv_sec, diffTime.tv_usec);
+
+		printf("비교 중...\n");
+
+		gettimeofday(&startTime, NULL);
+
+		if( matrixC1 == matrixC2 )
+		{
+			printf("비교 결과 일치\n");
+		}
+		else
+		{
+			printf("비교 결과 불일치\n");
+		}
 
 		gettimeofday(&endTime, NULL);
 		timersub(&endTime, &startTime, &diffTime);
