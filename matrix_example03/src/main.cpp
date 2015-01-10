@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <time.h>
 
 #define	COL_SIZE				(5000000)
 #define	ROW_SIZE				(5000000)
@@ -117,7 +118,7 @@ int		main	(	int		argc,
 
 		gettimeofday(&startTime, NULL);
 
-		matrix::SparseMatrix		matrixC1	=	matrixA * matrixB;
+		matrix::SparseMatrix		matrixC1	=	matrixA.multiply(matrixB);
 
 		gettimeofday(&endTime, NULL);
 		timersub(&endTime, &startTime, &diffTime);
@@ -128,7 +129,7 @@ int		main	(	int		argc,
 
 		gettimeofday(&startTime, NULL);
 
-		matrix::SparseMatrix		matrixC2	=	matrixA.pmultiply(matrixB);
+		matrix::SparseMatrix		matrixC2	=	matrixA * matrixB;
 
 		gettimeofday(&endTime, NULL);
 		timersub(&endTime, &startTime, &diffTime);

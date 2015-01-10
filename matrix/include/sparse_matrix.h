@@ -28,6 +28,25 @@ typedef	elem_node_t::const_iterator		elem_node_itor;	///< 한 개 행 데이터 
  */
 class	SparseMatrix
 {
+public:
+	enum	FuncKind
+	{
+		FUNC_ADD,
+		FUNC_SUB,
+		FUNC_MULTIPLY,
+		FUNC_ELEM_MUL,
+		FUNC_PMULTIPLY,
+		FUNC_COPY,
+		FUNC_COMPARE,
+	};
+	struct		OpInfo
+	{
+		const SparseMatrix*	operandA;
+		const SparseMatrix*	operandB;
+		elem_t					elemOperandB;
+		SparseMatrix*			result;
+		void*					retVal;
+	};
 private:
 	size_t			mCol	=	0;			///< 행 크기
 	size_t			mRow	=	0;			///< 열 크기
@@ -48,13 +67,19 @@ public:
 									elem_t		elem
 								);
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
+	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
+	SparseMatrix	psub		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	pmultiply	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply	(	elem_t		operand	) const;
+	SparseMatrix	pmultiply	(	elem_t		operand	) const;
 	SparseMatrix	tmultiply	(	const SparseMatrix&	operand	) const;
+	SparseMatrix	ptmultiply	(	const SparseMatrix&	operand	) const;
 	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
+	const SparseMatrix&		pequal		(	const SparseMatrix&	operand	);
 	bool			compare	(	const SparseMatrix&	operand	) const;
+	bool			pcompare	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	solution	(	const SparseMatrix&	operand	);
 public:
 	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
@@ -74,15 +99,26 @@ private:
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const SparseMatrix&		matrix		);
+	void		pcopyElems		(	const SparseMatrix&		matrix		);
 	void		chkSameSize	(	const SparseMatrix&		matrix		) const;
 	void		chkBound		(	size_t		col,
 									size_t		row
 								) const;
+	void		doThreadFunc	(	FuncKind		kind,
+									OpInfo&		info
+								) const;
+	void		doThreadFunc	(	FuncKind		kind,
+									OpInfo&		info
+								);
 private:
 	static void*	threadFunc			(	void*	pData	);
 	static void*	threadAdd			(	void*	pData	);
 	static void*	threadSub			(	void*	pData	);
 	static void*	threadMultiply	(	void*	pData	);
+	static void*	threadElemMul		(	void*	pData	);
+	static void*	threadTmultiply	(	void*	pData	);
+	static void*	threadCopy			(	void*	pData	);
+	static void*	threadCompare		(	void*	pData	);
 };
 
 /**
@@ -112,7 +148,7 @@ SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연산자
 													) const
 {
-	return	multiply(operand);
+	return	pmultiply(operand);
 }
 
 /**
