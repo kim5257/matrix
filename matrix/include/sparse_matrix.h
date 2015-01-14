@@ -1,12 +1,12 @@
 /*
  * sparse_matrix.h
  *
- *  Created on: 2014. 12. 29.
+ *  Created on: 2015. 1. 12.
  *      Author: asran
  */
 
-#ifndef SPARSE_MATRIX_H_
-#define SPARSE_MATRIX_H_
+#ifndef SPARSE_MATRIX2_H_
+#define SPARSE_MATRIX2_H_
 
 #include <stdio.h>
 #include <vector>
@@ -20,8 +20,8 @@
 namespace	matrix
 {
 
-typedef	std::map<row_t, elem_t>			elem_node_t;		///< 한 개 행 데이터 형식
-typedef	elem_node_t::const_iterator		elem_node_itor;	///< 한 개 행 데이터 참조자
+typedef	std::vector<node_t>			elem_vector_t;		///< 한 개 행 데이터 형식
+typedef	elem_vector_t::iterator		elem_vector_itor;	///< 한 개 행 데이터 참조자
 
 /**
  * 희소 행렬 표현 클래스
@@ -44,27 +44,27 @@ public:
 		const SparseMatrix*	operandA;
 		const SparseMatrix*	operandB;
 		elem_t					elemOperandB;
-		SparseMatrix*			result;
+		SparseMatrix*		result;
 		void*					retVal;
 	};
 private:
-	size_t			mCol	=	0;			///< 행 크기
-	size_t			mRow	=	0;			///< 열 크기
-	elem_node_t*	mData	=	NULL;		///< 행렬 데이터
+	size_t				mCol	=	0;			///< 행 크기
+	size_t				mRow	=	0;			///< 열 크기
+	elem_vector_t*	mData	=	NULL;		///< 행렬 데이터
 public:
 				SparseMatrix			(	void	);
 				SparseMatrix			(	size_t		col,
 											size_t		row
 										);
 				SparseMatrix			(	const SparseMatrix&		matrix		);
-	virtual	~SparseMatrix			(	void	);
+	virtual	~SparseMatrix		(	void	);
 public:
-	elem_t		getElem		(	size_t		col,
-									size_t		row
+	elem_t		getElem		(	size_t				col,
+									size_t				row
 								) const;
-	void		setElem		(	size_t		col,
-									size_t		row,
-									elem_t		elem
+	void		setElem		(	size_t				col,
+									size_t				row,
+									elem_t				elem
 								);
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
@@ -119,6 +119,20 @@ private:
 	static void*	threadTmultiply	(	void*	pData	);
 	static void*	threadCopy			(	void*	pData	);
 	static void*	threadCompare		(	void*	pData	);
+private:
+	static void		delElem_		(	elem_vector_t*	data,
+											size_t				col,
+											size_t				row
+										);
+	static elem_t		getElem_		(	elem_vector_t*	data,
+											size_t				col,
+											size_t				row
+										);
+	static void		setElem_		(	elem_vector_t*	data,
+											size_t				col,
+											size_t				row,
+											elem_t				elem
+										);
 };
 
 /**
@@ -128,7 +142,7 @@ private:
 SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연산자
 													) const
 {
-	return	add(operand);
+	return	padd(operand);
 }
 
 /**
@@ -138,7 +152,7 @@ SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연산자
 													) const
 {
-	return	sub(operand);
+	return	psub(operand);
 }
 
 /**
@@ -158,7 +172,7 @@ SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 													) const
 {
-	return	multiply(operand);
+	return	pmultiply(operand);
 }
 
 /**
@@ -168,17 +182,17 @@ SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< 피연산자
 															)
 {
-	return	equal(operand);
+	return	pequal(operand);
 }
 
 /**
  * 행렬 비교
  * @return		비교 결과
  */
-bool	SparseMatrix::operator==		(	const SparseMatrix&	operand	///< 피연산자
+bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
-	return	compare(operand);
+	return	pcompare(operand);
 }
 
 /**
@@ -202,7 +216,7 @@ bool	SparseMatrix::isValid		(	void	)
  * 행 크기 가져오기
  * @return		행 크기
  */
-size_t	SparseMatrix::getCol			(	void	) const
+size_t	SparseMatrix::getCol		(	void	) const
 {
 	return	mCol;
 }
@@ -211,7 +225,7 @@ size_t	SparseMatrix::getCol			(	void	) const
  * 열 크기 가져오기
  * @return		열 크기
  */
-size_t	SparseMatrix::getRow			(	void	) const
+size_t	SparseMatrix::getRow		(	void	) const
 {
 	return	mRow;
 }
@@ -234,4 +248,6 @@ size_t	SparseMatrix::getSize		(	void	) const
 
 }
 
-#endif /* SPARSE_MATRIX_H_ */
+
+
+#endif /* SPARSE_MATRIX2_H_ */

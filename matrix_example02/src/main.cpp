@@ -13,9 +13,9 @@ int		main	(	void	)
 {
 	try
 	{
-		matrix::SparseMatrix		matrixA	=	matrix::SparseMatrix(4,4);
-		matrix::SparseMatrix		matrixB	=	matrix::SparseMatrix(4,4);
-		matrix::SparseMatrix		matrixC;
+		matrix::SparseMatrix	matrixA	=	matrix::SparseMatrix(4,4);
+		matrix::SparseMatrix	matrixB	=	matrix::SparseMatrix(4,4);
+		matrix::SparseMatrix	matrixC;
 
 		// A 행렬 데이터 넣기
 		matrixA.setElem(0,0,1);
@@ -73,7 +73,7 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA + matrixB;
+		matrixC	=	matrixA.padd(matrixB);
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)
@@ -97,7 +97,7 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA * matrixB;
+		matrixC	=	matrixA.multiply(matrixB);
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)
