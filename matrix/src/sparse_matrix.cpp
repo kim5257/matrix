@@ -20,7 +20,7 @@ typedef	void*(*Operation)(void*);
 
 struct		FuncInfo
 {
-	SparseMatrix::OpInfo	opInfo;
+	SparseMatrix::OpInfo		opInfo;
 	Operation					func;
 	size_t						startCol;
 	size_t						endCol;
@@ -971,7 +971,7 @@ void*		SparseMatrix::threadTmultiply	(	void*	pData	)
 
 	elem_vector_t*		nodeA		=	&operandA.mData[start];
 	elem_vector_t*		nodeB		=	operandB.mData;
-	elem_vector_t*		nodeRet	=	&result.mData[start];
+	elem_vector_t*		nodeRet	=	result.mData;
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -1078,12 +1078,15 @@ elem_t		SparseMatrix::getElem_		(	elem_vector_t*	data,
 	elem_t				value	=	0;
 	elem_vector_t&	vec		=	data[col];
 
-	for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+	if( vec.size() != 0 )
 	{
-		if( itor->mRow == row )
+		for(size_t cnt=0;cnt<vec.size();++cnt)
 		{
-			value	=	itor->mData;
-			break;
+			if( vec[cnt].mRow == row )
+			{
+				value	=	vec[cnt].mData;
+				break;
+			}
 		}
 	}
 
