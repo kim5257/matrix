@@ -8,7 +8,6 @@
 #include "sparse_matrix.h"
 #include "matrix_error.h"
 #include <math.h>
-#include <pthread.h>
 
 #define	THREAD_FUNC_THRESHOLD	(1)
 #define	THREAD_NUM					(4)
@@ -91,18 +90,20 @@ void		SparseMatrix::setElem		(	size_t		col,	///< 설정 할 행 위치
  * 행렬 덧셈
  * @return		행렬 덧셈 결과
  */
-SparseMatrix	SparseMatrix::add	(	const SparseMatrix&	operand	///< 피연산자
+SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
 
-	SparseMatrix	result		=	SparseMatrix(getCol(), getRow());
+	SparseMatrix		result		=	SparseMatrix(getCol(), getRow());
 
 	result.equal(*this);
 
 	for(size_t col=0;col<operand.getCol();++col)
 	{
-		for(elem_vector_itor itor=operand.mData[col].begin();itor!=operand.mData[col].end();++itor)
+		elem_vector_t&	vec		=	operand.mData[col].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			result.setElem	(	col,
 									itor->mRow,
@@ -127,7 +128,9 @@ SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< 피연산자
 
 		for(size_t col=0;col<operand.getCol();++col)
 		{
-			for(elem_vector_itor itor=operand.mData[col].begin();itor!=operand.mData[col].end();++itor)
+			elem_vector_t&	vec		=	operand.mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
 				result.setElem	(	col,
 										itor->mRow,
@@ -154,18 +157,20 @@ SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< 피연산자
  * 행렬 뺄셈
  * @return		행렬 뺄셈 결과
  */
-SparseMatrix	SparseMatrix::sub	(	const SparseMatrix&	operand	///< 피연산자
+SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
 
-	SparseMatrix	result		=	SparseMatrix(getCol(), getRow());
+	SparseMatrix		result		=	SparseMatrix(getCol(), getRow());
 
 	result.equal(*this);
 
 	for(size_t col=0;col<operand.getCol();++col)
 	{
-		for(elem_vector_itor itor=operand.mData[col].begin();itor!=operand.mData[col].end();++itor)
+		elem_vector_t&	vec		=	operand.mData[col].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			result.setElem	(	col,
 									itor->mRow,
@@ -190,7 +195,9 @@ SparseMatrix	SparseMatrix::psub	(	const SparseMatrix&	operand	///< 피연산자
 
 		for(size_t col=0;col<operand.getCol();++col)
 		{
-			for(elem_vector_itor itor=operand.mData[col].begin();itor!=operand.mData[col].end();++itor)
+			elem_vector_t&	vec		=	operand.mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
 				result.setElem	(	col,
 										itor->mRow,
@@ -230,9 +237,13 @@ SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	///< 피연산
 
 	for(size_t col=0;col<getCol();++col)
 	{
-		for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+		elem_vector_t&	vec		=	mData[col].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
-			for(elem_vector_itor itor2=operand.mData[itor->mRow].begin();itor2!=operand.mData[itor->mRow].end();itor2++)
+			elem_vector_t&	vec2	=	operand.mData[itor->mRow].mVector;
+
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 			{
 				result.setElem	(	col,
 										itor2->mRow,
@@ -260,9 +271,13 @@ SparseMatrix	SparseMatrix::pmultiply	(	const SparseMatrix&	operand
 	{
 		for(size_t col=0;col<getCol();++col)
 		{
-			for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+			elem_vector_t&	vec		=	operand.mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
-				for(elem_vector_itor itor2=operand.mData[itor->mRow].begin();itor2!=operand.mData[itor->mRow].end();itor2++)
+				elem_vector_t&	vec2	=	operand.mData[itor->mRow].mVector;
+
+				for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 				{
 					result.setElem	(	col,
 											itor2->mRow,
@@ -297,7 +312,9 @@ SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	///< 피연산자
 
 	for(size_t col=0;col<getCol();++col)
 	{
-		for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+		elem_vector_t&	vec			=	mData[col].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			result.setElem	(	col,
 									itor->mRow,
@@ -318,7 +335,9 @@ SparseMatrix	SparseMatrix::pmultiply	(	elem_t		operand	///< 피연산자
 	{
 		for(size_t col=0;col<getCol();++col)
 		{
-			for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+			elem_vector_t&	vec			=	mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
 				result.setElem	(	col,
 										itor->mRow,
@@ -358,9 +377,13 @@ SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< 피연�
 
 	for(size_t col=0;col<getCol();++col)
 	{
-		for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+		elem_vector_t&	vec		=	mData[col].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
-			for(elem_vector_itor itor2=operand.mData[col].begin();itor2!=operand.mData[col].end();itor2++)
+			elem_vector_t&	vec2	=	operand.mData[col].mVector;
+
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 			{
 				result.setElem	(	itor->mRow,
 										itor2->mRow,
@@ -388,9 +411,13 @@ SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< 피연�
 	{
 		for(size_t col=0;col<getCol();++col)
 		{
-			for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+			elem_vector_t&	vec		=	mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
-				for(elem_vector_itor itor2=operand.mData[col].begin();itor2!=operand.mData[col].end();itor2++)
+				elem_vector_t&	vec2	=	operand.mData[col].mVector;
+
+				for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 				{
 					result.setElem	(	itor->mRow,
 											itor2->mRow,
@@ -459,13 +486,16 @@ bool			SparseMatrix::compare		(	const SparseMatrix&	operand
 {
 	bool	ret		=	true;
 
-	if( 1 )
+	if( getSize() == operand.getSize() )
 	{
 		for(size_t col=0;col<getCol();++col)
 		{
-			for(elem_vector_itor itor=mData[col].begin();itor!=mData[col].end();++itor)
+			elem_vector_t&	vec		=	mData[col].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 			{
-				if( itor->mData != operand.getElem(col, itor->mRow) )
+				elem_t	val		=	operand.getElem(col, itor->mRow);
+				if( itor->mData != val )
 				{
 					ret		=	false;
 					break;
@@ -527,7 +557,7 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연�
 	SparseMatrix		x			=	SparseMatrix(this->getRow(), operand.getRow());
 	SparseMatrix		r			=	operand - ( (*this) * x );
 	SparseMatrix		p			=	r;
-	SparseMatrix		rSold		=	r.tmultiply(r);
+	SparseMatrix		rSold		=	r.ptmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
 	bool		foundFlag	=	false;
@@ -535,12 +565,12 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연�
 	for(size_t cnt=0;cnt<3;cnt++)
 	{
 		SparseMatrix	ap		=	(*this) * p;
-		elem_t			alpha	=	rSold.getElem(0,0) / (p.tmultiply(ap)).getElem(0,0);
+		elem_t			alpha	=	rSold.getElem(0,0) / (p.ptmultiply(ap)).getElem(0,0);
 
 		x	=	x + (p * alpha);
 		r	=	r - (ap * alpha);
 
-		SparseMatrix	rsNew	=	r.tmultiply(r);
+		SparseMatrix	rsNew	=	r.ptmultiply(r);
 
 		elem_t		sqrtVal	=	sqrt(rsNew.getElem(0,0));
 
@@ -581,7 +611,7 @@ void		SparseMatrix::allocElems	(	size_t		col,	///< 행 크기
 		mCol	=	col;
 		mRow	=	row;
 
-		mData	=	new elem_vector_t[col];
+		mData	=	new elem_data_t[col];
 	}
 	catch (	std::bad_alloc&	exception		)
 	{
@@ -607,8 +637,7 @@ void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		///< 복사 할 �
 {
 	for(size_t col=0;col<getCol();++col)
 	{
-		mData[col].clear();
-		mData[col]		=	matrix.mData[col];
+		mData[col].mVector	=	matrix.mData[col].mVector;
 	}
 }
 
@@ -619,7 +648,7 @@ void		SparseMatrix::pcopyElems		(	const SparseMatrix&		matrix		///< 복사 할 �
 	{
 		for(size_t col=0;col<getCol();++col)
 		{
-			mData[col].clear();
+			mData[col].mVector.clear();
 			mData[col]		=	matrix.mData[col];
 		}
 	}
@@ -801,11 +830,11 @@ void*		SparseMatrix::threadAdd			(	void*	pData	)
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
-	SparseMatrix&		result		=	*info->opInfo.result;
+	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	&operandB.mData[start];
-	elem_vector_t*		nodeRet	=	&result.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	&operandB.mData[start];
+	elem_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -814,23 +843,40 @@ void*		SparseMatrix::threadAdd			(	void*	pData	)
 
 	for(size_t col=0;col<=range;++col)
 	{
-		for(elem_vector_itor itor=nodeB[col].begin();itor!=nodeB[col].end();++itor)
+		elem_vector_t&	vec		=	nodeB[col].mVector;
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			bool	found	=	false;
 
-			for(elem_vector_itor itor2=nodeRet[col].begin();itor2!=nodeRet[col].end();++itor2)
+			elem_vector_t&	vec2	=	nodeRet[col].mVector;
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();)
 			{
 				if( itor2->mRow == itor->mRow )
 				{
-					itor2->mData	=	itor->mData + itor2->mData;
+					elem_t		val		=	itor2->mData + itor->mData;
+
+					if( val != 0 )
+					{
+						itor2->mData	=	val;
+						++itor2;
+					}
+					else
+					{
+						itor2	=	vec2.erase(itor2);
+					}
+
 					found			=	true;
 					break;
+				}
+				else
+				{
+					++itor2;
 				}
 			}
 
 			if( found == false )
 			{
-				nodeRet[col].push_back(node_t(itor->mRow, itor->mData));
+				vec2.push_back(node_t(itor->mRow, itor->mData));
 			}
 		}
 	}
@@ -847,11 +893,11 @@ void*		SparseMatrix::threadSub			(	void*	pData	)
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
-	SparseMatrix&		result		=	*info->opInfo.result;
+	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	&operandB.mData[start];
-	elem_vector_t*		nodeRet	=	&result.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	&operandB.mData[start];
+	elem_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -860,23 +906,40 @@ void*		SparseMatrix::threadSub			(	void*	pData	)
 
 	for(size_t col=0;col<=range;++col)
 	{
-		for(elem_vector_itor itor=nodeB[col].begin();itor!=nodeB[col].end();++itor)
+		elem_vector_t&	vec		=	nodeB[col].mVector;
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			bool	found	=	false;
 
-			for(elem_vector_itor itor2=nodeRet[col].begin();itor2!=nodeRet[col].end();++itor2)
+			elem_vector_t&	vec2	=	nodeRet[col].mVector;
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();)
 			{
 				if( itor2->mRow == itor->mRow )
 				{
-					itor2->mData	=	itor->mData - itor2->mData;
+					elem_t		val		=	itor2->mData - itor->mData;
+
+					if( val != 0 )
+					{
+						itor2->mData	=	val;
+						++itor2;
+					}
+					else
+					{
+						itor2	=	vec2.erase(itor2);
+					}
+
 					found			=	true;
 					break;
+				}
+				else
+				{
+					++itor2;
 				}
 			}
 
 			if( found == false )
 			{
-				nodeRet[col].push_back(node_t(itor->mRow, itor->mData));
+				vec2.push_back(node_t(itor->mRow, -itor->mData));
 			}
 		}
 	}
@@ -895,15 +958,17 @@ void*		SparseMatrix::threadMultiply	(	void*	pData	)
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 	SparseMatrix&		result		=	*info->opInfo.result;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	operandB.mData;
-	elem_vector_t*		nodeRet	=	&result.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	operandB.mData;
+	elem_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
-		for(elem_vector_itor itor=nodeA[col].begin();itor!=nodeA[col].end();++itor)
+		elem_vector_t&	vec		=	nodeA[col].mVector;
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
-			for(elem_vector_itor itor2=nodeB[itor->mRow].begin();itor2!=nodeB[itor->mRow].end();itor2++)
+			elem_vector_t&	vec2	=	nodeB[itor->mRow].mVector;
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();++itor2)
 			{
 				elem_t		val		=	SparseMatrix::getElem_(nodeRet, col, itor2->mRow) + (itor->mData * itor2->mData);
 
@@ -934,12 +999,13 @@ void*		SparseMatrix::threadElemMul		(	void*	pData	)
 	elem_t					operandB	=	info->opInfo.elemOperandB;
 	SparseMatrix&		result		=	*info->opInfo.result;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeRet	=	&result.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
-		for(elem_vector_itor itor=nodeA[col].begin();itor!=nodeA[col].end();++itor)
+		elem_vector_t&	vec		=	nodeA[col].mVector;
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			elem_t		val			=	itor->mData * operandB;
 
@@ -967,29 +1033,31 @@ void*		SparseMatrix::threadTmultiply	(	void*	pData	)
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
-	SparseMatrix&		result		=	*info->opInfo.result;
+	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	operandB.mData;
-	elem_vector_t*		nodeRet	=	result.mData;
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	&operandB.mData[start];
+	elem_data_t*		nodeRet	=	result.mData;
 
 	for(size_t col=0;col<=range;++col)
 	{
-		for(elem_vector_itor itor=nodeA[col].begin();itor!=nodeA[col].end();++itor)
-		{
-			for(elem_vector_itor itor2=nodeB[col].begin();itor2!=nodeB[col].end();itor2++)
-			{
-				elem_t		val		=	SparseMatrix::getElem_(nodeRet, itor->mRow, itor2->mRow) + (itor->mData * itor2->mData);
+		elem_vector_t&	vec		=	nodeA[col].mVector;
 
-				if( val != 0 )
-				{
-					SparseMatrix::setElem_(nodeRet, itor->mRow, itor2->mRow, val);
-				}
-				else
-				{
-					printf("데이터가 0\n");
-					SparseMatrix::delElem_(nodeRet, itor->mRow, itor2->mRow);
-				}
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		{
+			elem_vector_t&	vec2	=	nodeB[col].mVector;
+
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
+			{
+				pthread_mutex_lock(&nodeRet[itor->mRow].mLock);
+				elem_t		val		=	getElem_(nodeRet, itor->mRow, itor2->mRow);
+
+				setElem_	(	nodeRet,
+								itor->mRow,
+								itor2->mRow,
+								val + (itor->mData * itor2->mData)
+							);
+				pthread_mutex_unlock(&nodeRet[itor->mRow].mLock);
 			}
 		}
 	}
@@ -1007,13 +1075,12 @@ void*		SparseMatrix::threadCopy			(	void*	pData	)
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	&operandB.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	&operandB.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
-		nodeA[col].clear();
-		nodeA[col]		=	nodeB[col];
+		nodeA[col].mVector	=	nodeB[col].mVector;
 	}
 
 	return	NULL;
@@ -1030,12 +1097,13 @@ void*		SparseMatrix::threadCompare		(	void*	pData	)
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 
-	elem_vector_t*		nodeA		=	&operandA.mData[start];
-	elem_vector_t*		nodeB		=	&operandB.mData[start];
+	elem_data_t*		nodeA		=	&operandA.mData[start];
+	elem_data_t*		nodeB		=	&operandB.mData[start];
 
 	for(size_t col=0;col<range;++col)
 	{
-		for(elem_vector_itor itor=nodeA[col].begin();itor!=nodeA[col].end();++itor)
+		elem_vector_t&	vec		=	nodeA[col].mVector;
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 		{
 			if( itor->mData != SparseMatrix::getElem_(nodeB, col, itor->mRow) )
 			{
@@ -1053,12 +1121,12 @@ void*		SparseMatrix::threadCompare		(	void*	pData	)
 	return	(void*)flag;
 }
 
-void		SparseMatrix::delElem_		(	elem_vector_t*	data,
+void		SparseMatrix::delElem_		(	elem_data_t*		data,
 												size_t				col,
 												size_t				row
 											)
 {
-	elem_vector_t&	vec		=	data[col];
+	elem_vector_t&	vec		=	data[col].mVector;
 
 	for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
 	{
@@ -1070,13 +1138,13 @@ void		SparseMatrix::delElem_		(	elem_vector_t*	data,
 	}
 }
 
-elem_t		SparseMatrix::getElem_		(	elem_vector_t*	data,
+elem_t		SparseMatrix::getElem_		(	elem_data_t*		data,
 												size_t				col,
 												size_t				row
 											)
 {
 	elem_t				value	=	0;
-	elem_vector_t&	vec		=	data[col];
+	elem_vector_t&	vec		=	data[col].mVector;
 
 	if( vec.size() != 0 )
 	{
@@ -1093,16 +1161,16 @@ elem_t		SparseMatrix::getElem_		(	elem_vector_t*	data,
 	return	value;
 }
 
-void		SparseMatrix::setElem_		(	elem_vector_t*	data,
+void		SparseMatrix::setElem_		(	elem_data_t*		data,
 												size_t				col,
 												size_t				row,
 												elem_t				elem
 											)
 {
 	bool				found	=	false;
-	elem_vector_t&	vec		=	data[col];
+	elem_vector_t&	vec		=	data[col].mVector;
 
-	for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+	for(elem_vector_itor itor=vec.begin();itor!=vec.end();)
 	{
 		if( itor->mRow == row )
 		{
@@ -1110,12 +1178,17 @@ void		SparseMatrix::setElem_		(	elem_vector_t*	data,
 			{
 				itor->mData	=	elem;
 				found			=	true;
+				++itor;
 			}
 			else
 			{
-				vec.erase(itor);
+				itor	=	vec.erase(itor);
 			}
 			break;
+		}
+		else
+		{
+			++itor;
 		}
 	}
 

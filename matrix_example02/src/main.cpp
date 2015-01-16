@@ -73,7 +73,7 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA.padd(matrixB);
+		matrixC	=	matrixA + matrixB;
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)

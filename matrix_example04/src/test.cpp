@@ -304,8 +304,6 @@ void	Test::testAdd			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
-
-	ptrMeasure();
 }
 
 void	Test::testSub			(	void	)
@@ -356,8 +354,6 @@ void	Test::testSub			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
-
-	ptrMeasure();
 }
 
 void	Test::testMul			(	void	)

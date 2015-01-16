@@ -22,14 +22,14 @@ int		main	(	void	)
 		test::Test		test;
 
 		test.inpData();
-		//test.testCompare();
-		//test.testEqual();
-		//test.testAdd();
-		//test.testSub();
-		//test.testMul();
-		//test.testElmMul();
+		test.testCompare();
+		test.testEqual();
+		test.testAdd();
+		test.testSub();
+		test.testMul();
+		test.testElmMul();
 		test.testTMul();
-		//test.ptrDataSize();
+		test.ptrDataSize();
 	}
 	catch( matrix::ErrMsg*	exception	)
 	{

@@ -9,6 +9,12 @@
 #define MATRIX_TYPEDEF_H_
 
 #include <stdint.h>
+#include <vector>
+#include <array>
+#include <unordered_map>
+#include <map>
+#include <numeric>
+#include <pthread.h>
 
 namespace	matrix
 {
@@ -28,6 +34,19 @@ struct		node_t
 	{
 		mRow	=	row;
 		mData	=	data;
+	}
+};
+
+typedef	std::vector<node_t>			elem_vector_t;		///< 한 개 행 데이터 형식
+typedef	elem_vector_t::iterator		elem_vector_itor;		///< 한 개 행 데이터 참조자
+
+struct		elem_data_t
+{
+	elem_vector_t		mVector;
+	pthread_mutex_t	mLock		=	PTHREAD_MUTEX_INITIALIZER;
+
+	elem_data_t	()
+	{
 	}
 };
 

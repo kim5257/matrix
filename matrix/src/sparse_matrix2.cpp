@@ -873,7 +873,7 @@ void*		SparseMatrix2::threadAdd			(	void*	pData	)
 	SparseMatrix2&			result		=	*info->opInfo.result;
 
 	elem_node_t*			nodeA		=	&operandA.mData[start];
-	elem_node_t*			nodeB		=	operandB.mData;
+	elem_node_t*			nodeB		=	&operandB.mData[start];
 	elem_node_t*			nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)

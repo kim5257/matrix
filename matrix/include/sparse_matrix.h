@@ -9,19 +9,10 @@
 #define SPARSE_MATRIX2_H_
 
 #include <stdio.h>
-#include <vector>
-#include <array>
-#include <unordered_map>
-#include <bits/unordered_map.h>
-#include <map>
-#include <numeric>
 #include "matrix_typedef.h"
 
 namespace	matrix
 {
-
-typedef	std::vector<node_t>			elem_vector_t;		///< 한 개 행 데이터 형식
-typedef	elem_vector_t::iterator		elem_vector_itor;	///< 한 개 행 데이터 참조자
 
 /**
  * 희소 행렬 표현 클래스
@@ -44,13 +35,13 @@ public:
 		const SparseMatrix*	operandA;
 		const SparseMatrix*	operandB;
 		elem_t					elemOperandB;
-		SparseMatrix*		result;
+		SparseMatrix*			result;
 		void*					retVal;
 	};
 private:
 	size_t				mCol	=	0;			///< 행 크기
 	size_t				mRow	=	0;			///< 열 크기
-	elem_vector_t*	mData	=	NULL;		///< 행렬 데이터
+	elem_data_t*		mData	=	NULL;		///< 행렬 데이터
 public:
 				SparseMatrix			(	void	);
 				SparseMatrix			(	size_t		col,
@@ -120,15 +111,15 @@ private:
 	static void*	threadCopy			(	void*	pData	);
 	static void*	threadCompare		(	void*	pData	);
 private:
-	static void		delElem_		(	elem_vector_t*	data,
+	static void		delElem_		(	elem_data_t*		data,
 											size_t				col,
 											size_t				row
 										);
-	static elem_t		getElem_		(	elem_vector_t*	data,
+	static elem_t		getElem_		(	elem_data_t*		data,
 											size_t				col,
 											size_t				row
 										);
-	static void		setElem_		(	elem_vector_t*	data,
+	static void		setElem_		(	elem_data_t*		data,
 											size_t				col,
 											size_t				row,
 											elem_t				elem
@@ -240,7 +231,7 @@ size_t	SparseMatrix::getSize		(	void	) const
 
 	for(size_t cnt=0;cnt<getCol();cnt++)
 	{
-		sum		+=	mData[cnt].size();
+		sum		+=	mData[cnt].mVector.size();
 	}
 
 	return	sum;
