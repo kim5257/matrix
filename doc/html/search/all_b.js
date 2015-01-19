@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['_7esparsematrix',['~SparseMatrix',['../classmatrix_1_1_sparse_matrix.html#a993e29b60e87b53c64c589eecabf9079',1,'matrix::SparseMatrix']]]
+  ['setelem',['setElem',['../classmatrix_1_1_matrix.html#a42e50d07e0b366e79a1151a7eac6784c',1,'matrix::Matrix::setElem()'],['../classmatrix_1_1_sparse_matrix.html#af83219190363338f9a58d778e46bfd72',1,'matrix::SparseMatrix::setElem()'],['../classmatrix_1_1_sparse_matrix2.html#a95a92eec698210244dc2ddb6290eead2',1,'matrix::SparseMatrix2::setElem()']]],
+  ['solution',['solution',['../classmatrix_1_1_matrix.html#a22e860de388dbc67f39471ddae951546',1,'matrix::Matrix::solution()'],['../classmatrix_1_1_sparse_matrix.html#a63dfa3d1cf9d58f673ed4f690d3f930b',1,'matrix::SparseMatrix::solution()'],['../classmatrix_1_1_sparse_matrix2.html#abe76f0f9b78b32de626d31d3687defe6',1,'matrix::SparseMatrix2::solution()']]],
+  ['sparsematrix',['SparseMatrix',['../classmatrix_1_1_sparse_matrix.html#ae5d87152ce1e1586e16e7e19e0fe39ec',1,'matrix::SparseMatrix::SparseMatrix(void)'],['../classmatrix_1_1_sparse_matrix.html#ab1ab57986f09fc9e93c8c35d6f89764b',1,'matrix::SparseMatrix::SparseMatrix(size_t col, size_t row)'],['../classmatrix_1_1_sparse_matrix.html#a735bfa987f340da4e6dd348f46021191',1,'matrix::SparseMatrix::SparseMatrix(const SparseMatrix &amp;matrix)']]],
+  ['sparsematrix',['SparseMatrix',['../classmatrix_1_1_sparse_matrix.html',1,'matrix']]],
+  ['sparsematrix2',['SparseMatrix2',['../classmatrix_1_1_sparse_matrix2.html',1,'matrix']]],
+  ['sparsematrix2',['SparseMatrix2',['../classmatrix_1_1_sparse_matrix2.html#a4d2b1064508015842237be03bf675f67',1,'matrix::SparseMatrix2::SparseMatrix2(void)'],['../classmatrix_1_1_sparse_matrix2.html#a5b291cbf0cec0070555061402bbc5c4a',1,'matrix::SparseMatrix2::SparseMatrix2(size_t col, size_t row)'],['../classmatrix_1_1_sparse_matrix2.html#aa787192b604ca2d7ccaac10d1b63f314',1,'matrix::SparseMatrix2::SparseMatrix2(const SparseMatrix2 &amp;matrix)']]],
+  ['sub',['sub',['../classmatrix_1_1_matrix.html#a4c4c9d0f3ea0748e933662f6121aa791',1,'matrix::Matrix::sub()'],['../classmatrix_1_1_sparse_matrix.html#ae2b7956570f726cdcd2f3dabfb43a307',1,'matrix::SparseMatrix::sub()'],['../classmatrix_1_1_sparse_matrix2.html#ad6ad715a4e846cc297c6717b2d0606cd',1,'matrix::SparseMatrix2::sub()']]]
 ];

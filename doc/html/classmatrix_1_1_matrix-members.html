@@ -21,6 +21,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SparseMatrix
    </div>
@@ -62,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,31 +93,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>add</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>equal</b>(const Matrix &amp;operand) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getCol</b>(void) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getElem</b>(size_t col, size_t row) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getRow</b>(void) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>isValid</b>(void) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Matrix</b>(void) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Matrix</b>(size_t col, size_t row) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Matrix</b>(const Matrix &amp;matrix) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>multiply</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>multiply</b>(elem_t operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>operator*</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator*</b>(elem_t operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>operator+</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator-</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>operator=</b>(const Matrix &amp;operand) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>setElem</b>(size_t col, size_t row, elem_t elem) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>solution</b>(const Matrix &amp;operand) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>sub</b>(const Matrix &amp;operand) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>transpose</b>(void) const  (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~Matrix</b>(void) (defined in <a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a>)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#ad8db6ff314b5b5959fbc1fe288e0601f">add</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a5d2ef6b2f47b6a852475b043d36516cf">equal</a>(const Matrix &amp;operand)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a5b14cf26d00430c53fa4ca207f20dac7">getCol</a>(void) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#ac913fa2a0fa79548e88a81f3d82b045d">getElem</a>(size_t col, size_t row) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a299cf3142ddec5753e0fc930eb39e9b4">getRow</a>(void) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a949d5db7f5ca48132c152875ea59c055">isValid</a>(void)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a1c0472f417cfb4a50629c8fb8afa28f5">Matrix</a>(void)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a919744e9677a8328d70c5e9e7fe2363d">Matrix</a>(size_t col, size_t row)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a2afb03573b87bab9576ea0d037d3c3f5">Matrix</a>(const Matrix &amp;matrix)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a3ad8d13ea4c7ec809e9e7cd6eb5bae91">multiply</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a8bfca266d9a7723205b025f3568dd493">multiply</a>(elem_t operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#ae3a5983c3be397aca2241da9451dc818">operator*</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#adb517cc8d3e56636d4f2f8ff40baacbe">operator*</a>(elem_t operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#ace1f29c255014a54d83b8e6c54dfec42">operator+</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#afdfb25dd7f3aefe9cb14fdea17252c5f">operator-</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#ab97661021bec701b793c6df1cbe706a8">operator=</a>(const Matrix &amp;operand)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a42e50d07e0b366e79a1151a7eac6784c">setElem</a>(size_t col, size_t row, elem_t elem)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a22e860de388dbc67f39471ddae951546">solution</a>(const Matrix &amp;operand)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a4c4c9d0f3ea0748e933662f6121aa791">sub</a>(const Matrix &amp;operand) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a878e105868ea74959dcc019d6097faa0">transpose</a>(void) const </td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html#a792502e17686224cea42c6c82a71ce96">~Matrix</a>(void)</td><td class="entry"><a class="el" href="classmatrix_1_1_matrix.html">matrix::Matrix</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 7 2015 14:38:52 for SparseMatrix by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 19 2015 14:24:47 for SparseMatrix by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

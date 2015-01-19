@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['matrix',['Matrix',['../class_matrix.html',1,'']]],
   ['matrix',['Matrix',['../classmatrix_1_1_matrix.html',1,'matrix']]],
-  ['matrix',['matrix',['../md__home_asran_git_matrix__r_e_a_d_m_e.html',1,'']]],
-  ['multiply',['multiply',['../classmatrix_1_1_sparse_matrix.html#a3b340544c7f694771e733f44ec07b076',1,'matrix::SparseMatrix::multiply(const SparseMatrix &amp;operand) const '],['../classmatrix_1_1_sparse_matrix.html#a504ae565a6005010315de5c1a2afe211',1,'matrix::SparseMatrix::multiply(elem_t operand) const ']]]
+  ['matrix',['Matrix',['../classmatrix_1_1_matrix.html#a1c0472f417cfb4a50629c8fb8afa28f5',1,'matrix::Matrix::Matrix(void)'],['../classmatrix_1_1_matrix.html#a919744e9677a8328d70c5e9e7fe2363d',1,'matrix::Matrix::Matrix(size_t col, size_t row)'],['../classmatrix_1_1_matrix.html#a2afb03573b87bab9576ea0d037d3c3f5',1,'matrix::Matrix::Matrix(const Matrix &amp;matrix)']]],
+  ['matrix',['matrix',['../md__home_asran_workspace__sparse_matrix_matrix__r_e_a_d_m_e.html',1,'']]],
+  ['multiply',['multiply',['../classmatrix_1_1_matrix.html#a3ad8d13ea4c7ec809e9e7cd6eb5bae91',1,'matrix::Matrix::multiply(const Matrix &amp;operand) const '],['../classmatrix_1_1_matrix.html#a8bfca266d9a7723205b025f3568dd493',1,'matrix::Matrix::multiply(elem_t operand) const '],['../classmatrix_1_1_sparse_matrix.html#a3b340544c7f694771e733f44ec07b076',1,'matrix::SparseMatrix::multiply(const SparseMatrix &amp;operand) const '],['../classmatrix_1_1_sparse_matrix.html#a504ae565a6005010315de5c1a2afe211',1,'matrix::SparseMatrix::multiply(elem_t operand) const '],['../classmatrix_1_1_sparse_matrix2.html#ac002e76f7a8cfc0ab8a29a5308005124',1,'matrix::SparseMatrix2::multiply(const SparseMatrix2 &amp;operand) const '],['../classmatrix_1_1_sparse_matrix2.html#acc491ce2444b074d2734969f309713ab',1,'matrix::SparseMatrix2::multiply(elem_t operand) const ']]]
 ];

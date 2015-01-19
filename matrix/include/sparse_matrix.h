@@ -22,13 +22,13 @@ class	SparseMatrix
 public:
 	enum	FuncKind
 	{
-		FUNC_ADD,
-		FUNC_SUB,
-		FUNC_MULTIPLY,
-		FUNC_ELEM_MUL,
-		FUNC_PMULTIPLY,
-		FUNC_COPY,
-		FUNC_COMPARE,
+		FUNC_ADD,				///< 덧셈
+		FUNC_SUB,				///< 뺄셈
+		FUNC_MULTIPLY,		///< 곱셈
+		FUNC_ELEM_MUL,		///< 행렬 x 단일 값
+		FUNC_PMULTIPLY,		///< 전치 행렬 곱셈
+		FUNC_COPY,				///< 행렬 복사
+		FUNC_COMPARE,			///< 행렬 비교
 	};
 	struct		OpInfo
 	{

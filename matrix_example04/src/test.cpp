@@ -73,6 +73,8 @@ void	Test::inpData			(	void	)
 	printf("행렬 A1에 데이터 입력 중...");
 	fflush(stdout);
 
+	initRandomVal();
+
 	startMeasure();
 	// 랜덤 값으로 A 행렬에 값 넣기
 	for(size_t cnt=0;cnt<matrixA.getCol();cnt++)
@@ -404,8 +406,6 @@ void	Test::testMul			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
-
-	ptrMeasure();
 }
 
 void	Test::testElmMul		(	void	)
@@ -456,8 +456,6 @@ void	Test::testElmMul		(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
-
-	ptrMeasure();
 }
 
 void	Test::testTMul		(	void	)
@@ -508,8 +506,6 @@ void	Test::testTMul		(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
-
-	ptrMeasure();
 }
 
 };

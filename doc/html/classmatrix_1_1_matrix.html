@@ -21,6 +21,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SparseMatrix
    </div>
@@ -62,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,75 +93,611 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">matrix::Matrix Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="matrix_8h_source.html">matrix.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acf666535ec7c6bdf2b6e17f05467333b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf666535ec7c6bdf2b6e17f05467333b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix</b> (size_t col, size_t row)</td></tr>
-<tr class="separator:acf666535ec7c6bdf2b6e17f05467333b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b1fedfb1b076d4ae504d2c61019871f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b1fedfb1b076d4ae504d2c61019871f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;matrix)</td></tr>
-<tr class="separator:a2b1fedfb1b076d4ae504d2c61019871f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8644010f51accc749bd1b19833a54272"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8644010f51accc749bd1b19833a54272"></a>
-elem_t&#160;</td><td class="memItemRight" valign="bottom"><b>getElem</b> (size_t col, size_t row) const </td></tr>
-<tr class="separator:a8644010f51accc749bd1b19833a54272"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed3c0a2244191deec83bb4a65e3c7eb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed3c0a2244191deec83bb4a65e3c7eb6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setElem</b> (size_t col, size_t row, elem_t elem)</td></tr>
-<tr class="separator:aed3c0a2244191deec83bb4a65e3c7eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5249611c8fc9ae43733cec32abe20d6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5249611c8fc9ae43733cec32abe20d6d"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:a5249611c8fc9ae43733cec32abe20d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa523b54c5f9e3f5b271e10f9ac394505"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa523b54c5f9e3f5b271e10f9ac394505"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>sub</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:aa523b54c5f9e3f5b271e10f9ac394505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf0ab6f7deb9f2cacfbd9ea208cb9fbc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf0ab6f7deb9f2cacfbd9ea208cb9fbc"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>multiply</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:acf0ab6f7deb9f2cacfbd9ea208cb9fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba4bb66a2c291c8e84739498e3f70a49"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba4bb66a2c291c8e84739498e3f70a49"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>multiply</b> (elem_t operand) const </td></tr>
-<tr class="separator:aba4bb66a2c291c8e84739498e3f70a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19048987e2fec8e01224cb641b0a5bfe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19048987e2fec8e01224cb641b0a5bfe"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>transpose</b> (void) const </td></tr>
-<tr class="separator:a19048987e2fec8e01224cb641b0a5bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2de7e864488cfaec1eb85591b1f0ceb1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2de7e864488cfaec1eb85591b1f0ceb1"></a>
-const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>equal</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
-<tr class="separator:a2de7e864488cfaec1eb85591b1f0ceb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa408d3d8e6d3c2ebf3b34ed97e135965"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa408d3d8e6d3c2ebf3b34ed97e135965"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>solution</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
-<tr class="separator:aa408d3d8e6d3c2ebf3b34ed97e135965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae82bbc21f1523e44db9abdf0bfab712b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae82bbc21f1523e44db9abdf0bfab712b"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator+</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:ae82bbc21f1523e44db9abdf0bfab712b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92a387df5d1bc15ac4f8ec7a1565b067"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92a387df5d1bc15ac4f8ec7a1565b067"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator-</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:a92a387df5d1bc15ac4f8ec7a1565b067"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa0b2f1ea50e7689bb1676502e8d04c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa0b2f1ea50e7689bb1676502e8d04c9"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
-<tr class="separator:afa0b2f1ea50e7689bb1676502e8d04c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6cd63842bc144cf24e7c29cf627341c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6cd63842bc144cf24e7c29cf627341c"></a>
-<a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (elem_t operand) const </td></tr>
-<tr class="separator:aa6cd63842bc144cf24e7c29cf627341c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7756527ea51a7cc8b1febe91f48b3600"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7756527ea51a7cc8b1febe91f48b3600"></a>
-const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
-<tr class="separator:a7756527ea51a7cc8b1febe91f48b3600"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39306616e9b04059e7219c1e165740ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a39306616e9b04059e7219c1e165740ca"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isValid</b> (void)</td></tr>
-<tr class="separator:a39306616e9b04059e7219c1e165740ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44848c35537b66da7e5d71cff1658950"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44848c35537b66da7e5d71cff1658950"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>getCol</b> (void) const </td></tr>
-<tr class="separator:a44848c35537b66da7e5d71cff1658950"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe4afbe8ff98473538c476b543c2ee42"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe4afbe8ff98473538c476b543c2ee42"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>getRow</b> (void) const </td></tr>
-<tr class="separator:afe4afbe8ff98473538c476b543c2ee42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c0472f417cfb4a50629c8fb8afa28f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a1c0472f417cfb4a50629c8fb8afa28f5">Matrix</a> (void)</td></tr>
+<tr class="separator:a1c0472f417cfb4a50629c8fb8afa28f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a919744e9677a8328d70c5e9e7fe2363d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a919744e9677a8328d70c5e9e7fe2363d">Matrix</a> (size_t col, size_t row)</td></tr>
+<tr class="separator:a919744e9677a8328d70c5e9e7fe2363d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2afb03573b87bab9576ea0d037d3c3f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a2afb03573b87bab9576ea0d037d3c3f5">Matrix</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;matrix)</td></tr>
+<tr class="separator:a2afb03573b87bab9576ea0d037d3c3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a792502e17686224cea42c6c82a71ce96"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a792502e17686224cea42c6c82a71ce96">~Matrix</a> (void)</td></tr>
+<tr class="separator:a792502e17686224cea42c6c82a71ce96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac913fa2a0fa79548e88a81f3d82b045d"><td class="memItemLeft" align="right" valign="top">elem_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#ac913fa2a0fa79548e88a81f3d82b045d">getElem</a> (size_t col, size_t row) const </td></tr>
+<tr class="separator:ac913fa2a0fa79548e88a81f3d82b045d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42e50d07e0b366e79a1151a7eac6784c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a42e50d07e0b366e79a1151a7eac6784c">setElem</a> (size_t col, size_t row, elem_t elem)</td></tr>
+<tr class="separator:a42e50d07e0b366e79a1151a7eac6784c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8db6ff314b5b5959fbc1fe288e0601f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#ad8db6ff314b5b5959fbc1fe288e0601f">add</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:ad8db6ff314b5b5959fbc1fe288e0601f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c4c9d0f3ea0748e933662f6121aa791"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a4c4c9d0f3ea0748e933662f6121aa791">sub</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:a4c4c9d0f3ea0748e933662f6121aa791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad8d13ea4c7ec809e9e7cd6eb5bae91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a3ad8d13ea4c7ec809e9e7cd6eb5bae91">multiply</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:a3ad8d13ea4c7ec809e9e7cd6eb5bae91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bfca266d9a7723205b025f3568dd493"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a8bfca266d9a7723205b025f3568dd493">multiply</a> (elem_t operand) const </td></tr>
+<tr class="separator:a8bfca266d9a7723205b025f3568dd493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878e105868ea74959dcc019d6097faa0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a878e105868ea74959dcc019d6097faa0">transpose</a> (void) const </td></tr>
+<tr class="separator:a878e105868ea74959dcc019d6097faa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2ef6b2f47b6a852475b043d36516cf"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a5d2ef6b2f47b6a852475b043d36516cf">equal</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
+<tr class="separator:a5d2ef6b2f47b6a852475b043d36516cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22e860de388dbc67f39471ddae951546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a22e860de388dbc67f39471ddae951546">solution</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
+<tr class="separator:a22e860de388dbc67f39471ddae951546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace1f29c255014a54d83b8e6c54dfec42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#ace1f29c255014a54d83b8e6c54dfec42">operator+</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:ace1f29c255014a54d83b8e6c54dfec42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfb25dd7f3aefe9cb14fdea17252c5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#afdfb25dd7f3aefe9cb14fdea17252c5f">operator-</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:afdfb25dd7f3aefe9cb14fdea17252c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3a5983c3be397aca2241da9451dc818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#ae3a5983c3be397aca2241da9451dc818">operator*</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand) const </td></tr>
+<tr class="separator:ae3a5983c3be397aca2241da9451dc818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb517cc8d3e56636d4f2f8ff40baacbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#adb517cc8d3e56636d4f2f8ff40baacbe">operator*</a> (elem_t operand) const </td></tr>
+<tr class="separator:adb517cc8d3e56636d4f2f8ff40baacbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab97661021bec701b793c6df1cbe706a8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#ab97661021bec701b793c6df1cbe706a8">operator=</a> (const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;operand)</td></tr>
+<tr class="separator:ab97661021bec701b793c6df1cbe706a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a949d5db7f5ca48132c152875ea59c055"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a949d5db7f5ca48132c152875ea59c055">isValid</a> (void)</td></tr>
+<tr class="separator:a949d5db7f5ca48132c152875ea59c055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b14cf26d00430c53fa4ca207f20dac7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a5b14cf26d00430c53fa4ca207f20dac7">getCol</a> (void) const </td></tr>
+<tr class="separator:a5b14cf26d00430c53fa4ca207f20dac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a299cf3142ddec5753e0fc930eb39e9b4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmatrix_1_1_matrix.html#a299cf3142ddec5753e0fc930eb39e9b4">getRow</a> (void) const </td></tr>
+<tr class="separator:a299cf3142ddec5753e0fc930eb39e9b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>행렬 표현 클래스 </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a1c0472f417cfb4a50629c8fb8afa28f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">matrix::Matrix::Matrix </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>생성자 </p>
+
+</div>
+</div>
+<a class="anchor" id="a919744e9677a8328d70c5e9e7fe2363d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">matrix::Matrix::Matrix </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>생성자 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>행 크기 </td></tr>
+    <tr><td class="paramname">row</td><td>열 크기 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2afb03573b87bab9576ea0d037d3c3f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">matrix::Matrix::Matrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>matrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>복사 생성자 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">matrix</td><td>복사 될 객체 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a792502e17686224cea42c6c82a71ce96"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">matrix::Matrix::~Matrix </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>소멸자 </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ad8db6ff314b5b5959fbc1fe288e0601f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::add </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 덧셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 덧셈 결과 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5d2ef6b2f47b6a852475b043d36516cf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp; matrix::Matrix::equal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 대입 </p>
+<dl class="section return"><dt>Returns</dt><dd>대입 할 행렬 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5b14cf26d00430c53fa4ca207f20dac7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t matrix::Matrix::getCol </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행 크기 가져오기 </p>
+<dl class="section return"><dt>Returns</dt><dd>행 크기 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac913fa2a0fa79548e88a81f3d82b045d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">elem_t matrix::Matrix::getElem </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 요소 값 참조 </p>
+<dl class="section return"><dt>Returns</dt><dd>참조한 행렬 요소 값 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>참조 할 행 위치 </td></tr>
+    <tr><td class="paramname">row</td><td>참조 할 열 위치 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a299cf3142ddec5753e0fc930eb39e9b4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t matrix::Matrix::getRow </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>열 크기 가져오기 </p>
+<dl class="section return"><dt>Returns</dt><dd>열 크기 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a949d5db7f5ca48132c152875ea59c055"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool matrix::Matrix::isValid </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 객체가 유효한지 검사 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 객체가 유효하면 true, 유효하지 않으면 false </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3ad8d13ea4c7ec809e9e7cd6eb5bae91"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::multiply </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 곱셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 곱셈 결과 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8bfca266d9a7723205b025f3568dd493"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::multiply </td>
+          <td>(</td>
+          <td class="paramtype">elem_t&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 곱셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 곱셈 결과 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae3a5983c3be397aca2241da9451dc818"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::operator* </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 곱셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 곱셈 결과 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adb517cc8d3e56636d4f2f8ff40baacbe"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::operator* </td>
+          <td>(</td>
+          <td class="paramtype">elem_t&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 곱셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 곱셈 결과 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ace1f29c255014a54d83b8e6c54dfec42"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 덧셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 덧셈 결과 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afdfb25dd7f3aefe9cb14fdea17252c5f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::operator- </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 뺄셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 뺄셈 결과 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab97661021bec701b793c6df1cbe706a8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp; matrix::Matrix::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>행렬 대입 </p>
+<dl class="section return"><dt>Returns</dt><dd>대입 할 행렬 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a42e50d07e0b366e79a1151a7eac6784c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void matrix::Matrix::setElem </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">elem_t&#160;</td>
+          <td class="paramname"><em>elem</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 요소 값 설정 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>설정 할 행 위치 </td></tr>
+    <tr><td class="paramname">row</td><td>설정 할 열 위치 </td></tr>
+    <tr><td class="paramname">elem</td><td>설정 할 요소 값 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a22e860de388dbc67f39471ddae951546"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::solution </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 방정식 해 계산 </p>
+<dl class="section return"><dt>Returns</dt><dd>해 계산 결과 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4c4c9d0f3ea0748e933662f6121aa791"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::sub </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>operand</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>행렬 뺄셈 </p>
+<dl class="section return"><dt>Returns</dt><dd>행렬 뺄셈 결과 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operand</td><td>피연산자 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a878e105868ea74959dcc019d6097faa0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmatrix_1_1_matrix.html">Matrix</a> matrix::Matrix::transpose </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>전치 행렬 변환 </p>
+<dl class="section return"><dt>Returns</dt><dd>변환 결과 </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/asran/git/matrix/matrix_example02/include/<a class="el" href="matrix__example02_2include_2matrix_8h_source.html">matrix.h</a></li>
-<li>/home/asran/git/matrix/matrix_example02/src/matrix.cpp</li>
+<li>/home/asran/workspace/SparseMatrix/matrix/matrix/include/<a class="el" href="matrix_8h_source.html">matrix.h</a></li>
+<li>/home/asran/workspace/SparseMatrix/matrix/matrix/src/matrix.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 7 2015 14:38:52 for SparseMatrix by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 19 2015 14:24:47 for SparseMatrix by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

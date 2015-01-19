@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['getcol',['getCol',['../classmatrix_1_1_sparse_matrix.html#ae0c00d72be85c508c1f35fd032dc6e96',1,'matrix::SparseMatrix']]],
-  ['getelem',['getElem',['../classmatrix_1_1_sparse_matrix.html#a498d0e86431ee143230ddf93b3d348a2',1,'matrix::SparseMatrix']]],
-  ['geterrstring',['getErrString',['../classmatrix_1_1_err_msg.html#a8dcf46e1887b99576ede7bfb185f102a',1,'matrix::ErrMsg']]],
-  ['getrow',['getRow',['../classmatrix_1_1_sparse_matrix.html#afe5b78d2ff694306f316ae382fcd6b7a',1,'matrix::SparseMatrix']]],
-  ['getsize',['getSize',['../classmatrix_1_1_sparse_matrix.html#a17af7318467b30067470738cd64d6b66',1,'matrix::SparseMatrix']]]
+  ['func_5fadd',['FUNC_ADD',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495adb993fa5dd0b3510c1304e6b7cd974f6',1,'matrix::SparseMatrix']]],
+  ['func_5fcompare',['FUNC_COMPARE',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495ab698078708b0b11a1cd931fc56dfd8f8',1,'matrix::SparseMatrix']]],
+  ['func_5fcopy',['FUNC_COPY',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495a092ef3d4e204410c9d1eebf59f3a61a6',1,'matrix::SparseMatrix']]],
+  ['func_5felem_5fmul',['FUNC_ELEM_MUL',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495adfe1b62538a24eac3e7245cb6a11268b',1,'matrix::SparseMatrix']]],
+  ['func_5fmultiply',['FUNC_MULTIPLY',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495a87d6f38c3ab1c8a2598cce7da65a0262',1,'matrix::SparseMatrix']]],
+  ['func_5fpmultiply',['FUNC_PMULTIPLY',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495a375e20afffa000a5d924cfdb439c6f00',1,'matrix::SparseMatrix']]],
+  ['func_5fsub',['FUNC_SUB',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495adaf9cb7b8e3704646ef983fb4dec0bbe',1,'matrix::SparseMatrix']]],
+  ['funcinfo',['FuncInfo',['../structmatrix_1_1_func_info.html',1,'matrix']]],
+  ['funckind',['FuncKind',['../classmatrix_1_1_sparse_matrix.html#aa8ad4dd1d27e8d265656a87d36bf7495',1,'matrix::SparseMatrix']]]
 ];
