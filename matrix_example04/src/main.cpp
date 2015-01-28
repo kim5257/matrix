@@ -7,14 +7,6 @@
 
 #include "test.h"
 
-#define	COL_SIZE				(5000000)
-#define	ROW_SIZE				(5000000)
-
-#define	VAL_RANGE_START		(1)
-#define	VAL_RANGE_END			(10)
-
-#define	COL_PER_VAL			(7)
-
 int		main	(	void	)
 {
 	try

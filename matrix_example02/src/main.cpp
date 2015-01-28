@@ -5,7 +5,7 @@
  *      Author: asran
  */
 
-#include "sparse_matrix.h"
+#include "sparse_matrix2.h"
 #include "matrix_error.h"
 #include <stdio.h>
 
@@ -13,9 +13,9 @@ int		main	(	void	)
 {
 	try
 	{
-		matrix::SparseMatrix	matrixA	=	matrix::SparseMatrix(4,4);
-		matrix::SparseMatrix	matrixB	=	matrix::SparseMatrix(4,4);
-		matrix::SparseMatrix	matrixC;
+		matrix::SparseMatrix2	matrixA	=	matrix::SparseMatrix2(4,4);
+		matrix::SparseMatrix2	matrixB	=	matrix::SparseMatrix2(4,4);
+		matrix::SparseMatrix2	matrixC;
 
 		// A 행렬 데이터 넣기
 		matrixA.setElem(0,0,1);

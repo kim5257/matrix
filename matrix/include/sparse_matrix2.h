@@ -9,19 +9,10 @@
 #define SPARSE_MATRIX_H_
 
 #include <stdio.h>
-#include <vector>
-#include <array>
-#include <unordered_map>
-#include <bits/unordered_map.h>
-#include <map>
-#include <numeric>
 #include "matrix_typedef.h"
 
 namespace	matrix
 {
-
-typedef	std::map<row_t, elem_t>			elem_node_t;		///< 한 개 행 데이터 형식
-typedef	elem_node_t::const_iterator		elem_node_itor;	///< 한 개 행 데이터 참조자
 
 /**
  * 희소 행렬 표현 클래스
@@ -44,13 +35,13 @@ public:
 		const SparseMatrix2*	operandA;
 		const SparseMatrix2*	operandB;
 		elem_t					elemOperandB;
-		SparseMatrix2*			result;
+		SparseMatrix2*		result;
 		void*					retVal;
 	};
 private:
 	size_t			mCol	=	0;			///< 행 크기
 	size_t			mRow	=	0;			///< 열 크기
-	elem_node_t*	mData	=	NULL;		///< 행렬 데이터
+	map_data_t*	mData	=	NULL;		///< 행렬 데이터
 public:
 				SparseMatrix2			(	void	);
 				SparseMatrix2			(	size_t		col,
@@ -226,7 +217,7 @@ size_t	SparseMatrix2::getSize		(	void	) const
 
 	for(size_t cnt=0;cnt<getCol();cnt++)
 	{
-		sum		+=	mData[cnt].size();
+		sum		+=	mData[cnt].mMap.size();
 	}
 
 	return	sum;

@@ -41,7 +41,7 @@ public:
 private:
 	size_t				mCol	=	0;			///< 행 크기
 	size_t				mRow	=	0;			///< 열 크기
-	elem_data_t*		mData	=	NULL;		///< 행렬 데이터
+	vector_data_t*	mData	=	NULL;		///< 행렬 데이터
 public:
 				SparseMatrix			(	void	);
 				SparseMatrix			(	size_t		col,
@@ -111,15 +111,15 @@ private:
 	static void*	threadCopy			(	void*	pData	);
 	static void*	threadCompare		(	void*	pData	);
 private:
-	static void		delElem_		(	elem_data_t*		data,
+	static void		delElem_		(	vector_data_t*	data,
 											size_t				col,
 											size_t				row
 										);
-	static elem_t		getElem_		(	elem_data_t*		data,
+	static elem_t		getElem_		(	vector_data_t*	data,
 											size_t				col,
 											size_t				row
 										);
-	static void		setElem_		(	elem_data_t*		data,
+	static void		setElem_		(	vector_data_t*	data,
 											size_t				col,
 											size_t				row,
 											elem_t				elem

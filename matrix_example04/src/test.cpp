@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define	COL_SIZE				(5000000)
-#define	ROW_SIZE				(5000000)
+#define	COL_SIZE				(1000000)
+#define	ROW_SIZE				(1000000)
 
 #define	VAL_RANGE_START		(1)
 #define	VAL_RANGE_END			(10)
@@ -178,7 +178,7 @@ void	Test::testEqual		(	void	)
 
 	startMeasure();
 
-	matrixResult1	=	matrixA;
+	matrixResult1.pequal(matrixA);
 
 	endMeasure();
 
@@ -240,7 +240,7 @@ void	Test::testCompare		(	void	)
 
 	startMeasure();
 
-	if( matrixResult1 == matrixA )
+	if( matrixResult1.pcompare(matrixA) )
 	{
 		flag	=	true;
 	}
@@ -284,7 +284,7 @@ void	Test::testAdd			(	void	)
 
 	startMeasure();
 
-	matrixResult2		=	matrixA + matrixB1;
+	matrixResult2		=	matrixA.padd(matrixB1);
 
 	endMeasure();
 
@@ -294,7 +294,7 @@ void	Test::testAdd			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
-	if( matrixResult1 == matrixResult2 )
+	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
 	}
@@ -334,7 +334,7 @@ void	Test::testSub			(	void	)
 
 	startMeasure();
 
-	matrixResult2		=	matrixA - matrixB1;
+	matrixResult2		=	matrixA.psub(matrixB1);
 
 	endMeasure();
 
@@ -344,7 +344,7 @@ void	Test::testSub			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
-	if( matrixResult1 == matrixResult2 )
+	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
 	}
@@ -384,7 +384,7 @@ void	Test::testMul			(	void	)
 
 	startMeasure();
 
-	matrixResult2		=	matrixA * matrixB2;
+	matrixResult2		=	matrixA.pmultiply(matrixB2);
 
 	endMeasure();
 
@@ -394,7 +394,7 @@ void	Test::testMul			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
-	if( matrixResult1 == matrixResult2 )
+	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
 	}
@@ -434,7 +434,7 @@ void	Test::testElmMul		(	void	)
 
 	startMeasure();
 
-	matrixResult2		=	matrixA * 2;
+	matrixResult2		=	matrixA.pmultiply(2);
 
 	endMeasure();
 
@@ -444,7 +444,7 @@ void	Test::testElmMul		(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
-	if( matrixResult1 == matrixResult2 )
+	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
 	}
@@ -494,7 +494,7 @@ void	Test::testTMul		(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
-	if( matrixResult1 == matrixResult2 )
+	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
 	}

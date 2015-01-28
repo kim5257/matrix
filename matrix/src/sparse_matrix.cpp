@@ -643,7 +643,7 @@ void		SparseMatrix::allocElems		(	size_t		col,	///< 행 크기
 		mCol	=	col;
 		mRow	=	row;
 
-		mData	=	new elem_data_t[col];
+		mData	=	new vector_data_t[col];
 	}
 	catch (	std::bad_alloc&	exception		)
 	{
@@ -868,9 +868,9 @@ void*		SparseMatrix::threadAdd			(	void*	pData	)
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeB		=	&operandB.mData[start];
-	elem_data_t*		nodeRet	=	&result.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	&operandB.mData[start];
+	vector_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -933,9 +933,9 @@ void*		SparseMatrix::threadSub			(	void*	pData	)
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeB		=	&operandB.mData[start];
-	elem_data_t*		nodeRet	=	&result.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	&operandB.mData[start];
+	vector_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -996,11 +996,11 @@ void*		SparseMatrix::threadMultiply	(	void*	pData	)
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
-	SparseMatrix&		result		=	*info->opInfo.result;
+	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeB		=	operandB.mData;
-	elem_data_t*		nodeRet	=	&result.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	operandB.mData;
+	vector_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -1041,10 +1041,10 @@ void*		SparseMatrix::threadElemMul		(	void*	pData	)
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	elem_t					operandB	=	info->opInfo.elemOperandB;
-	SparseMatrix&		result		=	*info->opInfo.result;
+	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeRet	=	&result.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeRet	=	&result.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -1083,9 +1083,9 @@ void*		SparseMatrix::threadTmultiply	(	void*	pData	)
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 	SparseMatrix&			result		=	*info->opInfo.result;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeB		=	&operandB.mData[start];
-	elem_data_t*		nodeRet	=	result.mData;
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	&operandB.mData[start];
+	vector_data_t*		nodeRet	=	result.mData;
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -1129,8 +1129,8 @@ void*		SparseMatrix::threadCopy			(	void*	pData	)
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 
-	elem_data_t*		nodeA		=	&operandA.mData[start];
-	elem_data_t*		nodeB		=	&operandB.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	&operandB.mData[start];
 
 	for(size_t col=0;col<=range;++col)
 	{
@@ -1155,10 +1155,10 @@ void*		SparseMatrix::threadCompare		(	void*	pData	)
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
 
-	elem_data_t*			nodeA		=	&operandA.mData[start];
-	elem_data_t*			nodeB		=	&operandB.mData[start];
+	vector_data_t*		nodeA		=	&operandA.mData[start];
+	vector_data_t*		nodeB		=	&operandB.mData[start];
 
-	for(size_t col=0;col<range;++col)
+	for(size_t col=0;col<=range;++col)
 	{
 		elem_vector_t&	vec		=	nodeA[col].mVector;
 		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
@@ -1179,7 +1179,7 @@ void*		SparseMatrix::threadCompare		(	void*	pData	)
 	return	(void*)flag;
 }
 
-void		SparseMatrix::delElem_		(	elem_data_t*		data,
+void		SparseMatrix::delElem_		(	vector_data_t*	data,
 												size_t				col,
 												size_t				row
 											)
@@ -1196,7 +1196,7 @@ void		SparseMatrix::delElem_		(	elem_data_t*		data,
 	}
 }
 
-elem_t		SparseMatrix::getElem_		(	elem_data_t*		data,
+elem_t		SparseMatrix::getElem_		(	vector_data_t*	data,
 												size_t				col,
 												size_t				row
 											)
@@ -1219,7 +1219,7 @@ elem_t		SparseMatrix::getElem_		(	elem_data_t*		data,
 	return	value;
 }
 
-void		SparseMatrix::setElem_		(	elem_data_t*		data,
+void		SparseMatrix::setElem_		(	vector_data_t*	data,
 												size_t				col,
 												size_t				row,
 												elem_t				elem

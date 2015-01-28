@@ -40,12 +40,25 @@ struct		node_t
 typedef	std::vector<node_t>			elem_vector_t;		///< 한 개 행 데이터 형식
 typedef	elem_vector_t::iterator		elem_vector_itor;		///< 한 개 행 데이터 참조자
 
-struct		elem_data_t
+struct		vector_data_t
 {
 	elem_vector_t		mVector;
 	pthread_mutex_t	mLock		=	PTHREAD_MUTEX_INITIALIZER;
 
-	elem_data_t	()
+	vector_data_t	()
+	{
+	}
+};
+
+typedef	std::map<row_t, elem_t>		elem_map_t;			///< 한 개 행 데이터 형식
+typedef	elem_map_t::const_iterator	elem_map_itor;		///< 한 개 행 데이터 참조자
+
+struct		map_data_t
+{
+	elem_map_t			mMap;
+	pthread_mutex_t	mLock		=	PTHREAD_MUTEX_INITIALIZER;
+
+	map_data_t	()
 	{
 	}
 };
