@@ -5,7 +5,8 @@
  *      Author: asran
  */
 
-#include "sparse_matrix2.h"
+#include "sparse_matrix.h"
+#include "matrix_csr.h"
 #include "matrix_error.h"
 #include <stdio.h>
 
@@ -13,9 +14,9 @@ int		main	(	void	)
 {
 	try
 	{
-		matrix::SparseMatrix2	matrixA	=	matrix::SparseMatrix2(4,4);
-		matrix::SparseMatrix2	matrixB	=	matrix::SparseMatrix2(4,4);
-		matrix::SparseMatrix2	matrixC;
+		matrix::MatrixCSR	matrixA	=	matrix::MatrixCSR(4,4);
+		matrix::MatrixCSR	matrixB	=	matrix::MatrixCSR(4,4);
+		matrix::MatrixCSR	matrixC;
 
 		// A 행렬 데이터 넣기
 		matrixA.setElem(0,0,1);
@@ -98,6 +99,30 @@ int		main	(	void	)
 		}
 
 		matrixC	=	matrixA.multiply(matrixB);
+
+		printf("C = \n");
+		for(size_t col=0;col<matrixC.getCol();col++)
+		{
+			for(size_t row=0;row<matrixC.getRow();row++)
+			{
+				printf("%6.2f ", matrixC.getElem(col, row));
+			}
+			printf("\n");
+		}
+
+		matrixC	=	matrixA.multiply(2);
+
+		printf("C = \n");
+		for(size_t col=0;col<matrixC.getCol();col++)
+		{
+			for(size_t row=0;row<matrixC.getRow();row++)
+			{
+				printf("%6.2f ", matrixC.getElem(col, row));
+			}
+			printf("\n");
+		}
+
+		matrixC	=	matrixA.tmultiply(matrixB);
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)

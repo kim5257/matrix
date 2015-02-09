@@ -10,22 +10,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define	COL_SIZE				(1000000)
-#define	ROW_SIZE				(1000000)
-
-#define	VAL_RANGE_START		(1)
-#define	VAL_RANGE_END			(10)
-
-#define	COL_PER_VAL			(7)
-
 namespace	test
 {
 
 Test::Test			(	void	)
 {
-	matrixA	=	matrix::SparseMatrix(COL_SIZE, ROW_SIZE);
-	matrixB1	=	matrix::SparseMatrix(COL_SIZE, ROW_SIZE);;
-	matrixB2	=	matrix::SparseMatrix(COL_SIZE, 1);;
+	matrixA	=	matrix_t(COL_SIZE, ROW_SIZE);
+	matrixB1	=	matrix_t(COL_SIZE, ROW_SIZE);;
+	matrixB2	=	matrix_t(COL_SIZE, 1);;
 }
 
 Test::~Test		(	void	)
@@ -79,7 +71,7 @@ void	Test::inpData			(	void	)
 	// 랜덤 값으로 A 행렬에 값 넣기
 	for(size_t cnt=0;cnt<matrixA.getCol();cnt++)
 	{
-		for(size_t cnt2=0;cnt2<COL_PER_VAL;cnt2++)
+		for(size_t cnt2=0;cnt2<VAL_PER_COL;cnt2++)
 		{
 			matrixA.setElem(cnt,getRandomVal(0,matrixA.getRow()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 		}
@@ -95,7 +87,7 @@ void	Test::inpData			(	void	)
 	// 랜덤 값으로 B1 행렬에 값 넣기
 	for(size_t cnt=0;cnt<matrixB1.getCol();cnt++)
 	{
-		for(size_t cnt2=0;cnt2<COL_PER_VAL;cnt2++)
+		for(size_t cnt2=0;cnt2<VAL_PER_COL;cnt2++)
 		{
 			matrixB1.setElem(cnt,getRandomVal(0,matrixB1.getRow()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 		}
@@ -173,6 +165,8 @@ void	Test::testEqual		(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 대입 시험...");
 	fflush(stdout);
 
@@ -196,6 +190,8 @@ void	Test::testEqual		(	void	)
 			(flag)?("통과"):("문제 있음"));
 
 	ptrMeasure();
+#endif
+
 }
 
 void	Test::testCompare		(	void	)
@@ -235,6 +231,8 @@ void	Test::testCompare		(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -256,12 +254,12 @@ void	Test::testCompare		(	void	)
 			(flag)?("일치함"):("불 일치함"));
 
 	ptrMeasure();
+#endif
+
 }
 
 void	Test::testAdd			(	void	)
 {
-	bool	flag	=	false;
-
 	printf("\n\n"
 			"덧셈 시험\n"
 			"=========\n");
@@ -279,6 +277,8 @@ void	Test::testAdd			(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -294,6 +294,8 @@ void	Test::testAdd			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
+	bool	flag	=	false;
+
 	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
@@ -306,12 +308,11 @@ void	Test::testAdd			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
+#endif
 }
 
 void	Test::testSub			(	void	)
 {
-	bool	flag	=	false;
-
 	printf("\n\n"
 			"뺄셈 시험\n"
 			"=========\n");
@@ -329,6 +330,8 @@ void	Test::testSub			(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -344,6 +347,8 @@ void	Test::testSub			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
+	bool	flag	=	false;
+
 	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
@@ -356,12 +361,13 @@ void	Test::testSub			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
+
+#endif
+
 }
 
 void	Test::testMul			(	void	)
 {
-	bool	flag	=	false;
-
 	printf("\n\n"
 			"곱셈 시험\n"
 			"=========\n");
@@ -379,6 +385,8 @@ void	Test::testMul			(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -394,6 +402,8 @@ void	Test::testMul			(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
+	bool	flag	=	false;
+
 	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
@@ -406,12 +416,12 @@ void	Test::testMul			(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
+#endif
+
 }
 
 void	Test::testElmMul		(	void	)
 {
-	bool	flag	=	false;
-
 	printf("\n\n"
 			"행렬 * 상수 곱셈 시험\n"
 			"===================\n");
@@ -429,6 +439,8 @@ void	Test::testElmMul		(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -444,6 +456,8 @@ void	Test::testElmMul		(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
+	bool	flag	=	false;
+
 	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
@@ -456,12 +470,12 @@ void	Test::testElmMul		(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
+#endif
+
 }
 
 void	Test::testTMul		(	void	)
 {
-	bool	flag	=	false;
-
 	printf("\n\n"
 			"전치 행렬 곱셈 시험\n"
 			"==================\n");
@@ -479,6 +493,8 @@ void	Test::testTMul		(	void	)
 
 	ptrMeasure();
 
+#if( TEST_MULTI_THREAD != 0 )
+
 	printf("(2) 멀티 쓰레드 동작 시험...");
 	fflush(stdout);
 
@@ -494,6 +510,8 @@ void	Test::testTMul		(	void	)
 	printf("결과 비교 중...");
 	fflush(stdout);
 
+	bool	flag	=	false;
+
 	if( matrixResult1.pcompare(matrixResult2) )
 	{
 		flag	=	true;
@@ -506,6 +524,7 @@ void	Test::testTMul		(	void	)
 	printf("완료\n"
 			"결과: %s\n",
 			(flag)?("일치함"):("불 일치함"));
+#endif
 }
 
 };

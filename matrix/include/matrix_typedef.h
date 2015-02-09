@@ -63,6 +63,13 @@ struct		map_data_t
 	}
 };
 
+typedef	std::vector<uint32_t>		csr_t;				///< 행렬 위치 데이터
+typedef	csr_t::const_iterator		csr_itor;			///< 행렬 위치 데이터 참조자
+
+typedef	std::vector<elem_t>			elem_csr_t;		///< 한 개 행 데이터 형식
+typedef	elem_csr_t::const_iterator	elem_csr_itor;	///< 한 개 행 데이터 참조자
+
+
 };
 
 

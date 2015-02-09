@@ -15,13 +15,8 @@ int		main	(	void	)
 
 		test.inpData();
 		test.ptrDataSize();
-		test.testCompare();
-		test.testEqual();
-		test.testAdd();
-		test.testSub();
-		test.testMul();
-		test.testElmMul();
-		test.testTMul();
+		test.testSolution();
+		test.ptrResult();
 		//test.ptrDataSize();
 	}
 	catch( matrix::ErrMsg*	exception	)
