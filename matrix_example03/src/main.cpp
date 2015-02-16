@@ -12,8 +12,8 @@
 #include <sys/time.h>
 #include <time.h>
 
-#define	COL_SIZE				(5000000)
-#define	ROW_SIZE				(5000000)
+#define	COL_SIZE				(1000000)
+#define	ROW_SIZE				(1000000)
 
 #define	VAL_RANGE_START		(1)
 #define	VAL_RANGE_END			(10)

@@ -15,48 +15,48 @@ namespace	matrix
 {
 
 /**
- * í¬ì†Œ í–‰ë ¬ í‘œí˜„ í´ë˜ìŠ¤
+ * Èñ¼Ò Çà·Ä Ç¥Çö Å¬·¡½º
  */
 class	SparseMatrix
 {
 public:
 	enum	FuncKind
 	{
-		FUNC_ADD,				///< ë§ì…ˆ
-		FUNC_SUB,				///< ëº„ì…ˆ
-		FUNC_MULTIPLY,		///< ê³±ì…ˆ
-		FUNC_ELEM_MUL,		///< í–‰ë ¬ x ë‹¨ì¼ ê°’
-		FUNC_PMULTIPLY,		///< ì „ì¹˜ í–‰ë ¬ ê³±ì…ˆ
-		FUNC_COPY,				///< í–‰ë ¬ ë³µì‚¬
-		FUNC_COMPARE,			///< í–‰ë ¬ ë¹„êµ
+		FUNC_ADD,			///< µ¡¼À
+		FUNC_SUB,			///< »¬¼À
+		FUNC_MULTIPLY,		///< °ö¼À
+		FUNC_ELEM_MUL,		///< Çà·Ä x ´ÜÀÏ °ª
+		FUNC_PMULTIPLY,		///< ÀüÄ¡ Çà·Ä °ö¼À
+		FUNC_COPY,			///< Çà·Ä º¹»ç
+		FUNC_COMPARE,		///< Çà·Ä ºñ±³
 	};
 	struct		OpInfo
 	{
-		const SparseMatrix*	operandA;
-		const SparseMatrix*	operandB;
+		const SparseMatrix*		operandA;
+		const SparseMatrix*		operandB;
 		elem_t					elemOperandB;
 		SparseMatrix*			result;
-		void*					retVal;
+		THREAD_RETURN_TYPE		retVal;
 	};
 private:
-	size_t				mCol	=	0;			///< í–‰ í¬ê¸°
-	size_t				mRow	=	0;			///< ì—´ í¬ê¸°
-	vector_data_t*	mData	=	NULL;		///< í–‰ë ¬ ë°ì´í„°
+	col_t			mCol;		///< Çà Å©±â
+	row_t			mRow;		///< ¿­ Å©±â
+	vector_data_t*	mData;		///< Çà·Ä µ¥ÀÌÅÍ
 public:
-				SparseMatrix			(	void	);
-				SparseMatrix			(	size_t		col,
-											size_t		row
-										);
-				SparseMatrix			(	const SparseMatrix&		matrix		);
-	virtual	~SparseMatrix		(	void	);
+				SparseMatrix		(	void	);
+				SparseMatrix		(	col_t		col,
+										row_t		row
+									);
+				SparseMatrix		(	const SparseMatrix&		matrix		);
+	virtual		~SparseMatrix		(	void	);
 public:
-	elem_t		getElem		(	size_t				col,
-									size_t				row
-								) const;
-	void		setElem		(	size_t				col,
-									size_t				row,
-									elem_t				elem
-								);
+	elem_t		getElem		(	col_t				col,
+								row_t				row
+							) const;
+	void		setElem		(	col_t				col,
+								row_t				row,
+								elem_t				elem
+							);
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
@@ -81,19 +81,19 @@ public:
 	inline bool	operator==		(	const SparseMatrix&	operand	) const;
 public:
 	inline bool	isValid		(	void	);
-	inline size_t	getCol			(	void	) const;
-	inline size_t	getRow			(	void	) const;
+	inline col_t	getCol			(	void	) const;
+	inline row_t	getRow			(	void	) const;
 	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	size_t		col,
-									size_t		row
+	void		allocElems		(	col_t		col,
+									row_t		row
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const SparseMatrix&		matrix		);
 	void		pcopyElems		(	const SparseMatrix&		matrix		);
 	void		chkSameSize	(	const SparseMatrix&		matrix		) const;
-	void		chkBound		(	size_t		col,
-									size_t		row
+	void		chkBound		(	col_t		col,
+									row_t		row
 								) const;
 	void		doThreadFunc	(	FuncKind		kind,
 									OpInfo&		info
@@ -102,93 +102,93 @@ private:
 									OpInfo&		info
 								);
 private:
-	static void*	threadFunc			(	void*	pData	);
-	static void*	threadAdd			(	void*	pData	);
-	static void*	threadSub			(	void*	pData	);
-	static void*	threadMultiply	(	void*	pData	);
-	static void*	threadElemMul		(	void*	pData	);
-	static void*	threadTmultiply	(	void*	pData	);
-	static void*	threadCopy			(	void*	pData	);
-	static void*	threadCompare		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadFunc			(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadAdd			(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadSub			(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadElemMul		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 private:
 	static void		delElem_		(	vector_data_t*	data,
-											size_t				col,
-											size_t				row
-										);
-	static elem_t		getElem_		(	vector_data_t*	data,
-											size_t				col,
-											size_t				row
-										);
+										col_t			col,
+										row_t			row
+									);
+	static elem_t	getElem_		(	vector_data_t*	data,
+										col_t			col,
+										row_t			row
+									);
 	static void		setElem_		(	vector_data_t*	data,
-											size_t				col,
-											size_t				row,
-											elem_t				elem
-										);
+										col_t			col,
+										row_t			row,
+										elem_t			elem
+									);
 };
 
 /**
- * í–‰ë ¬ ë§ì…ˆ
- * @return		í–‰ë ¬ ë§ì…ˆ ê²°ê³¼
+ * Çà·Ä µ¡¼À
+ * @return		Çà·Ä µ¡¼À °á°ú
  */
-SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< í”¼ì—°ì‚°ì
+SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< ÇÇ¿¬»êÀÚ
 													) const
 {
 	return	padd(operand);
 }
 
 /**
- * í–‰ë ¬ ëº„ì…ˆ
- * @return		í–‰ë ¬ ëº„ì…ˆ ê²°ê³¼
+ * Çà·Ä »¬¼À
+ * @return		Çà·Ä »¬¼À °á°ú
  */
-SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< í”¼ì—°ì‚°ì
+SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< ÇÇ¿¬»êÀÚ
 													) const
 {
 	return	psub(operand);
 }
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
-SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< í”¼ì—°ì‚°ì
+SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< ÇÇ¿¬»êÀÚ
 													) const
 {
 	return	pmultiply(operand);
 }
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
-SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< í”¼ì—°ì‚°ì
+SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< ÇÇ¿¬»êÀÚ
 													) const
 {
 	return	pmultiply(operand);
 }
 
 /**
- * í–‰ë ¬ ëŒ€ì…
- * @return		ëŒ€ì… í•  í–‰ë ¬
+ * Çà·Ä ´ëÀÔ
+ * @return		´ëÀÔ ÇÒ Çà·Ä
  */
-const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< í”¼ì—°ì‚°ì
+const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< ÇÇ¿¬»êÀÚ
 															)
 {
 	return	pequal(operand);
 }
 
 /**
- * í–‰ë ¬ ë¹„êµ
- * @return		ë¹„êµ ê²°ê³¼
+ * Çà·Ä ºñ±³
+ * @return		ºñ±³ °á°ú
  */
-bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< í”¼ì—°ì‚°ì
+bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< ÇÇ¿¬»êÀÚ
 										) const
 {
 	return	pcompare(operand);
 }
 
 /**
- * í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•œì§€ ê²€ì‚¬
- * @return		í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•˜ë©´ true, ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ false
+ * Çà·Ä °´Ã¼°¡ À¯È¿ÇÑÁö °Ë»ç
+ * @return		Çà·Ä °´Ã¼°¡ À¯È¿ÇÏ¸é true, À¯È¿ÇÏÁö ¾ÊÀ¸¸é false
  */
 bool	SparseMatrix::isValid		(	void	)
 {
@@ -204,26 +204,26 @@ bool	SparseMatrix::isValid		(	void	)
 }
 
 /**
- * í–‰ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
- * @return		í–‰ í¬ê¸°
+ * Çà Å©±â °¡Á®¿À±â
+ * @return		Çà Å©±â
  */
-size_t	SparseMatrix::getCol		(	void	) const
+col_t	SparseMatrix::getCol		(	void	) const
 {
 	return	mCol;
 }
 
 /**
- * ì—´ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
- * @return		ì—´ í¬ê¸°
+ * ¿­ Å©±â °¡Á®¿À±â
+ * @return		¿­ Å©±â
  */
-size_t	SparseMatrix::getRow		(	void	) const
+row_t	SparseMatrix::getRow		(	void	) const
 {
 	return	mRow;
 }
 
 /**
- * í–‰ë ¬ ìš”ì†Œ ë°ì´í„° ìˆ˜ ê°€ì ¸ì˜¤ê¸°
- * @return		ìš”ì†Œ ë°ì´í„° í¬ê¸°
+ * Çà·Ä ¿ä¼Ò µ¥ÀÌÅÍ ¼ö °¡Á®¿À±â
+ * @return		¿ä¼Ò µ¥ÀÌÅÍ Å©±â
  */
 size_t	SparseMatrix::getSize		(	void	) const
 {

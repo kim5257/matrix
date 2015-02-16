@@ -26,34 +26,43 @@ struct		FuncInfo
 };
 
 /**
- * ìƒì„±ì
+ * »ı¼ºÀÚ
  */
 MatrixCSR::MatrixCSR			(	void	)
+:mCol(0),
+mRow(0),
+mColStart(NULL)
 {
 }
 
 /**
- * ìƒì„±ì
+ * »ı¼ºÀÚ
  */
-MatrixCSR::MatrixCSR			(	size_t		col,	///< í–‰ í¬ê¸°
-									size_t		row		///< ì—´ í¬ê¸°
+MatrixCSR::MatrixCSR			(	col_t		col,	///< Çà Å©±â
+									row_t		row		///< ¿­ Å©±â
 								)
+:mCol(0),
+mRow(0),
+mColStart(NULL)
 {
 	allocElems(col, row);
 }
 
 /**
- * ë³µì‚¬ ìƒì„±ì
+ * º¹»ç »ı¼ºÀÚ
  */
-MatrixCSR::MatrixCSR			(	const MatrixCSR&		matrix		///< ë³µì‚¬ ë  ê°ì²´
+MatrixCSR::MatrixCSR			(	const MatrixCSR&		matrix		///< º¹»ç µÉ °´Ã¼
 								)
+:mCol(0),
+mRow(0),
+mColStart(NULL)
 {
 	allocElems(matrix.getCol(), matrix.getRow());
 	copyElems(matrix);
 }
 
 /**
- * ì†Œë©¸ì
+ * ¼Ò¸êÀÚ
  */
 MatrixCSR::~MatrixCSR		(	void	)
 {
@@ -61,12 +70,12 @@ MatrixCSR::~MatrixCSR		(	void	)
 }
 
 /**
- * í–‰ë ¬ ìš”ì†Œ ê°’ ì°¸ì¡°
- * @return		ì°¸ì¡°í•œ í–‰ë ¬ ìš”ì†Œ ê°’
+ * Çà·Ä ¿ä¼Ò °ª ÂüÁ¶
+ * @return		ÂüÁ¶ÇÑ Çà·Ä ¿ä¼Ò °ª
  */
-elem_t		MatrixCSR::getElem		(	size_t		col,	///< ì°¸ì¡° í•  í–‰ ìœ„ì¹˜
-											size_t		row		///< ì°¸ì¡° í•  ì—´ ìœ„ì¹˜
-										) const
+elem_t		MatrixCSR::getElem		(	col_t		col,	///< ÂüÁ¶ ÇÒ Çà À§Ä¡
+										row_t		row		///< ÂüÁ¶ ÇÒ ¿­ À§Ä¡
+									) const
 {
 	chkBound(col, row);
 
@@ -87,20 +96,20 @@ elem_t		MatrixCSR::getElem		(	size_t		col,	///< ì°¸ì¡° í•  í–‰ ìœ„ì¹˜
 }
 
 /**
- * í–‰ë ¬ ìš”ì†Œ ê°’ ì„¤ì •
+ * Çà·Ä ¿ä¼Ò °ª ¼³Á¤
  */
-void		MatrixCSR::setElem		(	size_t		col,	///< ì„¤ì • í•  í–‰ ìœ„ì¹˜
-											size_t		row,	///< ì„¤ì • í•  ì—´ ìœ„ì¹˜
-											elem_t		elem	///< ì„¤ì • í•  ìš”ì†Œ ê°’
-										)
+void		MatrixCSR::setElem		(	col_t		col,	///< ¼³Á¤ ÇÒ Çà À§Ä¡
+										row_t		row,	///< ¼³Á¤ ÇÒ ¿­ À§Ä¡
+										elem_t		elem	///< ¼³Á¤ ÇÒ ¿ä¼Ò °ª
+									)
 {
 	chkBound(col, row);
 
 	bool	found	=	false;
-	size_t	start	=	mColStart[col];
-	size_t	end		=	mColStart[col+1];
+	col_t	start	=	mColStart[col];
+	col_t	end		=	mColStart[col+1];
 
-	for(size_t cnt=start;cnt<end;cnt++)
+	for(col_t cnt=start;cnt<end;cnt++)
 	{
 		if( mData[cnt].mRow == row )
 		{
@@ -122,10 +131,10 @@ void		MatrixCSR::setElem		(	size_t		col,	///< ì„¤ì • í•  í–‰ ìœ„ì¹˜
 }
 
 /**
- * í–‰ë ¬ ë§ì…ˆ
- * @return		í–‰ë ¬ ë§ì…ˆ ê²°ê³¼
+ * Çà·Ä µ¡¼À
+ * @return		Çà·Ä µ¡¼À °á°ú
  */
-MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
+MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< ÇÇ¿¬»êÀÚ
 										) const
 {
 	chkSameSize(operand);
@@ -135,23 +144,23 @@ MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 
 	result.mData.reserve(mData.size());
 
-	for(size_t col=0;col<getCol();++col)
+	for(col_t col=0;col<getCol();++col)
 	{
-		size_t		start	=	mColStart[col];
-		size_t		end		=	mColStart[col+1];
+		row_t	start	=	mColStart[col];
+		row_t	end		=	mColStart[col+1];
 
-		for(size_t cnt=start;cnt<end;++cnt)
+		for(row_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-									mData[cnt].mRow,
-									mData[cnt].mData
-								);
+								mData[cnt].mRow,
+								mData[cnt].mData
+							);
 		}
 
 		start	=	operand.mColStart[col];
 		end		=	operand.mColStart[col+1];
 
-		for(size_t cnt=start;cnt<end;++cnt)
+		for(row_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
 									vec[cnt].mRow,
@@ -164,11 +173,11 @@ MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 }
 
 /**
- * í–‰ë ¬ ëº„ì…ˆ
- * @return		í–‰ë ¬ ëº„ì…ˆ ê²°ê³¼
+ * Çà·Ä »¬¼À
+ * @return		Çà·Ä »¬¼À °á°ú
  */
-MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
-										) const
+MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< ÇÇ¿¬»êÀÚ
+									) const
 {
 	chkSameSize(operand);
 
@@ -177,23 +186,23 @@ MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 
 	result.mData.reserve(mData.size());
 
-	for(size_t col=0;col<getCol();++col)
+	for(col_t col=0;col<getCol();++col)
 	{
-		size_t		start	=	mColStart[col];
-		size_t		end		=	mColStart[col+1];
+		row_t		start	=	mColStart[col];
+		row_t		end		=	mColStart[col+1];
 
-		for(size_t cnt=start;cnt<end;++cnt)
+		for(row_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-									mData[cnt].mRow,
-									mData[cnt].mData
-								);
+								mData[cnt].mRow,
+								mData[cnt].mData
+							);
 		}
 
 		start	=	operand.mColStart[col];
 		end		=	operand.mColStart[col+1];
 
-		for(size_t cnt=start;cnt<end;++cnt)
+		for(row_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
 									vec[cnt].mRow,
@@ -206,37 +215,37 @@ MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 }
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
-MatrixCSR		MatrixCSR::multiply	(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
+MatrixCSR		MatrixCSR::multiply	(	const MatrixCSR&	operand	///< ÇÇ¿¬»êÀÚ
 										) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("í–‰ë ¬ í¬ê¸°ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		throw	matrix::ErrMsg::createErrMsg("Çà·Ä Å©±â°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
 	}
 
 	MatrixCSR				result		=	MatrixCSR(getCol(), operand.getRow());
 	const elem_vector_t&	vec			=	operand.mData;
 
-	for(size_t col=0;col<getCol();++col)
+	for(col_t col=0;col<getCol();++col)
 	{
-		size_t		start	=	mColStart[col];
-		size_t		end		=	mColStart[col+1];
+		row_t	start	=	mColStart[col];
+		row_t	end		=	mColStart[col+1];
 
-		for(size_t cnt=start;cnt<end;++cnt)
+		for(row_t cnt=start;cnt<end;++cnt)
 		{
-			size_t		start2	=	operand.mColStart[mData[cnt].mRow];
-			size_t		end2	=	operand.mColStart[mData[cnt].mRow+1];
+			row_t	start2	=	operand.mColStart[mData[cnt].mRow];
+			row_t	end2	=	operand.mColStart[mData[cnt].mRow+1];
 
-			for(size_t cnt2=start2;cnt2<end2;++cnt2)
+			for(row_t cnt2=start2;cnt2<end2;++cnt2)
 			{
 				result.setElem	(	col,
-										vec[cnt2].mRow,
-										result.getElem(col, vec[cnt2].mRow) + (mData[cnt].mData * vec[cnt2].mData)
-									);
+									vec[cnt2].mRow,
+									result.getElem(col, vec[cnt2].mRow) + (mData[cnt].mData * vec[cnt2].mData)
+								);
 			}
 		}
 	}
@@ -246,20 +255,20 @@ MatrixCSR		MatrixCSR::multiply	(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
-MatrixCSR		MatrixCSR::multiply	(	elem_t		operand	///< í”¼ì—°ì‚°ì
+MatrixCSR		MatrixCSR::multiply	(	elem_t		operand	///< ÇÇ¿¬»êÀÚ
 										) const
 {
 	MatrixCSR	result				=	MatrixCSR(getCol(), getRow());
 
-	for(size_t col=0;col<getCol();++col)
+	for(col_t col=0;col<getCol();++col)
 	{
-		size_t		start	=	mColStart[col];
-		size_t		end		=	mColStart[col+1];
+		row_t		start	=	mColStart[col];
+		row_t		end		=	mColStart[col+1];
 
-		for(size_t cnt=start;cnt!=end;++cnt)
+		for(row_t cnt=start;cnt!=end;++cnt)
 		{
 			result.setElem	(	col,
 									mData[cnt].mRow,
@@ -272,32 +281,32 @@ MatrixCSR		MatrixCSR::multiply	(	elem_t		operand	///< í”¼ì—°ì‚°ì
 }
 
 /**
- * ì „ì¹˜ í–‰ë ¬ ë³€í™˜ í›„ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * ÀüÄ¡ Çà·Ä º¯È¯ ÈÄ °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
-MatrixCSR		MatrixCSR::tmultiply		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
+MatrixCSR		MatrixCSR::tmultiply		(	const MatrixCSR&	operand	///< ÇÇ¿¬»êÀÚ
 											) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("í–‰ë ¬ í¬ê¸°ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		throw	matrix::ErrMsg::createErrMsg("Çà·Ä Å©±â°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
 	}
 
 	MatrixCSR				result		=	MatrixCSR(getCol(), operand.getRow());
 	const elem_vector_t&	vec			=	operand.mData;
 
-	for(size_t col=0;col<getCol();++col)
+	for(col_t col=0;col<getCol();++col)
 	{
-		size_t		start	=	mColStart[col];
-		size_t		end		=	mColStart[col+1];
+		row_t		start	=	mColStart[col];
+		row_t		end		=	mColStart[col+1];
 
-		for(size_t cnt=start;cnt!=end;++cnt)
+		for(row_t cnt=start;cnt!=end;++cnt)
 		{
-			size_t		start2	=	operand.mColStart[col];
-			size_t		end2	=	operand.mColStart[col+1];
+			row_t		start2	=	operand.mColStart[col];
+			row_t		end2	=	operand.mColStart[col+1];
 
-			for(size_t cnt2=start2;cnt2!=end2;++cnt2)
+			for(row_t cnt2=start2;cnt2!=end2;++cnt2)
 			{
 				result.setElem	(	mData[cnt].mRow,
 										vec[cnt2].mRow,
@@ -311,10 +320,10 @@ MatrixCSR		MatrixCSR::tmultiply		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 }
 
 /**
- * í–‰ë ¬ ëŒ€ì…
- * @return		ëŒ€ì… í•  í–‰ë ¬
+ * Çà·Ä ´ëÀÔ
+ * @return		´ëÀÔ ÇÒ Çà·Ä
  */
-const MatrixCSR&		MatrixCSR::equal		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
+const MatrixCSR&		MatrixCSR::equal		(	const MatrixCSR&	operand	///< ÇÇ¿¬»êÀÚ
 												)
 {
 	try
@@ -322,7 +331,7 @@ const MatrixCSR&		MatrixCSR::equal		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 		chkSameSize(operand);
 		copyElems(operand);
 	}
-	catch( ErrMsg*	exception	)
+	catch( ErrMsg*	)
 	{
 		freeElems();
 		allocElems(operand.getCol(), operand.getRow());
@@ -333,8 +342,8 @@ const MatrixCSR&		MatrixCSR::equal		(	const MatrixCSR&	operand	///< í”¼ì—°ì‚°ì
 }
 
 /**
- * í–‰ë ¬ ë¹„êµ ì—°ì‚°
- * @return		ë‘ í–‰ë ¬ì´ ì¼ì¹˜í•˜ë©´ true, ë¹„ ì¼ì¹˜í•˜ë©´ false
+ * Çà·Ä ºñ±³ ¿¬»ê
+ * @return		µÎ Çà·ÄÀÌ ÀÏÄ¡ÇÏ¸é true, ºñ ÀÏÄ¡ÇÏ¸é false
  */
 bool			MatrixCSR::compare			(	const MatrixCSR&	operand
 												) const
@@ -343,12 +352,12 @@ bool			MatrixCSR::compare			(	const MatrixCSR&	operand
 
 	if( getSize() == operand.getSize() )
 	{
-		for(size_t col=0;col<getCol();++col)
+		for(col_t col=0;col<getCol();++col)
 		{
-			size_t	start	=	mColStart[col];
-			size_t	end		=	mColStart[col+1];
+			row_t	start	=	mColStart[col];
+			row_t	end		=	mColStart[col+1];
 
-			for(size_t cnt=start;cnt<end;++cnt)
+			for(row_t cnt=start;cnt<end;++cnt)
 			{
 				elem_t	val		=	operand.getElem(col, mData[cnt].mRow);
 				if( mData[cnt].mData != val )
@@ -373,12 +382,12 @@ bool			MatrixCSR::compare			(	const MatrixCSR&	operand
 }
 
 /**
- * í–‰ë ¬ ë°ì´í„° ê³µê°„ í• ë‹¹
- * @exception		ë©”ëª¨ë¦¬ í• ë‹¹ ì‹¤íŒ¨ ì‹œ ì—ëŸ¬ ë°œìƒ
+ * Çà·Ä µ¥ÀÌÅÍ °ø°£ ÇÒ´ç
+ * @exception		¸Ş¸ğ¸® ÇÒ´ç ½ÇÆĞ ½Ã ¿¡·¯ ¹ß»ı
  */
-void		MatrixCSR::allocElems		(	size_t		col,	///< í–‰ í¬ê¸°
-												size_t		row		///< ì—´ í¬ê¸°
-											)
+void		MatrixCSR::allocElems		(	col_t		col,	///< Çà Å©±â
+											row_t		row		///< ¿­ Å©±â
+										)
 {
 	try
 	{
@@ -395,7 +404,7 @@ void		MatrixCSR::allocElems		(	size_t		col,	///< í–‰ í¬ê¸°
 }
 
 /**
- * í–‰ë ¬ ë°ì´í„° ê³µê°„ í• ë‹¹ í•´ì œ
+ * Çà·Ä µ¥ÀÌÅÍ °ø°£ ÇÒ´ç ÇØÁ¦
  */
 void		MatrixCSR::freeElems		(	void	)
 {
@@ -405,9 +414,9 @@ void		MatrixCSR::freeElems		(	void	)
 }
 
 /**
- * í–‰ë ¬ ë°ì´í„° ë³µì‚¬
+ * Çà·Ä µ¥ÀÌÅÍ º¹»ç
  */
-void		MatrixCSR::copyElems		(	const MatrixCSR&		matrix		///< ë³µì‚¬ í•  í–‰ë ¬
+void		MatrixCSR::copyElems		(	const MatrixCSR&		matrix		///< º¹»ç ÇÒ Çà·Ä
 										)
 {
 	memcpy(mColStart, matrix.mColStart, sizeof(col_t) * (mCol + 1));
@@ -416,31 +425,31 @@ void		MatrixCSR::copyElems		(	const MatrixCSR&		matrix		///< ë³µì‚¬ í•  í–‰ë ¬
 
 
 /**
- * ê°™ì€ í¬ê¸°ì˜ í–‰ë ¬ì¸ì§€ ê²€ì‚¬
- * @exception		í–‰ë ¬ì´ ê°™ì€ í¬ê¸°ê°€ ì•„ë‹ ê²½ìš° ì˜ˆì™¸ ë°œìƒ
+ * °°Àº Å©±âÀÇ Çà·ÄÀÎÁö °Ë»ç
+ * @exception		Çà·ÄÀÌ °°Àº Å©±â°¡ ¾Æ´Ò °æ¿ì ¿¹¿Ü ¹ß»ı
  */
-void		MatrixCSR::chkSameSize	(	const MatrixCSR&		matrix		///< ë¹„êµ í•  í–‰ë ¬
+void		MatrixCSR::chkSameSize	(	const MatrixCSR&		matrix		///< ºñ±³ ÇÒ Çà·Ä
 										) const
 {
 	if( ( getCol() != matrix.getCol() ) ||
 		( getRow() != matrix.getRow() ) )
 	{
-		throw matrix::ErrMsg::createErrMsg("í–‰ë ¬ í¬ê¸°ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		throw matrix::ErrMsg::createErrMsg("Çà·Ä Å©±â°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
 	}
 }
 
 /**
- * í–‰ë ¬ ìš”ì†Œ ì°¸ì¡° ë²”ìœ„ ê²€ì‚¬
- * @exception		ì°¸ì¡° ë²”ìœ„ ë°–ì¼ ê²½ìš° ì˜ˆì™¸ ë°œìƒ
+ * Çà·Ä ¿ä¼Ò ÂüÁ¶ ¹üÀ§ °Ë»ç
+ * @exception		ÂüÁ¶ ¹üÀ§ ¹ÛÀÏ °æ¿ì ¿¹¿Ü ¹ß»ı
  */
-void		MatrixCSR::chkBound		(	size_t		col,	///< ì°¸ì¡° í•  í–‰ ìœ„ì¹˜
-											size_t		row		///< ì°¸ì¡° í•  ì—´ ìœ„ì¹˜
-										) const
+void		MatrixCSR::chkBound		(	col_t		col,	///< ÂüÁ¶ ÇÒ Çà À§Ä¡
+										row_t		row		///< ÂüÁ¶ ÇÒ ¿­ À§Ä¡
+									) const
 {
 	if( ( col >= mCol ) ||
 		( row >= mRow ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("ë²”ìœ„ë¥¼ ë„˜ì–´ì„œëŠ” ì°¸ì¡°ì…ë‹ˆë‹¤.");
+		throw	matrix::ErrMsg::createErrMsg("¹üÀ§¸¦ ³Ñ¾î¼­´Â ÂüÁ¶ÀÔ´Ï´Ù.");
 	}
 }
 

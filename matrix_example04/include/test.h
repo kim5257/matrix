@@ -10,7 +10,7 @@
 
 #include <sys/time.h>
 #include <time.h>
-#include <setting.h>
+#include "setting.h"
 
 namespace	test
 {

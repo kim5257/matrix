@@ -15,14 +15,14 @@ namespace matrix
 {
 
 /**
- * í–‰ë ¬ í‘œí˜„ í´ë˜ìŠ¤
+ * Çà·Ä Ç¥Çö Å¬·¡½º
  */
 class	Matrix
 {
 private:
-	size_t		mCol	=	0;			///< í–‰ í¬ê¸°
-	size_t		mRow	=	0;			///< ì—´ í¬ê¸°
-	elem_t*	mData	=	NULL;		///< í–‰ë ¬ ë°ì´í„°
+	size_t		mCol;		///< Çà Å©±â
+	size_t		mRow;		///< ¿­ Å©±â
+	elem_t*		mData;		///< Çà·Ä µ¥ÀÌÅÍ
 public:
 				Matrix			(	void	);
 				Matrix			(	size_t		col,
@@ -68,8 +68,8 @@ private:
 };
 
 /**
- * í–‰ë ¬ ë§ì…ˆ
- * @return		í–‰ë ¬ ë§ì…ˆ ê²°ê³¼
+ * Çà·Ä µ¡¼À
+ * @return		Çà·Ä µ¡¼À °á°ú
  */
 Matrix		Matrix::operator+		(	const Matrix&	operand	) const
 {
@@ -77,8 +77,8 @@ Matrix		Matrix::operator+		(	const Matrix&	operand	) const
 }
 
 /**
- * í–‰ë ¬ ëº„ì…ˆ
- * @return		í–‰ë ¬ ëº„ì…ˆ ê²°ê³¼
+ * Çà·Ä »¬¼À
+ * @return		Çà·Ä »¬¼À °á°ú
  */
 Matrix		Matrix::operator-		(	const Matrix&	operand	) const
 {
@@ -86,8 +86,8 @@ Matrix		Matrix::operator-		(	const Matrix&	operand	) const
 }
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
 Matrix		Matrix::operator*		(	const Matrix&	operand	) const
 {
@@ -95,8 +95,8 @@ Matrix		Matrix::operator*		(	const Matrix&	operand	) const
 }
 
 /**
- * í–‰ë ¬ ê³±ì…ˆ
- * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
+ * Çà·Ä °ö¼À
+ * @return		Çà·Ä °ö¼À °á°ú
  */
 Matrix		Matrix::operator*		(	elem_t		operand		) const
 {
@@ -104,8 +104,8 @@ Matrix		Matrix::operator*		(	elem_t		operand		) const
 }
 
 /**
- * í–‰ë ¬ ëŒ€ì…
- * @return		ëŒ€ì… í•  í–‰ë ¬
+ * Çà·Ä ´ëÀÔ
+ * @return		´ëÀÔ ÇÒ Çà·Ä
  */
 const Matrix&		Matrix::operator=		(	const Matrix&	operand	)
 {
@@ -113,8 +113,8 @@ const Matrix&		Matrix::operator=		(	const Matrix&	operand	)
 }
 
 /**
- * í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•œì§€ ê²€ì‚¬
- * @return		í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•˜ë©´ true, ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ false
+ * Çà·Ä °´Ã¼°¡ À¯È¿ÇÑÁö °Ë»ç
+ * @return		Çà·Ä °´Ã¼°¡ À¯È¿ÇÏ¸é true, À¯È¿ÇÏÁö ¾ÊÀ¸¸é false
  */
 bool	Matrix::isValid		(	void	)
 {
@@ -130,8 +130,8 @@ bool	Matrix::isValid		(	void	)
 }
 
 /**
- * í–‰ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
- * @return		í–‰ í¬ê¸°
+ * Çà Å©±â °¡Á®¿À±â
+ * @return		Çà Å©±â
  */
 size_t	Matrix::getCol			(	void	) const
 {
@@ -139,8 +139,8 @@ size_t	Matrix::getCol			(	void	) const
 }
 
 /**
- * ì—´ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
- * @return		ì—´ í¬ê¸°
+ * ¿­ Å©±â °¡Á®¿À±â
+ * @return		¿­ Å©±â
  */
 size_t	Matrix::getRow			(	void	) const
 {

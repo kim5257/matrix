@@ -15,19 +15,19 @@
 namespace	matrix
 {
 
-#define	MAX_ERR_STRING_LEN	(255)		///< 최대 문자열 길이
+#define	MAX_ERR_STRING_LEN	(255)		///< �ִ� ���ڿ� ����
 
 
 /**
- * 에러메시지 전달 클래스
+ * �����޽��� ��� Ŭ����
  */
 class	ErrMsg
 {
 private:
-	char*		mErrString		=	NULL;		///< 에러 문자열
+	char*		mErrString;		///< ���� ���ڿ�
 private:
-	inline				ErrMsg		(	void	);
-	inline virtual	~ErrMsg	(	void	);
+	inline			ErrMsg		(	void	);
+	inline virtual	~ErrMsg		(	void	);
 private:
 	inline bool		setErrString		(	const char		string[]	);
 	inline void		delErrString		(	void	);
@@ -39,15 +39,16 @@ public:
 };
 
 /**
- * 생성자
+ * ����
  */
 ErrMsg::ErrMsg	(	void	)
+:mErrString(NULL)
 {
 
 }
 
 /**
- * 소멸자
+ * �Ҹ���
  */
 ErrMsg::~ErrMsg	(	void	)
 {
@@ -55,17 +56,17 @@ ErrMsg::~ErrMsg	(	void	)
 }
 
 /**
- * 에러 메시지 문자열 할당 및 메시지 설정
- * @return		에러 메시지 문자열 할당 및 설정에 성공하면 true, 할당에 실패하면 false
+ * ���� �޽��� ���ڿ� �Ҵ� �� �޽��� ����
+ * @return		���� �޽��� ���ڿ� �Ҵ� �� ������ �����ϸ� true, �Ҵ翡 �����ϸ� false
  */
-bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
+bool		ErrMsg::setErrString		(	const char		string[]	///< ���� �޽���
 										)
 {
 	bool	ret	=	false;
 
 	do
 	{
-		int		length		=	strnlen(string, MAX_ERR_STRING_LEN);
+		size_t	length		=	strnlen(string, MAX_ERR_STRING_LEN);
 		if( length == 0 )
 		{
 			break;
@@ -90,7 +91,7 @@ bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 }
 
 /**
- * 에러 메시지 문자열 할당 해제
+ * ���� �޽��� ���ڿ� �Ҵ� ����
  */
 void		ErrMsg::delErrString		(	void	)
 {
@@ -98,8 +99,8 @@ void		ErrMsg::delErrString		(	void	)
 }
 
 /**
- * 에러 메시지 가져오기
- * @return		저장 된 에러메시지
+ * ���� �޽��� ��������
+ * @return		���� �� �����޽���
  */
 const char*	ErrMsg::getErrString		(	void	)
 {
@@ -107,10 +108,10 @@ const char*	ErrMsg::getErrString		(	void	)
 }
 
 /**
- * 에러 메시지 전달 객체 생성
- * @return		생성한 에러 메시지 전달 객체
+ * ���� �޽��� ��� ��ü ��
+ * @return		���� ���� �޽��� ��� ��ü
  */
-ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	///< 에러 메시지
+ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	///< ���� �޽���
 										)
 {
 	ErrMsg*	errMsg	=	NULL;
@@ -126,9 +127,9 @@ ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	///< 에러 메시지
 }
 
 /**
- * 에러 메시지 전달 객체 제거
+ * ���� �޽��� ��� ��ü ����
  */
-void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			///< 에러 메시지 전달 객체
+void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			///< ���� �޽��� ��� ��ü
 										)
 {
 	delete	errMsg;
