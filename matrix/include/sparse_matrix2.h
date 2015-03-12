@@ -15,40 +15,40 @@ namespace	matrix
 {
 
 /**
- * 占쏙옙占�占쏙옙占�표占쏙옙 클占쏙옙占쏙옙
- */
+* 희소 행렬 표현 클래스 (Array + Map)
+*/
 class	SparseMatrix2
 {
 public:
 	enum	FuncKind
 	{
-		FUNC_ADD,
-		FUNC_SUB,
-		FUNC_MULTIPLY,
-		FUNC_ELEM_MUL,
-		FUNC_PMULTIPLY,
-		FUNC_COPY,
-		FUNC_COMPARE,
+		FUNC_ADD,			///< 덧셈
+		FUNC_SUB, 			///< 뺄셈
+		FUNC_MULTIPLY,	///< 곱셈
+		FUNC_ELEM_MUL,	///< 행렬 x 단일 값
+		FUNC_PMULTIPLY,	///< 전치 행렬 곱셈
+		FUNC_COPY,			///< 행렬 복사
+		FUNC_COMPARE,		///< 행렬 비교
 	};
 	struct		OpInfo
 	{
-		const SparseMatrix2*	operandA;
-		const SparseMatrix2*	operandB;
-		elem_t					elemOperandB;
+		const SparseMatrix2*		operandA;
+		const SparseMatrix2*		operandB;
+		elem_t						elemOperandB;
 		SparseMatrix2*			result;
 		THREAD_RETURN_TYPE		retVal;
 	};
 private:
-	col_t			mCol;		///< 占쏙옙 크占쏙옙
-	row_t			mRow;		///< 占쏙옙 크占쏙옙
-	map_data_t*		mData;		///< 占쏙옙占�占쏙옙占쏙옙占쏙옙
+	col_t				mCol;		///< 행 크기
+	row_t				mRow;		///< 열 크기
+	map_data_t*		mData;		///< 행렬 데이터
 public:
 				SparseMatrix2			(	void	);
 				SparseMatrix2			(	col_t		col,
 											row_t		row
 										);
 				SparseMatrix2			(	const SparseMatrix2&		matrix		);
-	virtual	~SparseMatrix2			(	void	);
+	virtual	~SparseMatrix2		(	void	);
 public:
 	elem_t		getElem		(	col_t		col,
 									row_t		row
@@ -113,63 +113,69 @@ private:
 };
 
 /**
- * 占쏙옙占�占쏙옙占쏙옙
- * @return		占쏙옙占�占쏙옙占쏙옙 占쏙옙占� */
-SparseMatrix2		SparseMatrix2::operator+		(	const SparseMatrix2&	operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 덧셈
+* @return 행렬 덧셈 결과
+*/
+SparseMatrix2		SparseMatrix2::operator+		(	const SparseMatrix2&	operand	///< 피연산자
 													) const
 {
-	return	add(operand);
+	return	padd(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙占쏙옙
- * @return		占쏙옙占�占쏙옙占쏙옙 占쏙옙占� */
-SparseMatrix2		SparseMatrix2::operator-		(	const SparseMatrix2&	operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 뺄셈
+* @return 행렬 뺄셈 결과
+*/
+SparseMatrix2		SparseMatrix2::operator-		(	const SparseMatrix2&	operand	///< 피연산자
 													) const
 {
-	return	sub(operand);
+	return	psub(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙占쏙옙
- * @return		占쏙옙占�占쏙옙占쏙옙 占쏙옙占� */
-SparseMatrix2		SparseMatrix2::operator*		(	const SparseMatrix2&	operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix2		SparseMatrix2::operator*		(	const SparseMatrix2&	operand	///< 피연산자
 													) const
 {
 	return	pmultiply(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙占쏙옙
- * @return		占쏙옙占�占쏙옙占쏙옙 占쏙옙占� */
-SparseMatrix2		SparseMatrix2::operator*		(	elem_t		operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix2		SparseMatrix2::operator*		(	elem_t		operand	///< 피연산자
 													) const
 {
-	return	multiply(operand);
+	return	pmultiply(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙占쏙옙
- * @return		占쏙옙占쏙옙 占쏙옙 占쏙옙占� */
-const SparseMatrix2&		SparseMatrix2::operator=		(	const SparseMatrix2&	operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 대입
+* @return 대입 할 행렬
+*/
+const SparseMatrix2&		SparseMatrix2::operator=		(	const SparseMatrix2&	operand	///< 피연산자
 															)
 {
-	return	equal(operand);
+	return	pequal(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙
- * @return		占쏙옙 占쏙옙占� */
-bool	SparseMatrix2::operator==		(	const SparseMatrix2&	operand	///< 占실울옙占쏙옙占쏙옙
+* 행렬 비교
+* @return 비교 결과
+*/
+bool	SparseMatrix2::operator==	(	const SparseMatrix2&	operand	///< 피연산자
 										) const
 {
-	return	compare(operand);
+	return	pcompare(operand);
 }
 
 /**
- * 占쏙옙占�占쏙옙체占쏙옙 占쏙옙효占쏙옙占쏙옙 占싯삼옙
- * @return		占쏙옙占�占쏙옙체占쏙옙 占쏙옙효占싹몌옙 true, 占쏙옙효占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 false
- */
+* 행렬 객체가 유효한지 검사
+* @return 행렬 객체가 유효하면 true, 유효하지 않으면 false
+*/
 bool	SparseMatrix2::isValid		(	void	)
 {
 	bool	ret		=	false;
@@ -184,27 +190,27 @@ bool	SparseMatrix2::isValid		(	void	)
 }
 
 /**
- * 占쏙옙 크占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙
- * @return		占쏙옙 크占쏙옙
- */
-col_t	SparseMatrix2::getCol			(	void	) const
+* 행 크기 가져오기
+* @return 행 크기
+*/
+col_t	SparseMatrix2::getCol		(	void	) const
 {
 	return	mCol;
 }
 
 /**
- * 占쏙옙 크占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙
- * @return		占쏙옙 크占쏙옙
- */
-row_t	SparseMatrix2::getRow			(	void	) const
+* 열 크기 가져오기
+* @return 열 크기
+*/
+row_t	SparseMatrix2::getRow		(	void	) const
 {
 	return	mRow;
 }
 
 /**
- * 占쏙옙占�占쏙옙占�占쏙옙占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙
- * @return		占쏙옙占�占쏙옙占쏙옙占쏙옙 크占쏙옙
- */
+* 행렬 요소 데이터 수 가져오기
+* @return 요소 데이터 크기
+*/
 size_t	SparseMatrix2::getSize		(	void	) const
 {
 	size_t		sum		=	0;

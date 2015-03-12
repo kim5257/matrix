@@ -26,9 +26,9 @@ struct		FuncInfo
 };
 
 /**
- * ����
+ * 생성자
  */
-SparseMatrix::SparseMatrix			(	void	)
+SparseMatrix::SparseMatrix		(	void	)
 :mCol(0),
 mRow(0),
 mData(NULL)
@@ -36,10 +36,10 @@ mData(NULL)
 }
 
 /**
- * ����
+ * 소멸자
  */
-SparseMatrix::SparseMatrix			(	col_t		col,	///< �� ũ��
-										row_t		row		///< �� ũ��
+SparseMatrix::SparseMatrix		(	col_t		col,	///< 행
+										row_t		row		///< 열
 									)
 :mCol(0),
 mRow(0),
@@ -49,9 +49,9 @@ mData(NULL)
 }
 
 /**
- * ���� ����
+ * 생성자
  */
-SparseMatrix::SparseMatrix			(	const SparseMatrix&		matrix		///< ���� �� ��ü
+SparseMatrix::SparseMatrix		(	const SparseMatrix&		matrix		///< 행렬
 									)
 :mCol(0),
 mRow(0),
@@ -62,7 +62,7 @@ mData(NULL)
 }
 
 /**
- * �Ҹ���
+ * 소멸자
  */
 SparseMatrix::~SparseMatrix			(	void	)
 {
@@ -589,8 +589,8 @@ bool			SparseMatrix::pcompare		(	const SparseMatrix&	operand
 }
 
 /**
- * ��� ������ �� ���
- * @return		�� ��� ���
+ * 행렬 방정식 해 구하기
+ * @return		해 행렬 리턴
  */
 SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< �ǿ�����
 													)
@@ -603,7 +603,7 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< �ǿ�
 	elem_t		min			=	1000;
 	bool		foundFlag	=	false;
 
-	for(size_t cnt=0;cnt<3;cnt++)
+	for(size_t cnt=0;cnt<32;cnt++)
 	{
 		SparseMatrix	ap		=	(*this) * p;
 		elem_t			alpha	=	rSold.getElem(0,0) / (p.ptmultiply(ap)).getElem(0,0);
@@ -621,7 +621,7 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< �ǿ�
 			result	=	x;
 		}
 
-		if( sqrtVal < 0.001 )
+		if( sqrtVal < 0.00001 )
 		{
 			foundFlag	=	true;
 			break;
@@ -732,7 +732,7 @@ void		SparseMatrix::chkBound		(	col_t		col,	///< ���� �� �� ��
 	if( ( col >= mCol ) ||
 		( row >= mRow ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("������ �Ѿ�� �����Դϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("범위를 넘어서는 참조입니다.");
 	}
 }
 

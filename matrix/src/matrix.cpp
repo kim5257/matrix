@@ -343,7 +343,7 @@ void		Matrix::chkBound			(	size_t		col,	///< ���� �� �� ��ġ
 	if( ( col >= mCol ) ||
 		( row >= mRow ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("������ �Ѿ�� �����Դϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("범위를 넘어서는 참조입니다.");
 	}
 }
 

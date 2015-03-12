@@ -11,6 +11,7 @@
 #include <matrix_settings.h>
 #include <sys/time.h>
 #include <time.h>
+#include "setting.h"
 
 namespace	test
 {

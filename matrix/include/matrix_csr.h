@@ -15,8 +15,8 @@ namespace	matrix
 {
 
 /**
- * Èñ¼Ò Çà·Ä Ç¥Çö Å¬·¡½º
- */
+* Èñ¼Ò Çà·Ä Ç¥Çö Å¬·¡½º (CSR)
+*/
 class	MatrixCSR
 {
 public:
@@ -24,9 +24,9 @@ public:
 	{
 		FUNC_ADD,			///< µ¡¼À
 		FUNC_SUB,			///< »¬¼À
-		FUNC_MULTIPLY,		///< °ö¼À
-		FUNC_ELEM_MUL,		///< Çà·Ä x ´ÜÀÏ °ª
-		FUNC_PMULTIPLY,		///< ÀüÄ¡ Çà·Ä °ö¼À
+		FUNC_MULTIPLY,	///< °ö¼À
+		FUNC_ELEM_MUL,	///< Çà·Ä x ´ÜÀÏ °ª
+		FUNC_PMULTIPLY,	///< ÀüÄ¡ Çà·Ä °ö¼À
 		FUNC_COPY,			///< Çà·Ä º¹»ç
 		FUNC_COMPARE,		///< Çà·Ä ºñ±³
 	};
@@ -65,7 +65,7 @@ public:
 	MatrixCSR	multiply	(	elem_t		operand	) const;
 	MatrixCSR	tmultiply	(	const MatrixCSR&	operand	) const;
 	const MatrixCSR&		equal		(	const MatrixCSR&	operand	);
-	bool			compare	(	const MatrixCSR&	operand	) const;
+	bool		compare	(	const MatrixCSR&	operand	) const;
 	MatrixCSR	solution	(	const MatrixCSR&	operand	);
 public:
 	inline MatrixCSR		operator+		(	const MatrixCSR&	operand	) const;
