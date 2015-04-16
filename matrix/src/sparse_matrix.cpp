@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define	THREAD_FUNC_THRESHOLD	(1)
-#define	THREAD_NUM				(8)
+#define	THREAD_NUM					(8)
 
 namespace matrix
 {
@@ -70,12 +70,12 @@ SparseMatrix::~SparseMatrix			(	void	)
 }
 
 /**
- * ��� ��� �� ����
- * @return		������ ��� ��� ��
- */
-elem_t		SparseMatrix::getElem		(	col_t		col,	///< ���� �� �� ��ġ
-											row_t		row		///< ���� �� �� ��ġ
-										) const
+* 행렬 요소 값 참조
+* @return 참조한 행렬 요소 값
+*/
+elem_t		SparseMatrix::getElem		(	col_t		col,	///< 참조 할 행 위치
+												row_t		row		///< 참조 할 열 위치
+											) const
 {
 	chkBound(col, row);
 
@@ -83,11 +83,11 @@ elem_t		SparseMatrix::getElem		(	col_t		col,	///< ���� �� �� �
 }
 
 /**
- * ��� ��� �� ����
- */
-void		SparseMatrix::setElem		(	col_t		col,	///< ���� �� �� ��ġ
-												row_t		row,	///< ���� �� �� ��ġ
-												elem_t		elem	///< ���� �� ��� ��
+* 행렬 요소 값 설정
+*/
+void		SparseMatrix::setElem		(	col_t		col,	///< 설정 할 행 위치
+												row_t		row,	///< 설정 할 열 위치
+												elem_t		elem	///< 설정 할 요소 값
 											)
 {
 	chkBound(col, row);
@@ -96,10 +96,30 @@ void		SparseMatrix::setElem		(	col_t		col,	///< ���� �� �� ��
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	///< �ǿ�����
+* 행렬 전체 값을 0으로 설정
+*/
+void		SparseMatrix::clear			(	void	)
+{
+	for(col_t col=0;col<getCol();++col)
+	{
+		clear(col);
+	}
+}
+
+/**
+* 행렬 한 행 값을 0으로 설정
+*/
+void		SparseMatrix::clear			(	col_t		col		///< 설정 할 행 위치
+											)
+{
+	mData[col].mVector.clear();
+}
+
+/**
+* 행렬 덧셈
+* @return 행렬 덧셈 결과
+*/
+SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
@@ -125,10 +145,10 @@ SparseMatrix	SparseMatrix::add		(	const SparseMatrix&	operand	///< �ǿ���
 }
 
 /**
- * ������ ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< �ǿ�����
+* 쓰레드 행렬 덧셈
+* @return 행렬 덧셈 결과
+*/
+SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
@@ -167,10 +187,10 @@ SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< �ǿ���
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	///< �ǿ�����
+* 행렬 뺄셈
+* @return 행렬 뺄셈 결과
+*/
+SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
@@ -196,10 +216,10 @@ SparseMatrix	SparseMatrix::sub		(	const SparseMatrix&	operand	///< �ǿ���
 }
 
 /**
- * ������ ��� ���� ���
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::psub	(	const SparseMatrix&	operand	///< �ǿ�����
+* 행렬 뺄셈
+* @return 행렬 뺄셈 결과
+*/
+SparseMatrix	SparseMatrix::psub	(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
 	chkSameSize(operand);
@@ -238,16 +258,16 @@ SparseMatrix	SparseMatrix::psub	(	const SparseMatrix&	operand	///< �ǿ���
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	///< �ǿ�����
+* 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	///< 피연산자
 											) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 
 	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getRow());
@@ -274,16 +294,16 @@ SparseMatrix	SparseMatrix::multiply	(	const SparseMatrix&	operand	///< �ǿ��
 }
 
 /**
- * ������ ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::pmultiply	(	const SparseMatrix&	operand
+* 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::pmultiply	(	const SparseMatrix&	operand	///< 피연산자
 											) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 
 	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getRow());
@@ -323,10 +343,10 @@ SparseMatrix	SparseMatrix::pmultiply	(	const SparseMatrix&	operand
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	///< �ǿ�����
+* 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	///< 피연산자
 											) const
 {
 	SparseMatrix	result	=	SparseMatrix(getCol(), getRow());
@@ -348,10 +368,10 @@ SparseMatrix	SparseMatrix::multiply	(	elem_t		operand	///< �ǿ�����
 }
 
 /**
- * ������ ��� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::pmultiply	(	elem_t		operand	///< �ǿ�����
+* 쓰레드 행렬 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::pmultiply	(	elem_t		operand	///< 피연산자
 											) const
 {
 	SparseMatrix	result	=	SparseMatrix(getCol(), getRow());
@@ -386,16 +406,16 @@ SparseMatrix	SparseMatrix::pmultiply	(	elem_t		operand	///< �ǿ�����
 }
 
 /**
- * ��ġ ��� ��ȯ �� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< �ǿ�����
+* 전치 행렬 변환 후 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< 피연산자
 											) const
 {
 	if( ( getCol() != operand.getCol() ) &&
 		( getRow() != operand.getRow() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 
 	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getRow());
@@ -422,16 +442,16 @@ SparseMatrix	SparseMatrix::tmultiply	(	const SparseMatrix&	operand	///< �ǿ�
 }
 
 /**
- * ������ ��ġ ��� ��ȯ �� ����
- * @return		��� ���� ���
- */
-SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< �ǿ�����
+* 쓰레드 전치 행렬 변환 후 곱셈
+* @return 행렬 곱셈 결과
+*/
+SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< 피연산자
 												) const
 {
 	if( ( getCol() != operand.getCol() ) &&
 		( getRow() != operand.getRow() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 
 	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getRow());
@@ -471,10 +491,10 @@ SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< �ǿ�
 }
 
 /**
- * ��� ����
- * @return		���� �� ���
- */
-const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	///< �ǿ�����
+* 행렬 대입
+* @return 대입 할 행렬
+*/
+const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	///< 피연산자
 															)
 {
 	try
@@ -493,10 +513,10 @@ const SparseMatrix&		SparseMatrix::equal			(	const SparseMatrix&	operand	///< �
 }
 
 /**
- * ������ ��� ����
- * @return		���� �� ���
- */
-const SparseMatrix&		SparseMatrix::pequal			(	const SparseMatrix&	operand	///< �ǿ�����
+* 쓰레드 행렬 대입
+* @return 대입 할 행렬
+*/
+const SparseMatrix&		SparseMatrix::pequal			(	const SparseMatrix&	operand	///< 피연산자
 															)
 {
 	try
@@ -515,10 +535,10 @@ const SparseMatrix&		SparseMatrix::pequal			(	const SparseMatrix&	operand	///< �
 }
 
 /**
- * ��� �� ����
- * @return		�� ����� ��ġ�ϸ� true, �� ��ġ�ϸ� false
- */
-bool			SparseMatrix::compare		(	const SparseMatrix&	operand
+* 행렬 비교 연산
+* @return 두 행렬이 일치하면 true, 비 일치하면 false
+*/
+bool			SparseMatrix::compare		(	const SparseMatrix&	operand	///< 피연산자
 												) const
 {
 	bool	ret		=	true;
@@ -554,10 +574,10 @@ bool			SparseMatrix::compare		(	const SparseMatrix&	operand
 }
 
 /**
- * ������ ��� �� ����
- * @return		�� ����� ��ġ�ϸ� true, �� ��ġ�ϸ� false
- */
-bool			SparseMatrix::pcompare		(	const SparseMatrix&	operand
+* 쓰레드 행렬 비교 연산
+* @return 두 행렬이 일치하면 true, 비 일치하면 false
+*/
+bool			SparseMatrix::pcompare		(	const SparseMatrix&	operand	///< 피연산자
 												) const
 {
 	bool	ret		=	true;
@@ -592,7 +612,7 @@ bool			SparseMatrix::pcompare		(	const SparseMatrix&	operand
  * 행렬 방정식 해 구하기
  * @return		해 행렬 리턴
  */
-SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< �ǿ�����
+SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< 피연산자
 													)
 {
 	SparseMatrix		x			=	SparseMatrix(this->getRow(), operand.getRow());
@@ -640,11 +660,11 @@ SparseMatrix		SparseMatrix::solution		(	const SparseMatrix&	operand	///< �ǿ�
 }
 
 /**
- * ��� ������ �� �Ҵ�
- * @exception		�޸� �Ҵ� ���� �� ���� �߻�
- */
-void		SparseMatrix::allocElems		(	col_t		col,	///< �� ũ��
-												row_t		row		///< �� ũ��
+* 행렬 데이터 공간 할당
+* @exception 메모리 할당 실패 시 에러 발생
+*/
+void		SparseMatrix::allocElems		(	col_t		col,	///< 행 크기
+												row_t		row		///< 열 크기
 											)
 {
 	try
@@ -661,8 +681,8 @@ void		SparseMatrix::allocElems		(	col_t		col,	///< �� ũ��
 }
 
 /**
- * ��� ������ �� �Ҵ� ����
- */
+* 행렬 데이터 공간 할당 해제
+*/
 void		SparseMatrix::freeElems		(	void	)
 {
 	delete[]	mData;
@@ -671,9 +691,9 @@ void		SparseMatrix::freeElems		(	void	)
 }
 
 /**
- * ��� ������ ����
- */
-void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		///< ���� �� ���
+* 행렬 데이터 복사
+*/
+void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		///< 복사 할 행렬
 											)
 {
 	for(size_t col=0;col<getCol();++col)
@@ -683,9 +703,9 @@ void		SparseMatrix::copyElems		(	const SparseMatrix&		matrix		///< ���� 
 }
 
 /**
- * ������ ��� ������ ����
- */
-void		SparseMatrix::pcopyElems		(	const SparseMatrix&		matrix		///< ���� �� ���
+* 쓰레드 행렬 데이터 복사
+*/
+void		SparseMatrix::pcopyElems		(	const SparseMatrix&		matrix		///< 복사 할 행렬
 											)
 {
 	if( getCol() < THREAD_FUNC_THRESHOLD )
@@ -708,26 +728,26 @@ void		SparseMatrix::pcopyElems		(	const SparseMatrix&		matrix		///< ����
 }
 
 /**
- * ���� ũ���� ������� �˻�
- * @exception		����� ���� ũ�Ⱑ �ƴ� ��� ���� �߻�
- */
-void		SparseMatrix::chkSameSize	(	const SparseMatrix&		matrix		///< �� �� ���
+* 같은 크기의 행렬인지 검사
+* @exception 행렬이 같은 크기가 아닐 경우 예외 발생
+*/
+void		SparseMatrix::chkSameSize	(	const SparseMatrix&		matrix		///< 비교 할 행렬
 										) const
 {
 	if( ( getCol() != matrix.getCol() ) ||
 		( getRow() != matrix.getRow() ) )
 	{
-		throw matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 }
 
 /**
- * ��� ��� ���� ���� �˻�
- * @exception		���� ���� ���� ��� ���� �߻�
- */
-void		SparseMatrix::chkBound		(	col_t		col,	///< ���� �� �� ��ġ
-											row_t		row		///< ���� �� �� ��ġ
-										) const
+* 행렬 요소 참조 범위 검사
+* @exception 참조 범위 밖일 경우 예외 발생
+*/
+void		SparseMatrix::chkBound		(	col_t		col,	///< 참조 할 행 위치
+												row_t		row		///< 참조 할 열 위치
+											) const
 {
 	if( ( col >= mCol ) ||
 		( row >= mRow ) )
@@ -737,11 +757,11 @@ void		SparseMatrix::chkBound		(	col_t		col,	///< ���� �� �� ��
 }
 
 /**
- * ������ ���� ����
- */
-void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< ���� ����
-											OpInfo&		info	///< ���� ���� ������
-										) const
+* 쓰레드 연산 시작
+*/
+void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< 연산 종류
+												OpInfo&	info	///< 연산 참조 데이터
+											) const
 {
 	FuncInfo		orgFuncInfo	=	{info, NULL, 0, 0};
 	FuncInfo		funcInfo[THREAD_NUM];
@@ -868,11 +888,11 @@ void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< ���� ����
 }
 
 /**
- * ������ ���� ����
- */
-void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< ���� ����
-											OpInfo&		info	///< ���� ���� ������
-										)
+* 쓰레드 연산 시작
+*/
+void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< 연산 종류
+												OpInfo&	info	///< 연산 참조 데이터
+											)
 {
 	FuncInfo		orgFuncInfo	=	{info, NULL, 0, 0};
 	FuncInfo		funcInfo[THREAD_NUM];
@@ -959,9 +979,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadFunc			(	void*	pData	)
 }
 
 /**
- * ������ ������ �࿡ ���� ��� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행에 대한 행렬 덧셈
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadAdd			(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1002,9 +1022,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadAdd			(	void*	pData	)
 					}
 					else
 					{
-						// ���� ���� 0�̶�� vector���� ����
-						// ���� �Ŀ� itor ���� vector�� ���� ������ �������� �ʴ� ����
-						// ���� break�� �ݺ������� ���������Ƿ� ���ʿ��� �����̴�.
+						// 설정 값이 0이라면 vector에서 삭제
+						// 삭제 후에 itor 값을 vector의 다음 값으로 변경하지 않는 것은
+						// 직후 break로 반복문으로 빠져나가므로 불필요한 동작이다.
 						vec2.erase(itor2);
 					}
 
@@ -1024,9 +1044,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadAdd			(	void*	pData	)
 }
 
 /**
- * ������ ������ �࿡ ���� ��� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행에 대한 행렬 뺄셈
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadSub			(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1067,9 +1087,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadSub			(	void*	pData	)
 					}
 					else
 					{
-						// ���� ���� 0�̶�� vector���� ����
-						// ���� �Ŀ� itor ���� vector�� ���� ������ �������� �ʴ� ����
-						// ���� break�� �ݺ������� ���������Ƿ� ���ʿ��� �����̴�.
+						// 설정 값이 0이라면 vector에서 삭제
+						// 삭제 후에 itor 값을 vector의 다음 값으로 변경하지 않는 것은
+						// 직후 break로 반복문으로 빠져나가므로 불필요한 동작이다.
 						vec2.erase(itor2);
 					}
 
@@ -1089,9 +1109,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadSub			(	void*	pData	)
 }
 
 /**
- * ������ ������ �࿡ ���� ��� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행에 대한 행렬 곱셈
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadMultiply	(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1123,7 +1143,7 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadMultiply	(	void*	pData	)
 				}
 				else
 				{
-					printf("�����Ͱ� 0\n");
+					printf("데이터가 0\n");
 					SparseMatrix::delElem_(nodeRet, col, itor2->mRow);
 				}
 			}
@@ -1134,9 +1154,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadMultiply	(	void*	pData	)
 }
 
 /**
- * ������ ������ �࿡ ���� ��� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행에 대한 행렬 곱셈
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadElemMul		(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1164,7 +1184,7 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadElemMul		(	void*	pData	)
 			}
 			else
 			{
-				printf("�����Ͱ� 0\n");
+				printf("데이터가 0\n");
 				SparseMatrix::delElem_(nodeRet, col, itor->mRow);
 			}
 		}
@@ -1174,9 +1194,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadElemMul		(	void*	pData	)
 }
 
 /**
- * ������ ������ �࿡ ���� ��ġ��� ��ȯ �� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행에 대한 전치행렬 변환 후 곱셈
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadTmultiply	(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1202,8 +1222,8 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadTmultiply	(	void*	pData	
 
 			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 			{
-				// ��ġ ��� ������ �и� �� �� �����帶��
-				// nodeRet�� ���� ���� ���� �� �� �־� lock�� ����Ͽ� ���� ����
+				// 전치 행렬 곱셈은 분리 된 각 스레드마다
+				// nodeRet의 같은 행을 참조 할 수 있어 lock을 사용하여 접근 제어
 				LOCK(&nodeRet[itor->mRow].mLock);
 				elem_t		val		=	getElem_(nodeRet, itor->mRow, itor2->mRow);
 
@@ -1221,9 +1241,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadTmultiply	(	void*	pData	
 }
 
 /**
- * ������ ������ ���� ����
- * return		�׻� NULL�� ����
- */
+* 지정한 범위의 행을 복사
+* return 항상 NULL을 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadCopy			(	void*	pData	)
 {
 	FuncInfo*		info		=	(FuncInfo*)pData;
@@ -1246,9 +1266,9 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadCopy			(	void*	pData	)
 }
 
 /**
- * ������ ���� �� �࿡ ���ؼ� �� ����
- * return		�� ��� void* ������ ��ȯ�Ͽ� ����
- */
+* 지정한 범위 내 행에 대해서 비교 연산
+* return 비교 결과를 void* 형으로 변환하여 리턴
+*/
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadCompare		(	void*	pData	)
 {
 	bool			flag		=	true;
@@ -1285,12 +1305,12 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadCompare		(	void*	pData	)
 }
 
 /**
- * ��� ������ ����
- */
-void		SparseMatrix::delElem_		(	vector_data_t*	data,	///< vector ��ü �迭
-											col_t			col,	///< ���� �� ������ ��
-											row_t			row		///< ���� �� ������ ��
-										)
+* 행렬 데이터 제거
+*/
+void		SparseMatrix::delElem_		(	vector_data_t*	data,	///< vector 객체 배열
+												col_t				col,	///< 제거 할 데이터 행
+												row_t				row		///< 제거 할 데이터 열
+											)
 {
 	elem_vector_t&	vec		=	data[col].mVector;
 
@@ -1305,12 +1325,12 @@ void		SparseMatrix::delElem_		(	vector_data_t*	data,	///< vector ��ü �迭
 }
 
 /**
- * ��� ������ ����
- */
-elem_t		SparseMatrix::getElem_		(	vector_data_t*	data,	///< vector ��ü �迭
-											col_t			col,	///< ���� �� ������ ��
-											row_t			row		///< ���� �� ������ ��
-										)
+* 행렬 데이터 참조
+*/
+elem_t		SparseMatrix::getElem_		(	vector_data_t*	data,	///< vector 객체 배열
+												col_t				col,	///< 참조 할 데이터 행
+												row_t				row		///< 참조 할 데이터 열
+											)
 {
 	elem_t				value	=	0;
 	elem_vector_t&	vec		=	data[col].mVector;
@@ -1331,13 +1351,13 @@ elem_t		SparseMatrix::getElem_		(	vector_data_t*	data,	///< vector ��ü ��
 }
 
 /**
- * ��� ������ ����
- */
-void		SparseMatrix::setElem_		(	vector_data_t*	data,	///< vector ��ü �迭
-											col_t			col,	///< �߰� �� ������ ��
-											row_t			row,	///< �߰� �� ������ ��
-											elem_t			elem
-										)
+* 행렬 데이터 설정
+*/
+void		SparseMatrix::setElem_		(	vector_data_t*	data,	///< vector 객체 배열
+												col_t				col,	///< 추가 할 데이터 행
+												row_t				row,	///< 추가 할 데이터 열
+												elem_t				elem	///< 추가 할 데이터
+											)
 {
 	bool			found	=	false;
 	elem_vector_t&	vec		=	data[col].mVector;
@@ -1352,9 +1372,9 @@ void		SparseMatrix::setElem_		(	vector_data_t*	data,	///< vector ��ü �迭
 			}
 			else
 			{
-				// ���� ���� 0�̶�� vector���� ����
-				// ���� �Ŀ� itor ���� vector�� ���� ������ �������� �ʴ� ����
-				// ���� break�� �ݺ������� ���������Ƿ� ���ʿ��� �����̴�.
+				// 설정 값이 0이라면 vector에서 삭제
+				// 삭제 후에 itor 값을 vector의 다음 값으로 변경하지 않는 것은
+				// 직후 break로 반복문으로 빠져나가므로 불필요한 동작이다.
 				vec.erase(itor);
 			}
 

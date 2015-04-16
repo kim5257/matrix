@@ -57,6 +57,8 @@ public:
 									row_t		row,
 									elem_t		elem
 								);
+	void		clear			(	void	);
+	void		clear			(	col_t		col		);
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
