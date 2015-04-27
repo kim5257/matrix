@@ -14,9 +14,9 @@ int		main	(	void	)
 {
 	try
 	{
-		matrix::MatrixCSR	matrixA	=	matrix::MatrixCSR(4,4);
-		matrix::MatrixCSR	matrixB	=	matrix::MatrixCSR(4,4);
-		matrix::MatrixCSR	matrixC;
+		matrix::SparseMatrix	matrixA	=	matrix::SparseMatrix(4,4);
+		matrix::SparseMatrix	matrixB	=	matrix::SparseMatrix(4,4);
+		matrix::SparseMatrix	matrixC;
 
 		// A 행렬 데이터 넣기
 		matrixA.setElem(0,0,1);

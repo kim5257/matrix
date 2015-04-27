@@ -15,20 +15,20 @@ namespace	matrix
 {
 
 /**
-* »Òº“ «‡∑ƒ «•«ˆ ≈¨∑°Ω∫ (CSR)
+* Ìù¨ÏÜå ÌñâÎ†¨ ÌëúÌòÑ ÌÅ¥ÎûòÏä§ (CSR)
 */
 class	MatrixCSR
 {
 public:
 	enum	FuncKind
 	{
-		FUNC_ADD,			///< µ°º¿
-		FUNC_SUB,			///< ª¨º¿
-		FUNC_MULTIPLY,	///< ∞ˆº¿
-		FUNC_ELEM_MUL,	///< «‡∑ƒ x ¥‹¿œ ∞™
-		FUNC_PMULTIPLY,	///< ¿¸ƒ° «‡∑ƒ ∞ˆº¿
-		FUNC_COPY,			///< «‡∑ƒ ∫πªÁ
-		FUNC_COMPARE,		///< «‡∑ƒ ∫Ò±≥
+		FUNC_ADD,			///< ÎçßÏÖà
+		FUNC_SUB,			///< Î∫ÑÏÖà
+		FUNC_MULTIPLY,		///< Í≥±ÏÖà
+		FUNC_ELEM_MUL,		///< ÌñâÎ†¨ x Îã®Ïùº Í∞í
+		FUNC_PMULTIPLY,		///< Ï†ÑÏπò ÌñâÎ†¨ Í≥±ÏÖà
+		FUNC_COPY,			///< ÌñâÎ†¨ Î≥µÏÇ¨
+		FUNC_COMPARE,		///< ÌñâÎ†¨ ÎπÑÍµê
 	};
 	struct		OpInfo
 	{
@@ -39,24 +39,24 @@ public:
 		void*				retVal;
 	};
 private:
-	col_t				mCol;			///< «‡ ≈©±‚
-	row_t				mRow;			///< ø≠ ≈©±‚
-	col_t*				mColStart;
-	elem_vector_t		mData;
+	size_t				mColSize;			///< Ìñâ ÌÅ¨Í∏∞
+	size_t				mRowSize;			///< Ïó¥ ÌÅ¨Í∏∞
+	size_t*				mColStart;
+	std::vector<node_t>		mData;
 
 public:
 				MatrixCSR		(	void	);
-				MatrixCSR		(	col_t		col,
-									row_t		row
+				MatrixCSR		(	size_t		col,
+									size_t		row
 								);
 				MatrixCSR		(	const MatrixCSR&		matrix		);
 	virtual		~MatrixCSR		(	void	);
 public:
-	elem_t		getElem		(	col_t				col,
-									row_t				row
+	elem_t		getElem		(	size_t				col,
+									size_t				row
 								) const;
-	void		setElem		(	col_t				col,
-								row_t				row,
+	void		setElem		(	size_t				col,
+								size_t				row,
 								elem_t				elem
 							);
 	MatrixCSR	add			(	const MatrixCSR&	operand	) const;
@@ -66,7 +66,7 @@ public:
 	MatrixCSR	tmultiply	(	const MatrixCSR&	operand	) const;
 	const MatrixCSR&		equal		(	const MatrixCSR&	operand	);
 	bool		compare	(	const MatrixCSR&	operand	) const;
-	MatrixCSR	solution	(	const MatrixCSR&	operand	);
+	MatrixCSR	sol_cg	(	const MatrixCSR&	operand	);
 public:
 	inline MatrixCSR		operator+		(	const MatrixCSR&	operand	) const;
 	inline MatrixCSR		operator-		(	const MatrixCSR&	operand	) const;
@@ -76,91 +76,91 @@ public:
 	inline bool	operator==		(	const MatrixCSR&	operand	) const;
 public:
 	inline bool	isValid		(	void	);
-	inline col_t	getCol		(	void	) const;
-	inline row_t	getRow		(	void	) const;
+	inline size_t	getCol		(	void	) const;
+	inline size_t	getRow		(	void	) const;
 	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	col_t	col,
-									row_t	row
+	void		allocElems		(	size_t	col,
+									size_t	row
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const MatrixCSR&		matrix		);
 	void		chkSameSize	(	const MatrixCSR&		matrix		) const;
-	void		chkBound		(	col_t		col,
-									row_t		row
+	void		chkBound		(	size_t		col,
+									size_t		row
 								) const;
 };
 
 /**
- * «‡∑ƒ µ°º¿
- * @return		«‡∑ƒ µ°º¿ ∞·∞˙
+ * ÌñâÎ†¨ ÎçßÏÖà
+ * @return		ÌñâÎ†¨ ÎçßÏÖà Í≤∞Í≥º
  */
-MatrixCSR		MatrixCSR::operator+		(	const MatrixCSR&	operand	///< ««ø¨ªÍ¿⁄
+MatrixCSR		MatrixCSR::operator+		(	const MatrixCSR&	operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 													) const
 {
 	return	add(operand);
 }
 
 /**
- * «‡∑ƒ ª¨º¿
- * @return		«‡∑ƒ ª¨º¿ ∞·∞˙
+ * ÌñâÎ†¨ Î∫ÑÏÖà
+ * @return		ÌñâÎ†¨ Î∫ÑÏÖà Í≤∞Í≥º
  */
-MatrixCSR		MatrixCSR::operator-		(	const MatrixCSR&	operand	///< ««ø¨ªÍ¿⁄
+MatrixCSR		MatrixCSR::operator-		(	const MatrixCSR&	operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 													) const
 {
 	return	sub(operand);
 }
 
 /**
- * «‡∑ƒ ∞ˆº¿
- * @return		«‡∑ƒ ∞ˆº¿ ∞·∞˙
+ * ÌñâÎ†¨ Í≥±ÏÖà
+ * @return		ÌñâÎ†¨ Í≥±ÏÖà Í≤∞Í≥º
  */
-MatrixCSR		MatrixCSR::operator*		(	const MatrixCSR&	operand	///< ««ø¨ªÍ¿⁄
+MatrixCSR		MatrixCSR::operator*		(	const MatrixCSR&	operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 													) const
 {
 	return	multiply(operand);
 }
 
 /**
- * «‡∑ƒ ∞ˆº¿
- * @return		«‡∑ƒ ∞ˆº¿ ∞·∞˙
+ * ÌñâÎ†¨ Í≥±ÏÖà
+ * @return		ÌñâÎ†¨ Í≥±ÏÖà Í≤∞Í≥º
  */
-MatrixCSR		MatrixCSR::operator*		(	elem_t		operand	///< ««ø¨ªÍ¿⁄
+MatrixCSR		MatrixCSR::operator*		(	elem_t		operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 													) const
 {
 	return	multiply(operand);
 }
 
 /**
- * «‡∑ƒ ¥Î¿‘
- * @return		¥Î¿‘ «“ «‡∑ƒ
+ * ÌñâÎ†¨ ÎåÄÏûÖ
+ * @return		ÎåÄÏûÖ Ìï† ÌñâÎ†¨
  */
-const MatrixCSR&		MatrixCSR::operator=		(	const MatrixCSR&	operand	///< ««ø¨ªÍ¿⁄
+const MatrixCSR&		MatrixCSR::operator=		(	const MatrixCSR&	operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 															)
 {
 	return	equal(operand);
 }
 
 /**
- * «‡∑ƒ ∫Ò±≥
- * @return		∫Ò±≥ ∞·∞˙
+ * ÌñâÎ†¨ ÎπÑÍµê
+ * @return		ÎπÑÍµê Í≤∞Í≥º
  */
-bool	MatrixCSR::operator==	(	const MatrixCSR&	operand	///< ««ø¨ªÍ¿⁄
+bool	MatrixCSR::operator==	(	const MatrixCSR&	operand	///< ÌîºÏó∞ÏÇ∞Ïûê
 										) const
 {
 	return	compare(operand);
 }
 
 /**
- * «‡∑ƒ ∞¥√º∞° ¿Ø»ø«—¡ˆ ∞ÀªÁ
- * @return		«‡∑ƒ ∞¥√º∞° ¿Ø»ø«œ∏È true, ¿Ø»ø«œ¡ˆ æ ¿∏∏È false
+ * ÌñâÎ†¨ Í∞ùÏ≤¥Í∞Ä Ïú†Ìö®ÌïúÏßÄ Í≤ÄÏÇ¨
+ * @return		ÌñâÎ†¨ Í∞ùÏ≤¥Í∞Ä Ïú†Ìö®ÌïòÎ©¥ true, Ïú†Ìö®ÌïòÏßÄ ÏïäÏúºÎ©¥ false
  */
 bool	MatrixCSR::isValid		(	void	)
 {
 	bool	ret		=	false;
 
-	if( (mCol != 0) &&
-		(mRow != 0) )
+	if( (mColSize != 0) &&
+		(mRowSize != 0) )
 	{
 		ret		=	true;
 	}
@@ -169,26 +169,26 @@ bool	MatrixCSR::isValid		(	void	)
 }
 
 /**
- * «‡ ≈©±‚ ∞°¡Æø¿±‚
- * @return		«‡ ≈©±‚
+ * Ìñâ ÌÅ¨Í∏∞ Í∞ÄÏ†∏Ïò§Í∏∞
+ * @return		Ìñâ ÌÅ¨Í∏∞
  */
-col_t	MatrixCSR::getCol		(	void	) const
+size_t	MatrixCSR::getCol		(	void	) const
 {
-	return	mCol;
+	return	mColSize;
 }
 
 /**
- * ø≠ ≈©±‚ ∞°¡Æø¿±‚
- * @return		ø≠ ≈©±‚
+ * Ïó¥ ÌÅ¨Í∏∞ Í∞ÄÏ†∏Ïò§Í∏∞
+ * @return		Ïó¥ ÌÅ¨Í∏∞
  */
-row_t	MatrixCSR::getRow		(	void	) const
+size_t	MatrixCSR::getRow		(	void	) const
 {
-	return	mRow;
+	return	mRowSize;
 }
 
 /**
- * «‡∑ƒ ø‰º“ µ•¿Ã≈Õ ºˆ ∞°¡Æø¿±‚
- * @return		ø‰º“ µ•¿Ã≈Õ ≈©±‚
+ * ÌñâÎ†¨ ÏöîÏÜå Îç∞Ïù¥ÌÑ∞ Ïàò Í∞ÄÏ†∏Ïò§Í∏∞
+ * @return		ÏöîÏÜå Îç∞Ïù¥ÌÑ∞ ÌÅ¨Í∏∞
  */
 size_t	MatrixCSR::getSize		(	void	) const
 {

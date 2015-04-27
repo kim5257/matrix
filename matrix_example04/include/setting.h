@@ -13,12 +13,12 @@
 #define	MATRIX_VECTOR
 
 #define	COL_SIZE				(1000000)
-#define	ROW_SIZE				(1000000)
+#define	ROW_SIZE				(1)
 
 #define	VAL_RANGE_START		(1)
 #define	VAL_RANGE_END			(10)
 
-#define	VAL_PER_COL			(6)
+#define	VAL_PER_COL			(1)
 
 #ifdef	MATRIX_CSR
 

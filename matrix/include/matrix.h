@@ -15,14 +15,14 @@ namespace matrix
 {
 
 /**
- * Çà·Ä Ç¥Çö Å¬·¡½º
+ * í–‰ë ¬ í‘œí˜„ í´ë˜ìŠ¤
  */
 class	Matrix
 {
 private:
-	size_t		mCol;		///< Çà Å©±â
-	size_t		mRow;		///< ¿­ Å©±â
-	elem_t*		mData;		///< Çà·Ä µ¥ÀÌÅÍ
+	size_t		mColSize;	///< í–‰ í¬ê¸°
+	size_t		mRowSize;	///< ì—´ í¬ê¸°
+	elem_t*		mData;		///< í–‰ë ¬ ë°ì´í„°
 public:
 				Matrix			(	void	);
 				Matrix			(	size_t		col,
@@ -44,7 +44,7 @@ public:
 	Matrix		multiply		(	elem_t		operand	) const;
 	Matrix		transpose		(	void	) const;
 	const Matrix&		equal			(	const Matrix&	operand	);
-	Matrix		solution		(	const Matrix&	operand	);
+	Matrix		sol_cg		(	const Matrix&	operand	);
 public:
 	inline Matrix		operator+		(	const Matrix&	operand	) const;
 	inline Matrix		operator-		(	const Matrix&	operand	) const;
@@ -68,8 +68,8 @@ private:
 };
 
 /**
- * Çà·Ä µ¡¼À
- * @return		Çà·Ä µ¡¼À °á°ú
+ * í–‰ë ¬ ë§ì…ˆ
+ * @return		í–‰ë ¬ ë§ì…ˆ ê²°ê³¼
  */
 Matrix		Matrix::operator+		(	const Matrix&	operand	) const
 {
@@ -77,8 +77,8 @@ Matrix		Matrix::operator+		(	const Matrix&	operand	) const
 }
 
 /**
- * Çà·Ä »¬¼À
- * @return		Çà·Ä »¬¼À °á°ú
+ * í–‰ë ¬ ëº„ì…ˆ
+ * @return		í–‰ë ¬ ëº„ì…ˆ ê²°ê³¼
  */
 Matrix		Matrix::operator-		(	const Matrix&	operand	) const
 {
@@ -86,8 +86,8 @@ Matrix		Matrix::operator-		(	const Matrix&	operand	) const
 }
 
 /**
- * Çà·Ä °ö¼À
- * @return		Çà·Ä °ö¼À °á°ú
+ * í–‰ë ¬ ê³±ì…ˆ
+ * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
  */
 Matrix		Matrix::operator*		(	const Matrix&	operand	) const
 {
@@ -95,8 +95,8 @@ Matrix		Matrix::operator*		(	const Matrix&	operand	) const
 }
 
 /**
- * Çà·Ä °ö¼À
- * @return		Çà·Ä °ö¼À °á°ú
+ * í–‰ë ¬ ê³±ì…ˆ
+ * @return		í–‰ë ¬ ê³±ì…ˆ ê²°ê³¼
  */
 Matrix		Matrix::operator*		(	elem_t		operand		) const
 {
@@ -104,8 +104,8 @@ Matrix		Matrix::operator*		(	elem_t		operand		) const
 }
 
 /**
- * Çà·Ä ´ëÀÔ
- * @return		´ëÀÔ ÇÒ Çà·Ä
+ * í–‰ë ¬ ëŒ€ì…
+ * @return		ëŒ€ì… í•  í–‰ë ¬
  */
 const Matrix&		Matrix::operator=		(	const Matrix&	operand	)
 {
@@ -113,15 +113,15 @@ const Matrix&		Matrix::operator=		(	const Matrix&	operand	)
 }
 
 /**
- * Çà·Ä °´Ã¼°¡ À¯È¿ÇÑÁö °Ë»ç
- * @return		Çà·Ä °´Ã¼°¡ À¯È¿ÇÏ¸é true, À¯È¿ÇÏÁö ¾ÊÀ¸¸é false
+ * í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•œì§€ ê²€ì‚¬
+ * @return		í–‰ë ¬ ê°ì²´ê°€ ìœ íš¨í•˜ë©´ true, ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ false
  */
 bool	Matrix::isValid		(	void	)
 {
 	bool	ret		=	false;
 
-	if( (mCol != 0) &&
-		(mRow != 0) )
+	if( (mColSize != 0) &&
+		(mRowSize != 0) )
 	{
 		ret		=	true;
 	}
@@ -130,21 +130,21 @@ bool	Matrix::isValid		(	void	)
 }
 
 /**
- * Çà Å©±â °¡Á®¿À±â
- * @return		Çà Å©±â
+ * í–‰ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
+ * @return		í–‰ í¬ê¸°
  */
 size_t	Matrix::getCol			(	void	) const
 {
-	return	mCol;
+	return	mColSize;
 }
 
 /**
- * ¿­ Å©±â °¡Á®¿À±â
- * @return		¿­ Å©±â
+ * ì—´ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
+ * @return		ì—´ í¬ê¸°
  */
 size_t	Matrix::getRow			(	void	) const
 {
-	return	mRow;
+	return	mRowSize;
 }
 
 };

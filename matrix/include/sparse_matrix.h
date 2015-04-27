@@ -24,9 +24,9 @@ public:
 	{
 		FUNC_ADD,			///< 덧셈
 		FUNC_SUB, 			///< 뺄셈
-		FUNC_MULTIPLY,	///< 곱셈
-		FUNC_ELEM_MUL,	///< 행렬 x 단일 값
-		FUNC_PMULTIPLY,	///< 전치 행렬 곱셈
+		FUNC_MULTIPLY,		///< 곱셈
+		FUNC_ELEM_MUL,		///< 행렬 x 단일 값
+		FUNC_PMULTIPLY,		///< 전치 행렬 곱셈
 		FUNC_COPY,			///< 행렬 복사
 		FUNC_COMPARE,		///< 행렬 비교
 	};
@@ -34,31 +34,31 @@ public:
 	{
 		const SparseMatrix*		operandA;
 		const SparseMatrix*		operandB;
-		elem_t						elemOperandB;
-		SparseMatrix*				result;
+		elem_t					elemOperandB;
+		SparseMatrix*			result;
 		THREAD_RETURN_TYPE		retVal;
 	};
 private:
-	col_t				mCol;		///< 행 크기
-	row_t				mRow;		///< 열 크기
-	vector_data_t*	mData;		///< 행렬 데이터
+	size_t			mColSize;		///< 행 크기
+	size_t			mRowSize;		///< 열 크기
+	vector_node_t*	mData;			///< 행렬 데이터
 public:
 				SparseMatrix		(	void	);
-				SparseMatrix		(	col_t		col,
-										row_t		row
+				SparseMatrix		(	size_t		col,
+										size_t		row
 									);
 				SparseMatrix		(	const SparseMatrix&		matrix		);
-	virtual	~SparseMatrix		(	void	);
+	virtual		~SparseMatrix		(	void	);
 public:
-	elem_t		getElem		(	col_t		col,
-									row_t		row
-								) const;
-	void		setElem		(	col_t		col,
-									row_t		row,
-									elem_t		elem
-								);
-	void		clear			(	void	);
-	void		clear			(	col_t		col		);
+	elem_t		getElem		(	size_t		col,
+								size_t		row
+							) const;
+	void		setElem		(	size_t		col,
+								size_t		row,
+								elem_t		elem
+							);
+	void		clear		(	void	);
+	void		clear		(	size_t		col		);
 	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
@@ -71,9 +71,9 @@ public:
 	SparseMatrix	ptmultiply	(	const SparseMatrix&	operand	) const;
 	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
 	const SparseMatrix&		pequal		(	const SparseMatrix&	operand	);
-	bool			compare	(	const SparseMatrix&	operand	) const;
+	bool			compare		(	const SparseMatrix&	operand	) const;
 	bool			pcompare	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	solution	(	const SparseMatrix&	operand	);
+	SparseMatrix	sol_cg	(	const SparseMatrix&	operand	);
 public:
 	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
 	inline SparseMatrix		operator-		(	const SparseMatrix&	operand	) const;
@@ -82,20 +82,20 @@ public:
 	inline const SparseMatrix&		operator=		(	const SparseMatrix&	operand	);
 	inline bool	operator==		(	const SparseMatrix&	operand	) const;
 public:
-	inline bool	isValid		(	void	);
-	inline col_t	getCol			(	void	) const;
-	inline row_t	getRow			(	void	) const;
+	inline bool		isValid		(	void	);
+	inline size_t	getCol		(	void	) const;
+	inline size_t	getRow		(	void	) const;
 	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	col_t		col,
-									row_t		row
+	void		allocElems		(	size_t		col,
+									size_t		row
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const SparseMatrix&		matrix		);
 	void		pcopyElems		(	const SparseMatrix&		matrix		);
-	void		chkSameSize	(	const SparseMatrix&		matrix		) const;
-	void		chkBound		(	col_t		col,
-									row_t		row
+	void		chkSameSize		(	const SparseMatrix&		matrix		) const;
+	void		chkBound		(	size_t		col,
+									size_t		row
 								) const;
 	void		doThreadFunc	(	FuncKind	kind,
 									OpInfo&	info
@@ -107,25 +107,25 @@ private:
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadFunc			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadAdd			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadSub			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply	(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply		(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadElemMul		(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply	(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply		(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 private:
-	static void		delElem_		(	vector_data_t*	data,
-											col_t				col,
-											row_t				row
-										);
-	static elem_t		getElem_		(	vector_data_t*	data,
-											col_t				col,
-											row_t				row
-										);
-	static void		setElem_		(	vector_data_t*	data,
-											col_t				col,
-											row_t				row,
-											elem_t				elem
-										);
+	static void		delElem_		(	vector_node_t*	data,
+										size_t				col,
+										size_t				row
+									);
+	static elem_t	getElem_		(	vector_node_t*	data,
+										size_t				col,
+										size_t				row
+									);
+	static void		setElem_		(	vector_node_t*	data,
+										size_t				col,
+										size_t				row,
+										elem_t				elem
+									);
 };
 
 /**
@@ -133,7 +133,7 @@ private:
 * @return 행렬 덧셈 결과
 */
 SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연산자
-													) const
+												) const
 {
 	return	padd(operand);
 }
@@ -143,7 +143,7 @@ SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연
 * @return 행렬 뺄셈 결과
 */
 SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연산자
-													) const
+												) const
 {
 	return	psub(operand);
 }
@@ -153,7 +153,7 @@ SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연
 * @return 행렬 곱셈 결과
 */
 SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연산자
-													) const
+												) const
 {
 	return	pmultiply(operand);
 }
@@ -163,7 +163,7 @@ SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연
 * @return 행렬 곱셈 결과
 */
 SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
-													) const
+												) const
 {
 	return	pmultiply(operand);
 }
@@ -173,7 +173,7 @@ SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 * @return 대입 할 행렬
 */
 const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< 피연산자
-															)
+													)
 {
 	return	pequal(operand);
 }
@@ -183,7 +183,7 @@ const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///<
 * @return 비교 결과
 */
 bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< 피연산자
-										) const
+									) const
 {
 	return	pcompare(operand);
 }
@@ -196,8 +196,8 @@ bool	SparseMatrix::isValid		(	void	)
 {
 	bool	ret		=	false;
 
-	if( (mCol != 0) &&
-		(mRow != 0) )
+	if( (mColSize != 0) &&
+		(mRowSize != 0) )
 	{
 		ret		=	true;
 	}
@@ -209,18 +209,18 @@ bool	SparseMatrix::isValid		(	void	)
 * 행 크기 가져오기
 * @return 행 크기
 */
-col_t	SparseMatrix::getCol		(	void	) const
+size_t	SparseMatrix::getCol		(	void	) const
 {
-	return	mCol;
+	return	mColSize;
 }
 
 /**
 * 열 크기 가져오기
 * @return 열 크기
 */
-row_t	SparseMatrix::getRow		(	void	) const
+size_t	SparseMatrix::getRow		(	void	) const
 {
-	return	mRow;
+	return	mRowSize;
 }
 
 /**

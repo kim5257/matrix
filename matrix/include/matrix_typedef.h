@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <map>
 #include <numeric>
+#include <algorithm>
 
 #if(PLATFORM == PLATFORM_WINDOWS)
 
@@ -42,31 +43,33 @@ enum	BOOLEAN
 namespace	matrix
 {
 
-typedef	double		elem_t;	///< 요소 데이터 형식
-typedef	uint32_t	col_t;		///< 행 위치 데이터 형식
-typedef	uint32_t	row_t;		///< 열 위치 데이터 형식
+typedef	double	elem_t;		///< 요소 데이터 형식
 
-
-struct		node_t
+class	node_t
 {
-	row_t		mRow;
-	elem_t		mData;
+public:
+	size_t		mRow;
+	elem_t		mElem;
 
-	node_t		(	row_t		row,
+	node_t		(	size_t		row,
 					elem_t		data
 				)
 	{
 		mRow	=	row;
-		mData	=	data;
+		mElem	=	data;
+	}
+public:
+	inline bool	operator==		(	size_t		row		) const
+	{
+		return (mRow == row);
 	}
 };
 
-typedef	std::vector<node_t>			elem_vector_t;		///< 한 개 행 데이터 형식
-typedef	elem_vector_t::iterator		elem_vector_itor;		///< 한 개 행 데이터 참조자
+typedef	std::vector<node_t>::iterator		elem_vector_itor;	///< 한 개 행 데이터 참조자
 
-struct		vector_data_t
+struct	vector_node_t
 {
-	elem_vector_t		mVector;
+	std::vector<node_t>		mVector;
 
 #if(PLATFORM == PLATFORM_WINDOWS)
 	CRITICAL_SECTION	mLock;
@@ -74,7 +77,7 @@ struct		vector_data_t
 	pthread_mutex_t		mLock	=	PTHREAD_MUTEX_INITIALIZER;
 #endif
 
-	vector_data_t	()
+	vector_node_t	()
 	{
 		#if(PLATFORM == PLATFORM_WINDOWS)
 
@@ -91,12 +94,11 @@ struct		vector_data_t
 	}
 };
 
-typedef	std::map<row_t, elem_t>		elem_map_t;		///< 한 개 행 데이터 형식
-typedef	elem_map_t::const_iterator	elem_map_itor;	///< 한 개 행 데이터 참조자
+typedef	std::map<size_t, elem_t>::const_iterator	elem_map_itor;		///< 한 개 행 데이터 참조자
 
-struct		map_data_t
+struct	map_node_t
 {
-	elem_map_t			mMap;
+	std::map<size_t, elem_t>	mMap;
 
 #if(PLATFORM == PLATFORM_WINDOWS)
 	CRITICAL_SECTION	mLock;
@@ -104,7 +106,7 @@ struct		map_data_t
 	pthread_mutex_t		mLock	=	PTHREAD_MUTEX_INITIALIZER;
 #endif
 
-	map_data_t	()
+	map_node_t	()
 	{
 		#if(PLATFORM == PLATFORM_WINDOWS)
 
@@ -139,9 +141,10 @@ typedef		void*	THREAD_RETURN_TYPE;
 
 #endif
 
-typedef	std::vector<uint32_t>		csr_t; ///< 행렬 위치 데이터
-typedef	csr_t::const_iterator		csr_itor;	///< 행렬 위치 데이터 참조자
-typedef	std::vector<elem_t>			elem_csr_t;	///< 한 개 행 데이터 형식
+typedef	std::vector<size_t>			csr_t;			///< 행렬 위치 데이터
+typedef	csr_t::const_iterator		csr_itor;		///< 행렬 위치 데이터 참조자
+
+typedef	std::vector<elem_t>			elem_csr_t;		///< 한 개 행 데이터 형식
 typedef	elem_csr_t::const_iterator	elem_csr_itor;	///< 한 개 행 데이터 참조자
 
 

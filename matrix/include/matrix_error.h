@@ -17,14 +17,14 @@ namespace	matrix
 
 #define	MAX_ERR_STRING_LEN	(255)		///< 에러 메시지 최대 길이
 
+
 /**
- * 에러 메시지 클래스
+ * 에러 메시지 전달 클래스
  */
 class	ErrMsg
 {
 private:
 	char*		mErrString;		///< 에러 메시지
-	size_t		mMsgSize;
 private:
 	inline			ErrMsg		(	void	);
 	inline virtual	~ErrMsg		(	void	);
@@ -32,19 +32,17 @@ private:
 	inline bool		setErrString		(	const char		string[]	);
 	inline void		delErrString		(	void	);
 public:
-	inline const char*	getErrString		(	void	);
-	inline size_t			getErrMsgSize		(	void	);
+	inline const char*		getErrString		(	void	);
 public:
-	inline static ErrMsg*	createErrMsg		(	const char		string[]	);
-	inline static void		destroyErrMsg		(	ErrMsg*	errMsg			);
+	inline static ErrMsg*	createErrMsg		(	const char	string[]	);
+	inline static void		destroyErrMsg		(	ErrMsg*		errMsg		);
 };
 
 /**
  * 생성자
  */
 ErrMsg::ErrMsg	(	void	)
-:mErrString(NULL),
-mMsgSize(0)
+:mErrString(NULL)
 {
 
 }
@@ -58,8 +56,8 @@ ErrMsg::~ErrMsg	(	void	)
 }
 
 /**
- * 에러 메시지 설정
- * @return		에러 메시지 설정에 성공하면 true, 문자열 할당 실패 시 false
+ * 에러 메시지 문자열 할당 및 메시지 설정
+ * @return 에러 메시지 문자열 할당 및 설정에 성공하면 true, 할당에 실패하면 false
  */
 bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 										)
@@ -68,7 +66,7 @@ bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 
 	do
 	{
-		size_t	length		=	::strnlen(string, MAX_ERR_STRING_LEN);
+		size_t	length		=	strnlen(string, MAX_ERR_STRING_LEN);
 		if( length == 0 )
 		{
 			break;
@@ -77,7 +75,6 @@ bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 		try
 		{
 			mErrString		=	new char[length+1];
-			mMsgSize		=	length;
 		}
 		catch( std::bad_alloc&	exception	)
 		{
@@ -85,7 +82,7 @@ bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 			break;
 		}
 
-		memcpy(mErrString, string, sizeof(char)*(length+1));
+		memcpy(mErrString, string, length+1);
 
 		ret		=	true;
 	}while(0);
@@ -94,7 +91,7 @@ bool		ErrMsg::setErrString		(	const char		string[]	///< 에러 메시지
 }
 
 /**
- * 에러 메시지 제거
+ * 에러 메시지 문자열 할당 해제
  */
 void		ErrMsg::delErrString		(	void	)
 {
@@ -102,8 +99,8 @@ void		ErrMsg::delErrString		(	void	)
 }
 
 /**
- * 에러 메시지 참조
- * @return		에러 메시지 리턴
+ * 에러 메시지 가져오기
+ * @return 저장 된 에러메시지
  */
 const char*	ErrMsg::getErrString		(	void	)
 {
@@ -111,19 +108,10 @@ const char*	ErrMsg::getErrString		(	void	)
 }
 
 /**
- * 에러 메시지 길이 참조
- * @return		에러 메시지 길이 리턴
+ * 에러 메시지 전달 객체 생성
+ * @return 생성한 에러 메시지 전달 객체
  */
-size_t			ErrMsg::getErrMsgSize		(	void	)
-{
-	return	mMsgSize;
-}
-
-/**
- * 에러 메시지 객체 생성
- * @return		성공 시 객체 리턴, 실패 시 NULL 리턴
- */
-ErrMsg*	ErrMsg::createErrMsg		(	const char			string[]	///< 에러 메시지
+ErrMsg*	ErrMsg::createErrMsg		(	const char		string[]	///< 에러 메시지
 										)
 {
 	ErrMsg*	errMsg	=	NULL;
@@ -139,9 +127,9 @@ ErrMsg*	ErrMsg::createErrMsg		(	const char			string[]	///< 에러 메시지
 }
 
 /**
- * 에러 메시지 객체 제거
+ * 에러 메시지 전달 객체 제거
  */
-void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			///< 제거 할 에러 메시지 객체
+void		ErrMsg::destroyErrMsg	(	ErrMsg*	errMsg			///< 에러 메시지 전달 객체
 										)
 {
 	delete	errMsg;

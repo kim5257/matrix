@@ -15,37 +15,37 @@ namespace matrix
 {
 
 /**
- * ����
+ * 생성자
  */
 Matrix::Matrix		(	void	)
-:mCol(0),
-mRow(0),
+:mColSize(0),
+mRowSize(0),
 mData(NULL)
 {
 }
 
 /**
- * ����
+ * 생성자
  */
-Matrix::Matrix		(	size_t		col,	///< �� ũ��
-							size_t		row		///< �� ũ��
-						)
+Matrix::Matrix		(	size_t		col,	///< 행 크기
+						size_t		row		///< 열 크기
+					)
 {
 	allocElems(col, row);
 }
 
 /**
- * ���� ����
+ * 복사 생성자
  */
-Matrix::Matrix		(	const Matrix&		matrix		///< ���� �� ��ü
-						)
+Matrix::Matrix		(	const Matrix&		matrix		///< 복사 될 객체
+					)
 {
 	allocElems(matrix.getCol(), matrix.getRow());
 	copyElems(matrix);
 }
 
 /**
- * �Ҹ���
+ * 소멸자
  */
 Matrix::~Matrix		(	void	)
 {
@@ -53,35 +53,35 @@ Matrix::~Matrix		(	void	)
 }
 
 /**
- * ��� ��� �� ����
- * @return		������ ��� ��� ��
+ * 행렬 요소 값 참조
+ * @return 참조한 행렬 요소 값
  */
-elem_t		Matrix::getElem		(	size_t		col,	///< ���� �� �� ��ġ
-										size_t		row		///< ���� �� �� ��ġ
-									) const
+elem_t		Matrix::getElem		(	size_t		col,	///< 참조 할 행 위치
+									size_t		row		///< 참조 할 열 위치
+								) const
 {
-	chkBound(col, row);
+	//chkBound(col, row);
 	return	mData[ col * getRow() + row ];
 }
 
 /**
- * ��� ��� �� ����
+ * 행렬 요소 값 설정
  */
-void		Matrix::setElem		(	size_t		col,	///< ���� �� �� ��ġ
-										size_t		row,	///< ���� �� �� ��ġ
-										elem_t		elem	///< ���� �� ��� ��
-									)
+void		Matrix::setElem		(	size_t		col,	///< 설정 할 행 위치
+									size_t		row,	///< 설정 할 열 위치
+									elem_t		elem	///< 설정 할 요소 값
+								)
 {
-	chkBound(col, row);
+	//chkBound(col, row);
 	mData[ col * getRow() + row ]	=	elem;
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
+ * 행렬 덧셈
+ * @return	행렬 덧셈 결과
  */
-Matrix		Matrix::add				(	const Matrix&	operand	///< �ǿ�����
-										) const
+Matrix		Matrix::add				(	const Matrix&	operand	///< 피연산자
+									) const
 {
 	chkSameSize(operand);
 
@@ -92,9 +92,9 @@ Matrix		Matrix::add				(	const Matrix&	operand	///< �ǿ�����
 		for(size_t row=0;row<getRow();row++)
 		{
 			result.setElem	(	col,
-									row,
-									getElem(col, row) + operand.getElem(col, row)
-								);
+								row,
+								getElem(col, row) + operand.getElem(col, row)
+							);
 		}
 	}
 
@@ -102,11 +102,11 @@ Matrix		Matrix::add				(	const Matrix&	operand	///< �ǿ�����
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
+ * 행렬 뺄셈
+ * @return 행렬 뺄셈 결과
  */
-Matrix		Matrix::sub				(	const Matrix&	operand	///< �ǿ�����
-										) const
+Matrix		Matrix::sub				(	const Matrix&	operand	///< 피연산자
+									) const
 {
 	chkSameSize(operand);
 
@@ -127,16 +127,16 @@ Matrix		Matrix::sub				(	const Matrix&	operand	///< �ǿ�����
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
+ * 행렬 곱셈
+ * @return 행렬 곱셈 결과
  */
-Matrix		Matrix::multiply			(	const Matrix&	operand	///< �ǿ�����
-										) const
+Matrix		Matrix::multiply		(	const Matrix&	operand	///< 피연산자
+									) const
 {
 	if( ( getCol() != operand.getRow() ) &&
 		( getRow() != operand.getCol() ) )
 	{
-		throw	matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 
 	Matrix	result		=	Matrix(getCol(), operand.getRow());
@@ -158,11 +158,11 @@ Matrix		Matrix::multiply			(	const Matrix&	operand	///< �ǿ�����
 }
 
 /**
- * ��� ����
- * @return		��� ���� ���
+ * 행렬 곱셈
+ * @return 행렬 곱셈 결과
  */
-Matrix		Matrix::multiply			(	elem_t		operand	///< �ǿ�����
-										) const
+Matrix		Matrix::multiply		(	elem_t		operand	///< 피연산자
+									) const
 {
 	Matrix	result		=	Matrix(getCol(), getRow());
 
@@ -181,10 +181,10 @@ Matrix		Matrix::multiply			(	elem_t		operand	///< �ǿ�����
 }
 
 /**
- * ��ġ ��� ��ȯ
- * @return		��ȯ ���
+ * 전치 행렬 변환
+ * @return 전치 행렬 변환 결과
  */
-Matrix		Matrix::transpose			(	void	) const
+Matrix		Matrix::transpose		(	void	) const
 {
 	Matrix	result		=	Matrix(getRow(), getCol());
 
@@ -203,10 +203,10 @@ Matrix		Matrix::transpose			(	void	) const
 }
 
 /**
- * ��� ����
- * @return		���� �� ���
+ * 행렬 대입
+ * @return 대입 할 행렬
  */
-const Matrix&		Matrix::equal			(	const Matrix&	operand	///< �ǿ�����
+const Matrix&		Matrix::equal			(	const Matrix&	operand	///< 피연산자
 											)
 {
 	try
@@ -225,10 +225,10 @@ const Matrix&		Matrix::equal			(	const Matrix&	operand	///< �ǿ�����
 }
 
 /**
- * ��� ������ �� ���
- * @return		�� ��� ���
+ * 행렬 방정식 해 구하기
+ * @return		해 행렬 리턴
  */
-Matrix		Matrix::solution		(	const Matrix&	operand	///< �ǿ�����
+Matrix		Matrix::sol_cg		(	const Matrix&	operand	///< 피연산자
 									)
 {
 	Matrix		x			=	Matrix(this->getRow(), operand.getRow());
@@ -276,18 +276,18 @@ Matrix		Matrix::solution		(	const Matrix&	operand	///< �ǿ�����
 }
 
 /**
- * ��� ������ �� �Ҵ�
- * @exception		�޸� �Ҵ� ���� �� ���� �߻�
+ * 행렬 데이터 공간 할당
+ * @exception 메모리 할당 실패 시 에러 발생
  */
-void		Matrix::allocElems		(	size_t		col,	///< �� ũ��
-											size_t		row		///< �� ũ��
+void		Matrix::allocElems			(	size_t		col,	///< 행 크기
+											size_t		row		///< 열 크기
 										)
 {
 	try
 	{
 		mData	=	new elem_t[col * row];
-		mCol	=	col;
-		mRow	=	row;
+		mColSize	=	col;
+		mRowSize	=	row;
 	}
 	catch (	std::bad_alloc&	exception		)
 	{
@@ -296,19 +296,19 @@ void		Matrix::allocElems		(	size_t		col,	///< �� ũ��
 }
 
 /**
- * ��� ������ �� �Ҵ� ����
+ * 행렬 데이터 공간 할당 해제
  */
 void		Matrix::freeElems			(	void	)
 {
 	delete[]	mData;
-	mCol	=	0;
-	mRow	=	0;
+	mColSize	=	0;
+	mRowSize	=	0;
 }
 
 /**
- * ��� ������ ����
+ * 행렬 데이터 복사
  */
-void		Matrix::copyElems			(	const Matrix&		matrix		///< ���� �� ���
+void		Matrix::copyElems			(	const Matrix&		matrix		///< 복사 할 행렬
 										)
 {
 	size_t		length		=	matrix.getCol()
@@ -319,29 +319,29 @@ void		Matrix::copyElems			(	const Matrix&		matrix		///< ���� �� ��
 }
 
 /**
- * ���� ũ���� ������� �˻�
- * @exception		����� ���� ũ�Ⱑ �ƴ� ��� ���� �߻�
+ * 같은 크기의 행렬인지 검사
+ * @exception 행렬이 같은 크기가 아닐 경우 예외 발생
  */
-void		Matrix::chkSameSize		(	const Matrix&		matrix		///< �� �� ���
+void		Matrix::chkSameSize		(	const Matrix&		matrix		///< 비교 할 행렬
 										) const
 {
 	if( ( getCol() != matrix.getCol() ) ||
 		( getRow() != matrix.getRow() ) )
 	{
-		throw matrix::ErrMsg::createErrMsg("��� ũ�Ⱑ �ùٸ��� �ʽ��ϴ�.");
+		throw matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
 	}
 }
 
 /**
- * ��� ��� ���� ���� �˻�
- * @exception		���� ���� ���� ��� ���� �߻�
+ * 행렬 요소 참조 범위 검사
+ * @exception 참조 범위 밖일 경우 예외 발생
  */
-void		Matrix::chkBound			(	size_t		col,	///< ���� �� �� ��ġ
-											size_t		row		///< ���� �� �� ��ġ
+void		Matrix::chkBound			(	size_t		col,	///< 참조 할 행 위치
+											size_t		row		///< 참조 할 열 위치
 										) const
 {
-	if( ( col >= mCol ) ||
-		( row >= mRow ) )
+	if( ( col >= mColSize ) ||
+		( row >= mRowSize ) )
 	{
 		throw	matrix::ErrMsg::createErrMsg("범위를 넘어서는 참조입니다.");
 	}
