@@ -85,7 +85,7 @@ elem_t		MatrixCSR::getElem		(	size_t		col,	///< 참조 할 행 위치
 
 	for(size_t cnt=start;cnt<end;cnt++)
 	{
-		if( mData[cnt].mRow == row )
+		if( mData[cnt].mCol == row )
 		{
 			value	=	mData[cnt].mElem;
 			break;
@@ -111,7 +111,7 @@ void		MatrixCSR::setElem		(	size_t		col,	///< 설정 할 행 위치
 
 	for(size_t cnt=start;cnt<end;cnt++)
 	{
-		if( mData[cnt].mRow == row )
+		if( mData[cnt].mCol == row )
 		{
 			mData[cnt].mElem	=	elem;
 			found	=	false;
@@ -152,7 +152,7 @@ MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< 피연산자
 		for(size_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-								mData[cnt].mRow,
+								mData[cnt].mCol,
 								mData[cnt].mElem
 							);
 		}
@@ -163,8 +163,8 @@ MatrixCSR		MatrixCSR::add		(	const MatrixCSR&	operand	///< 피연산자
 		for(size_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-								vec[cnt].mRow,
-								result.getElem(col, vec[cnt].mRow) + vec[cnt].mElem
+								vec[cnt].mCol,
+								result.getElem(col, vec[cnt].mCol) + vec[cnt].mElem
 							);
 		}
 	}
@@ -194,7 +194,7 @@ MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< 피연산자
 		for(size_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-								mData[cnt].mRow,
+								mData[cnt].mCol,
 								mData[cnt].mElem
 							);
 		}
@@ -205,8 +205,8 @@ MatrixCSR		MatrixCSR::sub		(	const MatrixCSR&	operand	///< 피연산자
 		for(size_t cnt=start;cnt<end;++cnt)
 		{
 			result.setElem	(	col,
-								vec[cnt].mRow,
-								result.getElem(col, vec[cnt].mRow) - vec[cnt].mElem
+								vec[cnt].mCol,
+								result.getElem(col, vec[cnt].mCol) - vec[cnt].mElem
 							);
 		}
 	}
@@ -237,14 +237,14 @@ MatrixCSR		MatrixCSR::multiply	(	const MatrixCSR&	operand	///< 피연산자
 
 		for(size_t cnt=start;cnt<end;++cnt)
 		{
-			size_t	start2	=	operand.mColStart[mData[cnt].mRow];
-			size_t	end2	=	operand.mColStart[mData[cnt].mRow+1];
+			size_t	start2	=	operand.mColStart[mData[cnt].mCol];
+			size_t	end2	=	operand.mColStart[mData[cnt].mCol+1];
 
 			for(size_t cnt2=start2;cnt2<end2;++cnt2)
 			{
 				result.setElem	(	col,
-									vec[cnt2].mRow,
-									result.getElem(col, vec[cnt2].mRow) + (mData[cnt].mElem * vec[cnt2].mElem)
+									vec[cnt2].mCol,
+									result.getElem(col, vec[cnt2].mCol) + (mData[cnt].mElem * vec[cnt2].mElem)
 								);
 			}
 		}
@@ -271,7 +271,7 @@ MatrixCSR		MatrixCSR::multiply	(	elem_t		operand	///< 피연산자
 		for(size_t cnt=start;cnt!=end;++cnt)
 		{
 			result.setElem	(	col,
-								mData[cnt].mRow,
+								mData[cnt].mCol,
 								mData[cnt].mElem * operand
 							);
 		}
@@ -308,9 +308,9 @@ MatrixCSR		MatrixCSR::tmultiply		(	const MatrixCSR&	operand	///< 피연산자
 
 			for(size_t cnt2=start2;cnt2!=end2;++cnt2)
 			{
-				result.setElem	(	mData[cnt].mRow,
-									vec[cnt2].mRow,
-									result.getElem(mData[cnt].mRow, vec[cnt2].mRow) + (mData[cnt].mElem * vec[cnt2].mElem)
+				result.setElem	(	mData[cnt].mCol,
+									vec[cnt2].mCol,
+									result.getElem(mData[cnt].mCol, vec[cnt2].mCol) + (mData[cnt].mElem * vec[cnt2].mElem)
 								);
 			}
 		}
@@ -359,7 +359,7 @@ bool			MatrixCSR::compare			(	const MatrixCSR&	operand
 
 			for(size_t cnt=start;cnt<end;++cnt)
 			{
-				elem_t	val		=	operand.getElem(col, mData[cnt].mRow);
+				elem_t	val		=	operand.getElem(col, mData[cnt].mCol);
 				if( mData[cnt].mElem != val )
 				{
 					ret		=	false;

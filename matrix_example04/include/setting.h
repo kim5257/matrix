@@ -10,15 +10,16 @@
 
 //#define	MATRIX_CSR
 //#define	MATRIX_MAP
-#define	MATRIX_VECTOR
+//#define	MATRIX_VECTOR
+#define	MATRIX_VECTOR2
 
-#define	COL_SIZE				(1000000)
-#define	ROW_SIZE				(1)
+#define	COL_SIZE				(100000)
+#define	ROW_SIZE				(100000)
 
 #define	VAL_RANGE_START		(1)
 #define	VAL_RANGE_END			(10)
 
-#define	VAL_PER_COL			(1)
+#define	VAL_PER_COL			(6)
 
 #ifdef	MATRIX_CSR
 
@@ -47,8 +48,14 @@ typedef	matrix::SparseMatrix		matrix_t;
 
 #endif
 
+#ifdef	MATRIX_VECTOR2
 
+#include "sparse_matrix3.h"
+typedef	matrix::SparseMatrix3	matrix_t;
 
+#define	TEST_MULTI_THREAD			(1)
+
+#endif
 
 #include "matrix_error.h"
 

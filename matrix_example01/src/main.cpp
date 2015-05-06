@@ -109,6 +109,18 @@ int		main	(	void	)
 			printf("\n");
 		}
 
+		matrixC	=	matrixA * 2;
+
+		printf("C = \n");
+		for(size_t col=0;col<matrixC.getCol();col++)
+		{
+			for(size_t row=0;row<matrixC.getRow();row++)
+			{
+				printf("%6.2f ", matrixC.getElem(col, row));
+			}
+			printf("\n");
+		}
+
 		matrixC	=	matrixA * matrixB.transpose();
 
 		printf("C = \n");

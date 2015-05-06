@@ -21,7 +21,7 @@ int		main	(	void	)
 		//test.testSub();
 		//test.testMul();
 		//test.testElmMul();
-		test.testTMul();
+		//test.testTMul();
 		//test.ptrDataSize();
 	}
 	catch( matrix::ErrMsg*	exception	)

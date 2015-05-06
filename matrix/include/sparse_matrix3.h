@@ -5,8 +5,8 @@
  *      Author: asran
  */
 
-#ifndef SPARSE_MATRIX_H_
-#define SPARSE_MATRIX_H_
+#ifndef SPARSE_MATRIX3_H_
+#define SPARSE_MATRIX3_H_
 
 #include <stdio.h>
 #include "matrix_typedef.h"
@@ -17,7 +17,7 @@ namespace	matrix
 /**
 * 희소 행렬 표현 클래스 (Array + Vector)
 */
-class	SparseMatrix
+class	SparseMatrix3
 {
 public:
 	enum	FuncKind
@@ -32,23 +32,23 @@ public:
 	};
 	struct		OpInfo
 	{
-		const SparseMatrix*		operandA;
-		const SparseMatrix*		operandB;
+		const SparseMatrix3*		operandA;
+		const SparseMatrix3*		operandB;
 		elem_t						elemOperandB;
-		SparseMatrix*			result;
+		SparseMatrix3*			result;
 		THREAD_RETURN_TYPE		retVal;
 	};
 private:
 	size_t				mRowSize;		///< 행 크기
 	size_t				mColSize;		///< 열 크기
-	vector_node_t*	mData;			///< 행렬 데이터
+	vector_node_t2*	mData;			///< 행렬 데이터
 public:
-				SparseMatrix		(	void	);
-				SparseMatrix		(	size_t		row,
+				SparseMatrix3		(	void	);
+				SparseMatrix3		(	size_t		row,
 										size_t		col
 									);
-				SparseMatrix		(	const SparseMatrix&		matrix		);
-	virtual	~SparseMatrix	(	void	);
+				SparseMatrix3		(	const SparseMatrix3&		matrix		);
+	virtual	~SparseMatrix3	(	void	);
 public:
 	elem_t		getElem		(	size_t		row,
 									size_t		col
@@ -58,31 +58,33 @@ public:
 									elem_t		elem
 								);
 	void		clear			(	void	);
-	void		clear			(	size_t		row		);
-	SparseMatrix	add			(	const SparseMatrix&	operand	) const;
-	SparseMatrix	padd		(	const SparseMatrix&	operand	) const;
-	SparseMatrix	sub			(	const SparseMatrix&	operand	) const;
-	SparseMatrix	psub		(	const SparseMatrix&	operand	) const;
-	SparseMatrix	multiply	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	pmultiply	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	multiply	(	elem_t		operand	) const;
-	SparseMatrix	pmultiply	(	elem_t		operand	) const;
-	SparseMatrix	tmultiply	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	ptmultiply	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	square		(	void	);
-	SparseMatrix	psquare	(	void	);
-	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
-	const SparseMatrix&		pequal		(	const SparseMatrix&	operand	);
-	bool	compare	(	const SparseMatrix&	operand	) const;
-	bool	pcompare	(	const SparseMatrix&	operand	) const;
-	SparseMatrix	sol_cg	(	const SparseMatrix&	operand	);
+	void		clear			(	size_t		col		);
+	void		resize			(	size_t		col,
+									size_t		size
+								);
+	SparseMatrix3	add			(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	padd		(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	sub			(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	psub		(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	multiply	(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	pmultiply	(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	multiply	(	elem_t		operand	) const;
+	SparseMatrix3	pmultiply	(	elem_t		operand	) const;
+	SparseMatrix3	tmultiply	(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	ptmultiply	(	const SparseMatrix3&	operand	) const;
+	elem_t		square		(	void	);
+	const SparseMatrix3&		equal		(	const SparseMatrix3&	operand	);
+	const SparseMatrix3&		pequal		(	const SparseMatrix3&	operand	);
+	bool	compare	(	const SparseMatrix3&	operand	) const;
+	bool	pcompare	(	const SparseMatrix3&	operand	) const;
+	SparseMatrix3	sol_cg	(	const SparseMatrix3&	operand	);
 public:
-	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
-	inline SparseMatrix		operator-		(	const SparseMatrix&	operand	) const;
-	inline SparseMatrix		operator*		(	const SparseMatrix&	operand	) const;
-	inline SparseMatrix		operator*		(	elem_t		operand		) const;
-	inline const SparseMatrix&		operator=		(	const SparseMatrix&	operand	);
-	inline bool	operator==		(	const SparseMatrix&	operand	) const;
+	inline SparseMatrix3		operator+		(	const SparseMatrix3&	operand	) const;
+	inline SparseMatrix3		operator-		(	const SparseMatrix3&	operand	) const;
+	inline SparseMatrix3		operator*		(	const SparseMatrix3&	operand	) const;
+	inline SparseMatrix3		operator*		(	elem_t		operand		) const;
+	inline const SparseMatrix3&		operator=		(	const SparseMatrix3&	operand	);
+	inline bool	operator==		(	const SparseMatrix3&	operand	) const;
 public:
 	inline bool		isValid		(	void	);
 	inline size_t		getCol			(	void	) const;
@@ -93,9 +95,9 @@ private:
 									size_t		col
 								);
 	void		freeElems		(	void	);
-	void		copyElems		(	const SparseMatrix&		matrix		);
-	void		pcopyElems		(	const SparseMatrix&		matrix		);
-	void		chkSameSize	(	const SparseMatrix&		matrix		) const;
+	void		copyElems		(	const SparseMatrix3&		matrix		);
+	void		pcopyElems		(	const SparseMatrix3&		matrix		);
+	void		chkSameSize	(	const SparseMatrix3&		matrix		) const;
 	void		chkBound		(	size_t		row,
 									size_t		col
 								) const;
@@ -115,15 +117,15 @@ private:
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 private:
-	static void		delElem_		(	vector_node_t*	data,
+	static void		delElem_		(	vector_node_t2*	data,
 											size_t				row,
 											size_t				col
 										);
-	static elem_t		getElem_		(	vector_node_t*	data,
+	static elem_t		getElem_		(	vector_node_t2*	data,
 											size_t				row,
 											size_t				col
 										);
-	static void		setElem_		(	vector_node_t*	data,
+	static void		setElem_		(	vector_node_t2*	data,
 											size_t				row,
 											size_t				col,
 											elem_t				elem
@@ -134,7 +136,7 @@ private:
 * 행렬 덧셈
 * @return 행렬 덧셈 결과
 */
-SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연산자
+SparseMatrix3		SparseMatrix3::operator+		(	const SparseMatrix3&	operand	///< 피연산자
 													) const
 {
 	return	padd(operand);
@@ -144,7 +146,7 @@ SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연
 * 행렬 뺄셈
 * @return 행렬 뺄셈 결과
 */
-SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연산자
+SparseMatrix3		SparseMatrix3::operator-		(	const SparseMatrix3&	operand	///< 피연산자
 												) const
 {
 	return	psub(operand);
@@ -154,7 +156,7 @@ SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연
 * 행렬 곱셈
 * @return 행렬 곱셈 결과
 */
-SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연산자
+SparseMatrix3		SparseMatrix3::operator*		(	const SparseMatrix3&	operand	///< 피연산자
 													) const
 {
 	return	pmultiply(operand);
@@ -164,7 +166,7 @@ SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연
 * 행렬 곱셈
 * @return 행렬 곱셈 결과
 */
-SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
+SparseMatrix3		SparseMatrix3::operator*		(	elem_t		operand	///< 피연산자
 													) const
 {
 	return	pmultiply(operand);
@@ -174,7 +176,7 @@ SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 * 행렬 대입
 * @return 대입 할 행렬
 */
-const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< 피연산자
+const SparseMatrix3&		SparseMatrix3::operator=		(	const SparseMatrix3&	operand	///< 피연산자
 															)
 {
 	return	pequal(operand);
@@ -184,7 +186,7 @@ const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///<
 * 행렬 비교
 * @return 비교 결과
 */
-bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< 피연산자
+bool	SparseMatrix3::operator==	(	const SparseMatrix3&	operand	///< 피연산자
 										) const
 {
 	return	pcompare(operand);
@@ -194,7 +196,7 @@ bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< 피연산자
 * 행렬 객체가 유효한지 검사
 * @return 행렬 객체가 유효하면 true, 유효하지 않으면 false
 */
-bool	SparseMatrix::isValid		(	void	)
+bool	SparseMatrix3::isValid		(	void	)
 {
 	bool	ret		=	false;
 
@@ -211,7 +213,7 @@ bool	SparseMatrix::isValid		(	void	)
 * 행 크기 가져오기
 * @return 행 크기
 */
-size_t	SparseMatrix::getRow		(	void	) const
+size_t	SparseMatrix3::getRow		(	void	) const
 {
 	return	mRowSize;
 }
@@ -220,7 +222,7 @@ size_t	SparseMatrix::getRow		(	void	) const
 * 열 크기 가져오기
 * @return 열 크기
 */
-size_t	SparseMatrix::getCol		(	void	) const
+size_t	SparseMatrix3::getCol		(	void	) const
 {
 	return	mColSize;
 }
@@ -229,11 +231,11 @@ size_t	SparseMatrix::getCol		(	void	) const
 * 행렬 요소 데이터 수 가져오기
 * @return 요소 데이터 크기
 */
-size_t	SparseMatrix::getSize		(	void	) const
+size_t	SparseMatrix3::getSize		(	void	) const
 {
 	size_t		sum		=	0;
 
-	for(size_t cnt=0;cnt<getRow();cnt++)
+	for(size_t cnt=0;cnt<getCol();++cnt)
 	{
 		sum		+=	mData[cnt].mVector.size();
 	}
@@ -243,4 +245,4 @@ size_t	SparseMatrix::getSize		(	void	) const
 
 }
 
-#endif /* SPARSE_MATRIX_H_ */
+#endif /* SPARSE_MATRIX3_H_ */

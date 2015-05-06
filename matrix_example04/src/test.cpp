@@ -69,11 +69,11 @@ void	Test::inpData			(	void	)
 
 	startMeasure();
 	// 랜덤 값으로 A 행렬에 값 넣기
-	for(size_t cnt=0;cnt<matrixA.getCol();cnt++)
+	for(size_t cnt=0;cnt<matrixA.getRow();cnt++)
 	{
 		for(size_t cnt2=0;cnt2<VAL_PER_COL;cnt2++)
 		{
-			matrixA.setElem(cnt,getRandomVal(0,matrixA.getRow()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
+			matrixA.setElem(cnt,getRandomVal(0,matrixA.getCol()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 		}
 	}
 	endMeasure();
@@ -85,11 +85,11 @@ void	Test::inpData			(	void	)
 
 	startMeasure();
 	// 랜덤 값으로 B1 행렬에 값 넣기
-	for(size_t cnt=0;cnt<matrixB1.getCol();cnt++)
+	for(size_t cnt=0;cnt<matrixB1.getRow();cnt++)
 	{
 		for(size_t cnt2=0;cnt2<VAL_PER_COL;cnt2++)
 		{
-			matrixB1.setElem(cnt,getRandomVal(0,matrixB1.getRow()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
+			matrixB1.setElem(cnt,getRandomVal(0,matrixB1.getCol()-1),getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 		}
 	}
 	endMeasure();
@@ -101,7 +101,8 @@ void	Test::inpData			(	void	)
 
 	startMeasure();
 	// 랜덤 값으로 B2 행렬에 값 넣기
-	for(size_t cnt=0;cnt<matrixB2.getCol();cnt++)
+	matrixB2.resize(0, matrixB2.getRow());
+	for(size_t cnt=0;cnt<matrixB2.getRow();cnt++)
 	{
 		matrixB2.setElem(cnt,0,getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
 	}
@@ -485,7 +486,7 @@ void	Test::testTMul		(	void	)
 
 	startMeasure();
 
-	matrixResult1		=	matrixA.tmultiply(matrixB2);
+	matrixResult1		=	matrixA.tmultiply(matrixB1);
 
 	endMeasure();
 
@@ -500,7 +501,7 @@ void	Test::testTMul		(	void	)
 
 	startMeasure();
 
-	matrixResult2		=	matrixA.ptmultiply(matrixB2);
+	matrixResult2		=	matrixA.ptmultiply(matrixB1);
 
 	endMeasure();
 

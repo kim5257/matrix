@@ -48,20 +48,20 @@ typedef	double	elem_t;		///< 요소 데이터 형식
 class	node_t
 {
 public:
-	size_t		mRow;
+	size_t		mCol;
 	elem_t		mElem;
 
-	node_t		(	size_t		row,
+	node_t		(	size_t		col,
 					elem_t		data
 				)
 	{
-		mRow	=	row;
+		mCol	=	col;
 		mElem	=	data;
 	}
 public:
-	inline bool	operator==		(	size_t		row		) const
+	inline bool	operator==		(	size_t		col		) const
 	{
-		return (mRow == row);
+		return (mCol == col);
 	}
 };
 
@@ -93,6 +93,60 @@ struct	vector_node_t
 		#endif
 	}
 };
+
+/////////////////////////////
+
+class	node_t2
+{
+public:
+	size_t		mRow;
+	elem_t		mElem;
+
+	node_t2	(	size_t		row,
+					elem_t		data
+				)
+	{
+		mRow	=	row;
+		mElem	=	data;
+	}
+public:
+	inline bool	operator==		(	size_t		row		) const
+	{
+		return (mRow == row);
+	}
+};
+
+typedef	std::vector<node_t2>::iterator		elem_vector_itor2;	///< 한 개 행 데이터 참조자
+
+struct	vector_node_t2
+{
+	std::vector<node_t2>		mVector;
+
+#if(PLATFORM == PLATFORM_WINDOWS)
+	CRITICAL_SECTION	mLock;
+#elif(PLATFORM == PLATFORM_LINUX)
+	pthread_mutex_t		mLock	=	PTHREAD_MUTEX_INITIALIZER;
+#endif
+
+	vector_node_t2()
+	{
+		#if(PLATFORM == PLATFORM_WINDOWS)
+
+		::InitializeCriticalSectionEx	(	&mLock,
+											MAX_SPIN_COUNT,
+											NULL
+										);
+
+		#elif(PLATFORM == PLATFORM_LINUX)
+
+		mLock	=	PTHREAD_MUTEX_INITIALIZER;
+
+		#endif
+	}
+};
+
+/////////////////////////////
+
 
 typedef	std::map<size_t, elem_t>::const_iterator	elem_map_itor;		///< 한 개 행 데이터 참조자
 

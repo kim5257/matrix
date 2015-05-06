@@ -137,7 +137,7 @@ void	Test::testSolution	(	void	)
 
 	startMeasure();
 
-	matrixResult1		=	matrixA.solution(matrixB);
+	matrixResult1		=	matrixA.sol_cg(matrixB);
 
 	endMeasure();
 

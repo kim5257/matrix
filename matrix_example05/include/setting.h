@@ -9,8 +9,9 @@
 #define INCLUDE_SETTING_H_
 
 //#define	MATRIX_CSR
-#define	MATRIX_MAP
-//#define	MATRIX_VECTOR
+//#define	MATRIX_MAP
+#define	MATRIX_VECTOR
+//#define	MATRIX_VECTOR2
 
 #define	COL_SIZE				(10000)
 #define	ROW_SIZE				(10000)
@@ -42,7 +43,14 @@ typedef	matrix::SparseMatrix		matrix_t;
 
 #endif
 
+#ifdef	MATRIX_VECTOR2
 
+#include "sparse_matrix3.h"
+typedef	matrix::SparseMatrix3	matrix_t;
+
+#define	TEST_MULTI_THREAD			(1)
+
+#endif
 
 
 #include "matrix_error.h"

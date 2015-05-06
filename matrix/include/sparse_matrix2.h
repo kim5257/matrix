@@ -5,8 +5,8 @@
  *      Author: asran
  */
 
-#ifndef SPARSE_MATRIX_H_
-#define SPARSE_MATRIX_H_
+#ifndef SPARSE_MATRIX2_H_
+#define SPARSE_MATRIX2_H_
 
 #include <stdio.h>
 #include "matrix_typedef.h"
@@ -225,4 +225,4 @@ size_t	SparseMatrix2::getSize		(	void	) const
 
 }
 
-#endif /* SPARSE_MATRIX_H_ */
+#endif /* SPARSE_MATRIX2_H_ */
