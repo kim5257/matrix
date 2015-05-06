@@ -142,7 +142,7 @@ SparseMatrix	SparseMatrix::padd	(	const SparseMatrix&	operand	///< 피연산자
 {
 	chkSameSize(operand);
 
-	SparseMatrix	result		=	SparseMatrix(getCol(), getRow());
+	SparseMatrix	result		=	SparseMatrix(getRow(), getCol());
 
 	if( getRow() < THREAD_FUNC_THRESHOLD )
 	{
@@ -395,7 +395,7 @@ SparseMatrix	SparseMatrix::pmultiply	(	elem_t		operand	///< 피연산자
 }
 
 /**
- * 전치행렬 변환 후 행렬 곱셈
+ * 뒤 전치행렬 변환 후 앞 행렬 곱셈
  * @return 행렬 곱셈 결과
  */
 SparseMatrix	SparseMatrix::tmultiply		(	const SparseMatrix&	operand	///< 피연산자
@@ -458,7 +458,7 @@ SparseMatrix	SparseMatrix::tmultiply		(	const SparseMatrix&	operand	///< 피연�
 }
 
 /**
- * 쓰레드 전치행렬 변환 후 행렬 곱셈
+ * 쓰레드 뒤 전치행렬 변환 후 앞 행렬 곱셈
  * @return 행렬 곱셈 결과
  */
 SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< 피연산자
@@ -504,6 +504,50 @@ SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< 피연�
 	}
 
 	return	result;
+}
+
+/**
+ * 앞 전치행렬 변환 후 뒤 행렬 곱셈
+ * @return 행렬 곱셈 결과
+ */
+SparseMatrix	SparseMatrix::stmultiply		(	const SparseMatrix&	operand	) const
+{
+	if( ( getCol() != operand.getCol() ) &&
+		( getRow() != operand.getRow() ) )
+	{
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
+	}
+
+	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getCol());
+
+	for(size_t row=0;row<getRow();++row)
+	{
+		std::vector<node_t>&	vec		=	mData[row].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		{
+			std::vector<node_t>&	vec2	=	operand.mData[row].mVector;
+
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
+			{
+				result.setElem	(	itor->mCol,
+										itor2->mCol,
+										result.getElem(itor->mCol, itor2->mCol) + (itor->mElem * itor2->mElem)
+									);
+			}
+		}
+	}
+
+	return	result;
+}
+
+/**
+ * 쓰레드 앞 전치행렬 변환 후 뒤 행렬 곱셈
+ * @return 행렬 곱셈 결과
+ */
+SparseMatrix	SparseMatrix::pstmultiply	(	const SparseMatrix&	operand	) const
+{
+	SparseMatrix	result	=	SparseMatrix(getRow(), operand.getCol());
 }
 
 /**
@@ -634,7 +678,7 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	SparseMatrix		x			=	SparseMatrix(this->getCol(), operand.getCol());
 	SparseMatrix		r			=	operand - ( (*this) * x );
 	SparseMatrix		p			=	r;
-	SparseMatrix		rSold		=	r.ptmultiply(r);
+	SparseMatrix		rSold		=	r.stmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
 	bool		foundFlag	=	false;
@@ -643,13 +687,13 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	{
 		SparseMatrix	ap		=	(*this) * p;
 
-		elem_t			ptval	=	(p.ptmultiply(ap)).getElem(0,0);
+		elem_t			ptval	=	(p.stmultiply(ap)).getElem(0,0);
 		elem_t			alpha	=	rSold.getElem(0,0) / ptval;
 
 		x	=	x + (p * alpha);
 		r	=	r - (ap * alpha);
 
-		SparseMatrix	rsNew	=	r.ptmultiply(r);
+		SparseMatrix	rsNew	=	r.stmultiply(r);
 
 		elem_t		sqrtVal	=	sqrt(rsNew.getElem(0,0));
 
