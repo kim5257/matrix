@@ -49,6 +49,7 @@ public:
 	void	testMul		(	void	);
 	void	testElmMul		(	void	);
 	void	testTMul		(	void	);
+	void	testStMul		(	void	);
 };
 
 };

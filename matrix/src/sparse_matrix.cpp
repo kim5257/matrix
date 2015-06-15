@@ -547,7 +547,46 @@ SparseMatrix	SparseMatrix::stmultiply		(	const SparseMatrix&	operand	) const
  */
 SparseMatrix	SparseMatrix::pstmultiply	(	const SparseMatrix&	operand	) const
 {
-	SparseMatrix	result	=	SparseMatrix(getRow(), operand.getCol());
+	if( ( getCol() != operand.getCol() ) &&
+		( getRow() != operand.getRow() ) )
+	{
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
+	}
+
+	SparseMatrix	result	=	SparseMatrix(getCol(), operand.getCol());
+
+	if( getRow() < THREAD_FUNC_THRESHOLD )
+	{
+		for(size_t row=0;row<getRow();++row)
+		{
+			std::vector<node_t>&	vec		=	mData[row].mVector;
+
+			for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+			{
+				std::vector<node_t>&	vec2	=	operand.mData[row].mVector;
+
+				for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
+				{
+					result.setElem	(	itor->mCol,
+											itor2->mCol,
+											result.getElem(itor->mCol, itor2->mCol) + (itor->mElem * itor2->mElem)
+										);
+				}
+			}
+		}
+	}
+	else
+	{
+		OpInfo		info;
+
+		info.operandA		=	this;
+		info.operandB		=	&operand;
+		info.result		=	&result;
+
+		doThreadFunc(FUNC_SPMULTIPLY, info);
+	}
+
+	return	result;
 }
 
 /**
@@ -678,7 +717,7 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	SparseMatrix		x			=	SparseMatrix(this->getCol(), operand.getCol());
 	SparseMatrix		r			=	operand - ( (*this) * x );
 	SparseMatrix		p			=	r;
-	SparseMatrix		rSold		=	r.stmultiply(r);
+	SparseMatrix		rSold		=	r.pstmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
 	bool		foundFlag	=	false;
@@ -687,13 +726,13 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	{
 		SparseMatrix	ap		=	(*this) * p;
 
-		elem_t			ptval	=	(p.stmultiply(ap)).getElem(0,0);
+		elem_t			ptval	=	(p.pstmultiply(ap)).getElem(0,0);
 		elem_t			alpha	=	rSold.getElem(0,0) / ptval;
 
 		x	=	x + (p * alpha);
 		r	=	r - (ap * alpha);
 
-		SparseMatrix	rsNew	=	r.stmultiply(r);
+		SparseMatrix	rsNew	=	r.pstmultiply(r);
 
 		elem_t		sqrtVal	=	sqrt(rsNew.getElem(0,0));
 
@@ -854,6 +893,9 @@ void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< 연산 종류
 		break;
 	case FUNC_PMULTIPLY:
 		orgFuncInfo.func	=	SparseMatrix::threadTmultiply;
+		break;
+	case FUNC_SPMULTIPLY:
+		orgFuncInfo.func	=	SparseMatrix::threadStmultiply;
 		break;
 	case FUNC_COMPARE:
 		orgFuncInfo.func	=	SparseMatrix::threadCompare;
@@ -1273,6 +1315,53 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadTmultiply	(	void*	pData	
 	vector_node_t*		nodeA		=	&operandA.mData[start];
 	vector_node_t*		nodeB		=	&operandB.mData[start];
 	vector_node_t*		nodeRet		=	result.mData;
+
+	for(size_t row=0;row<=range;++row)
+	{
+		std::vector<node_t>&	vec		=	nodeA[row].mVector;
+
+		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		{
+			std::vector<node_t>&	vec2	=	nodeB[row].mVector;
+
+			for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
+			{
+				// 전치 행렬 곱셈은 분리 된 각 스레드마다
+				// nodeRet의 같은 행을 참조 할 수 있어 lock을 사용하여 접근 제어
+				LOCK(&nodeRet[itor->mCol].mLock);
+				elem_t		val		=	getElem_(nodeRet, itor->mCol, itor2->mCol);
+
+				setElem_	(	nodeRet,
+								itor->mCol,
+								itor2->mCol,
+								val + (itor->mElem * itor2->mElem)
+							);
+				UNLOCK(&nodeRet[itor->mCol].mLock);
+			}
+		}
+	}
+
+	return	NULL;
+}
+
+/**
+ * 지정한 범위의 행에 대한 전치행렬 변환 후 곱셈
+ * return 항상 NULL을 리턴
+ */
+THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadStmultiply	(	void*	pData	)
+{
+	FuncInfo*		info		=	(FuncInfo*)pData;
+	size_t			start		=	info->startRow;
+	size_t			end			=	info->endRow;
+	size_t			range		=	end - start;
+
+	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
+	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
+	SparseMatrix&			result		=	*info->opInfo.result;
+
+	vector_node_t*		nodeA		=	&operandA.mData[start];
+	vector_node_t*		nodeB		=	&operandB.mData[start];
+	vector_node_t*		nodeRet	=	result.mData;
 
 	for(size_t row=0;row<=range;++row)
 	{

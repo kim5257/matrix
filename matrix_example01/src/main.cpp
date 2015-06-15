@@ -121,7 +121,7 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA * matrixB.transpose();
+		matrixC	=	matrixA.transpose() * matrixB;
 
 		printf("C = \n");
 		for(size_t col=0;col<matrixC.getCol();col++)

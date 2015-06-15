@@ -101,7 +101,6 @@ void	Test::inpData			(	void	)
 
 	startMeasure();
 	// 랜덤 값으로 B2 행렬에 값 넣기
-	matrixB2.resize(0, matrixB2.getRow());
 	for(size_t cnt=0;cnt<matrixB2.getRow();cnt++)
 	{
 		matrixB2.setElem(cnt,0,getRandomVal(VAL_RANGE_START, VAL_RANGE_END));
@@ -502,6 +501,59 @@ void	Test::testTMul		(	void	)
 	startMeasure();
 
 	matrixResult2		=	matrixA.ptmultiply(matrixB1);
+
+	endMeasure();
+
+	printf("완료\n");
+	ptrMeasure();
+
+	printf("결과 비교 중...");
+	fflush(stdout);
+
+	bool	flag	=	false;
+
+	if( matrixResult1.pcompare(matrixResult2) )
+	{
+		flag	=	true;
+	}
+	else
+	{
+		flag	=	false;
+	}
+
+	printf("완료\n"
+			"결과: %s\n",
+			(flag)?("일치함"):("불 일치함"));
+#endif
+}
+
+void	Test::testStMul		(	void	)
+{
+	printf("\n\n"
+			"전치 행렬 곱셈 시험\n"
+			"==================\n");
+
+	printf("(1) 단일 쓰레드 동작 시험...");
+	fflush(stdout);
+
+	startMeasure();
+
+	matrixResult1		=	matrixA.stmultiply(matrixB1);
+
+	endMeasure();
+
+	printf("완료\n");
+
+	ptrMeasure();
+
+#if( TEST_MULTI_THREAD != 0 )
+
+	printf("(2) 멀티 쓰레드 동작 시험...");
+	fflush(stdout);
+
+	startMeasure();
+
+	matrixResult2		=	matrixA.pstmultiply(matrixB1);
 
 	endMeasure();
 

@@ -19,9 +19,10 @@ int		main	(	void	)
 		//test.testEqual();
 		//test.testAdd();
 		//test.testSub();
-		//test.testMul();
+		test.testMul();
 		//test.testElmMul();
 		//test.testTMul();
+		test.testStMul();
 		//test.ptrDataSize();
 	}
 	catch( matrix::ErrMsg*	exception	)

@@ -24,9 +24,10 @@ public:
 	{
 		FUNC_ADD,			///< 덧셈
 		FUNC_SUB, 			///< 뺄셈
-		FUNC_MULTIPLY,	///< 곱셈
-		FUNC_ELEM_MUL,	///< 행렬 x 단일 값
-		FUNC_PMULTIPLY,	///< 전치 행렬 곱셈
+		FUNC_MULTIPLY,		///< 곱셈
+		FUNC_ELEM_MUL,		///< 행렬 x 단일 값
+		FUNC_TMULTIPLY,		///< 뒤 행렬 전치 변환 후 앞 행렬 곱셈
+		FUNC_STMULTIPLY,	///< 앞 행렬 전치 변환 후 뒤 행렬 곱셈
 		FUNC_COPY,			///< 행렬 복사
 		FUNC_COMPARE,		///< 행렬 비교
 	};
@@ -114,6 +115,7 @@ private:
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply		(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadElemMul		(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadStmultiply	(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 private:
