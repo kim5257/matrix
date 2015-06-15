@@ -1,8 +1,9 @@
 /*
- * main.cpp
- *
- *  Created on: 2014. 12. 23.
- *      Author: asran
+ * @file		main.cpp
+ * @author		asran
+ * @created	2014. 12. 23.
+ * @brief		Matrix 클래스를 사용하여 4x4 행렬을 생성하고\n
+ * 				기본 연산을 수행하는 예제 프로그램이다.
  */
 
 #include "matrix.h"
@@ -75,7 +76,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA + matrixB;
 
-		printf("C = \n");
+		printf("C = A + B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -87,7 +88,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA - matrixB;
 
-		printf("C = \n");
+		printf("C = A - B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -99,7 +100,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA * matrixB;
 
-		printf("C = \n");
+		printf("C = A * B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -111,7 +112,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA * 2;
 
-		printf("C = \n");
+		printf("C = A * 2\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -123,7 +124,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA.transpose() * matrixB;
 
-		printf("C = \n");
+		printf("C = A^-1 * B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)

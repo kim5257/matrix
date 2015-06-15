@@ -1,4 +1,4 @@
-/*
+﻿/*
  * sparse_matrix3.cpp
  *
  *  Created on: 2015. 1. 12.
@@ -20,9 +20,9 @@ typedef	THREAD_RETURN_TYPE(THREAD_FUNC_TYPE *Operation)(void*);
 struct		FuncInfo
 {
 	SparseMatrix::OpInfo	opInfo;
-	Operation					func;
-	size_t						startRow;
-	size_t						endRow;
+	Operation				func;
+	size_t					startRow;
+	size_t					endRow;
 };
 
 /**
@@ -500,7 +500,7 @@ SparseMatrix	SparseMatrix::ptmultiply	(	const SparseMatrix&	operand	///< 피연�
 		info.operandB		=	&operand;
 		info.result		=	&result;
 
-		doThreadFunc(FUNC_PMULTIPLY, info);
+		doThreadFunc(FUNC_TMULTIPLY, info);
 	}
 
 	return	result;
@@ -568,9 +568,9 @@ SparseMatrix	SparseMatrix::pstmultiply	(	const SparseMatrix&	operand	) const
 				for(elem_vector_itor itor2=vec2.begin();itor2!=vec2.end();itor2++)
 				{
 					result.setElem	(	itor->mCol,
-											itor2->mCol,
-											result.getElem(itor->mCol, itor2->mCol) + (itor->mElem * itor2->mElem)
-										);
+										itor2->mCol,
+										result.getElem(itor->mCol, itor2->mCol) + (itor->mElem * itor2->mElem)
+									);
 				}
 			}
 		}
@@ -579,11 +579,11 @@ SparseMatrix	SparseMatrix::pstmultiply	(	const SparseMatrix&	operand	) const
 	{
 		OpInfo		info;
 
-		info.operandA		=	this;
-		info.operandB		=	&operand;
+		info.operandA	=	this;
+		info.operandB	=	&operand;
 		info.result		=	&result;
 
-		doThreadFunc(FUNC_SPMULTIPLY, info);
+		doThreadFunc(FUNC_STMULTIPLY, info);
 	}
 
 	return	result;
@@ -717,7 +717,7 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	SparseMatrix		x			=	SparseMatrix(this->getCol(), operand.getCol());
 	SparseMatrix		r			=	operand - ( (*this) * x );
 	SparseMatrix		p			=	r;
-	SparseMatrix		rSold		=	r.pstmultiply(r);
+	SparseMatrix		rSold		=	r.stmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
 	bool		foundFlag	=	false;
@@ -726,13 +726,13 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 	{
 		SparseMatrix	ap		=	(*this) * p;
 
-		elem_t			ptval	=	(p.pstmultiply(ap)).getElem(0,0);
+		elem_t			ptval	=	(p.stmultiply(ap)).getElem(0,0);
 		elem_t			alpha	=	rSold.getElem(0,0) / ptval;
 
 		x	=	x + (p * alpha);
 		r	=	r - (ap * alpha);
 
-		SparseMatrix	rsNew	=	r.pstmultiply(r);
+		SparseMatrix	rsNew	=	r.stmultiply(r);
 
 		elem_t		sqrtVal	=	sqrt(rsNew.getElem(0,0));
 
@@ -891,10 +891,10 @@ void		SparseMatrix::doThreadFunc	(	FuncKind	kind,	///< 연산 종류
 	case FUNC_ELEM_MUL:
 		orgFuncInfo.func	=	SparseMatrix::threadElemMul;
 		break;
-	case FUNC_PMULTIPLY:
+	case FUNC_TMULTIPLY:
 		orgFuncInfo.func	=	SparseMatrix::threadTmultiply;
 		break;
-	case FUNC_SPMULTIPLY:
+	case FUNC_STMULTIPLY:
 		orgFuncInfo.func	=	SparseMatrix::threadStmultiply;
 		break;
 	case FUNC_COMPARE:
@@ -1357,11 +1357,11 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadStmultiply	(	void*	pData
 
 	const SparseMatrix&	operandA	=	*info->opInfo.operandA;
 	const SparseMatrix&	operandB	=	*info->opInfo.operandB;
-	SparseMatrix&			result		=	*info->opInfo.result;
+	SparseMatrix&		result		=	*info->opInfo.result;
 
 	vector_node_t*		nodeA		=	&operandA.mData[start];
 	vector_node_t*		nodeB		=	&operandB.mData[start];
-	vector_node_t*		nodeRet	=	result.mData;
+	vector_node_t*		nodeRet		=	result.mData;
 
 	for(size_t row=0;row<=range;++row)
 	{

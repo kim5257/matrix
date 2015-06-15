@@ -9,8 +9,8 @@
 #include "matrix_error.h"
 #include <math.h>
 
-#define	THREAD_FUNC_THRESHOLD	(1)
-#define	THREAD_NUM				(8)
+#define	THREAD_NUM					(8)
+#define	THREAD_FUNC_THRESHOLD	(THREAD_NUM)
 
 namespace matrix
 {

@@ -1,12 +1,12 @@
 /*
- * main.cpp
- *
- *  Created on: 2014. 12. 23.
- *      Author: asran
+ * @file		main.cpp
+ * @author		asran
+ * @created	2014. 12. 23.
+ * @brief		SparseMatrix 클래스를 사용하여 4x4 행렬을 생성하고\n
+ * 				기본 연산을 수행하는 예제 프로그램이다.
  */
 
 #include "sparse_matrix.h"
-#include "matrix_csr.h"
 #include "matrix_error.h"
 #include <stdio.h>
 
@@ -74,9 +74,9 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA.add(matrixB);
+		matrixC	=	matrixA + matrixB;
 
-		printf("C = \n");
+		printf("C = A + B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -88,7 +88,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA - matrixB;
 
-		printf("C = \n");
+		printf("C = A - B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -98,9 +98,9 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA.multiply(matrixB);
+		matrixC	=	matrixA * matrixB;
 
-		printf("C = \n");
+		printf("C = A * B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -110,9 +110,9 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		matrixC	=	matrixA.multiply(2);
+		matrixC	=	matrixA * 2;
 
-		printf("C = \n");
+		printf("C = A * 2\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)
@@ -124,7 +124,7 @@ int		main	(	void	)
 
 		matrixC	=	matrixA.stmultiply(matrixB);
 
-		printf("C = \n");
+		printf("C = A^-1 * B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)

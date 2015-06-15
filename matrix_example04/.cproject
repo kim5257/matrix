@@ -25,8 +25,8 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1130467322" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1060401809" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix_example04/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix_example06/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1824716076" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1749201161" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" value="true" valueType="boolean"/>

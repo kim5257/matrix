@@ -27,7 +27,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1490312178" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix_example05/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/matrix_example07/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1437128327" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>

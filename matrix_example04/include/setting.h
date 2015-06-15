@@ -11,7 +11,6 @@
 //#define	MATRIX_CSR
 //#define	MATRIX_MAP
 #define	MATRIX_VECTOR
-//#define	MATRIX_VECTOR2
 
 #define	COL_SIZE				(100000)
 #define	ROW_SIZE				(100000)
@@ -43,15 +42,6 @@ typedef	matrix::SparseMatrix2	matrix_t;
 
 #include "sparse_matrix.h"
 typedef	matrix::SparseMatrix		matrix_t;
-
-#define	TEST_MULTI_THREAD			(1)
-
-#endif
-
-#ifdef	MATRIX_VECTOR2
-
-#include "sparse_matrix3.h"
-typedef	matrix::SparseMatrix3	matrix_t;
 
 #define	TEST_MULTI_THREAD			(1)
 
