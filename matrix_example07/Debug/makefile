@@ -41,7 +41,7 @@ endif
 all: matrix_example07
 
 dependents:
-	-cd /home/asran/workspace/matrix/repo/matrix/Debug && $(MAKE) clean all
+	-cd /home/asran/workspace/matrix/repo/matrix/Debug && $(MAKE) all
 
 # Tool invocations
 matrix_example07: $(OBJS) $(USER_OBJS) /home/asran/workspace/matrix/repo/matrix/Debug/libmatrix.a

@@ -1,8 +1,9 @@
 /*
- * main.cpp
- *
- *  Created on: 2014. 12. 26.
- *      Author: asran
+ * @file		main.cpp
+ * @author		asran
+ * @created	2014. 12. 26.
+ * @brief		희소행렬 클래스를 사용하여 기본 연산을 수행하고,\n
+ * 				수행시간을 측정하는 예제프로그램이다.
  */
 
 #include "test.h"
@@ -15,15 +16,15 @@ int		main	(	void	)
 
 		test.inpData();
 		test.ptrDataSize();
-		//test.testCompare();
-		//test.testEqual();
-		//test.testAdd();
-		//test.testSub();
+		test.testCompare();
+		test.testEqual();
+		test.testAdd();
+		test.testSub();
 		test.testMul();
-		//test.testElmMul();
+		test.testElmMul();
 		//test.testTMul();
 		test.testStMul();
-		//test.ptrDataSize();
+		test.ptrDataSize();
 	}
 	catch( matrix::ErrMsg*	exception	)
 	{

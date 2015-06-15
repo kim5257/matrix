@@ -414,11 +414,6 @@ SparseMatrix	SparseMatrix::tmultiply		(	const SparseMatrix&	operand	///< 피연�
 	{
 		std::vector<node_t>&	vec		=	mData[row].mVector;
 
-		if( (row % 100) == 0 )
-		{
-			printf("row = %lu\n", row);
-		}
-
 		for(size_t row2=0;row2<operand.getRow();++row2)
 		{
 			elem_t		sum		=	0;
