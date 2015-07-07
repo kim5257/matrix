@@ -8,9 +8,9 @@
 #ifndef INCLUDE_SETTING_H_
 #define INCLUDE_SETTING_H_
 
-//#define	MATRIX_CSR
+#define	MATRIX_CSR
 //#define	MATRIX_MAP
-#define	MATRIX_VECTOR
+//#define	MATRIX_VECTOR
 
 #define	COL_SIZE				(100000)
 #define	ROW_SIZE				(100000)

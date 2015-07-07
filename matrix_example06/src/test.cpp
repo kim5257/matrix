@@ -538,7 +538,11 @@ void	Test::testStMul		(	void	)
 
 	startMeasure();
 
+#ifdef	MATRIX_CSR
+	matrixResult1		=	matrixA.transpose() * matrixB1;
+#else
 	matrixResult1		=	matrixA.stmultiply(matrixB1);
+#endif
 
 	endMeasure();
 

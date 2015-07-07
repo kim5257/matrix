@@ -26,7 +26,8 @@ public:
 		FUNC_SUB, 			///< 뺄셈
 		FUNC_MULTIPLY,		///< 곱셈
 		FUNC_ELEM_MUL,		///< 행렬 x 단일 값
-		FUNC_PMULTIPLY,		///< 전치 행렬 곱셈
+		FUNC_TMULTIPLY,		///< 전치 행렬 곱셈
+		FUNC_STMULTIPLY,		///< 앞 전치 행렬 곱셈
 		FUNC_COPY,			///< 행렬 복사
 		FUNC_COMPARE,		///< 행렬 비교
 	};
@@ -67,6 +68,8 @@ public:
 	SparseMatrix2	pmultiply	(	elem_t		operand	) const;
 	SparseMatrix2	tmultiply	(	const SparseMatrix2&	operand	) const;
 	SparseMatrix2	ptmultiply	(	const SparseMatrix2&	operand	) const;
+	SparseMatrix2	stmultiply	(	const SparseMatrix2&	operand	) const;
+	SparseMatrix2	pstmultiply	(	const SparseMatrix2&	operand	) const;
 	const SparseMatrix2&		equal		(	const SparseMatrix2&	operand	);
 	const SparseMatrix2&		pequal		(	const SparseMatrix2&	operand	);
 	bool			compare		(	const SparseMatrix2&	operand	) const;
@@ -105,9 +108,10 @@ private:
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadFunc			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadAdd			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadSub			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply	(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadElemMul		(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply		(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply	(	void*	pData	);
+	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadStmultiply	(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
 	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 };

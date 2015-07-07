@@ -26,7 +26,7 @@ class	ErrMsg
 private:
 	char*		mErrString;		///< 에러 메시지
 private:
-	inline			ErrMsg		(	void	);
+	inline				ErrMsg		(	void	);
 	inline virtual	~ErrMsg		(	void	);
 private:
 	inline bool		setErrString		(	const char		string[]	);

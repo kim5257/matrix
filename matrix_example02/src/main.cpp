@@ -16,6 +16,7 @@ int		main	(	void	)
 	{
 		matrix::SparseMatrix	matrixA	=	matrix::SparseMatrix(4,4);
 		matrix::SparseMatrix	matrixB	=	matrix::SparseMatrix(4,4);
+		matrix::SparseMatrix	matrixD	=	matrix::SparseMatrix(4,4);
 		matrix::SparseMatrix	matrixC;
 
 		// A 행렬 데이터 넣기
@@ -53,6 +54,24 @@ int		main	(	void	)
 		matrixB.setElem(3,1,3);
 		matrixB.setElem(3,2,2);
 		matrixB.setElem(3,3,1);
+
+		// B 행렬 데이터 넣기
+		matrixD.setElem(0,0,16);
+		matrixD.setElem(1,0,15);
+		matrixD.setElem(2,0,14);
+		matrixD.setElem(3,0,13);
+		matrixD.setElem(0,1,12);
+		matrixD.setElem(1,1,11);
+		matrixD.setElem(2,1,10);
+		matrixD.setElem(3,1,9);
+		matrixD.setElem(0,2,8);
+		matrixD.setElem(1,2,7);
+		matrixD.setElem(2,2,6);
+		matrixD.setElem(3,2,5);
+		matrixD.setElem(0,3,4);
+		matrixD.setElem(1,3,3);
+		matrixD.setElem(2,3,2);
+		matrixD.setElem(3,3,1);
 
 		printf("A = \n");
 		for(size_t col=0;col<matrixA.getCol();col++)
@@ -113,6 +132,18 @@ int		main	(	void	)
 		matrixC	=	matrixA * 2;
 
 		printf("C = A * 2\n");
+		for(size_t col=0;col<matrixC.getCol();col++)
+		{
+			for(size_t row=0;row<matrixC.getRow();row++)
+			{
+				printf("%6.2f ", matrixC.getElem(col, row));
+			}
+			printf("\n");
+		}
+
+		matrixC	=	matrixA.ptmultiply(matrixB);
+
+		printf("C = A * B^-1\n");
 		for(size_t col=0;col<matrixC.getCol();col++)
 		{
 			for(size_t row=0;row<matrixC.getRow();row++)

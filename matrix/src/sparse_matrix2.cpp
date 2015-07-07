@@ -454,7 +454,84 @@ SparseMatrix2	SparseMatrix2::ptmultiply	(	const SparseMatrix2&	operand	///< 피�
 		info.operandB		=	&operand;
 		info.result		=	&result;
 
-		doThreadFunc(FUNC_PMULTIPLY, info);
+		doThreadFunc(FUNC_TMULTIPLY, info);
+	}
+
+	return	result;
+}
+
+/**
+ * 앞 전치 행렬 변환 후 곱셈
+ * @return 행렬 곱셈 결과
+ */
+SparseMatrix2	SparseMatrix2::stmultiply	(	const SparseMatrix2&	operand	///< 피연산자
+											) const
+{
+	if( ( getCol() != operand.getCol() ) &&
+		( getRow() != operand.getRow() ) )
+	{
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
+	}
+
+	SparseMatrix2	result	=	SparseMatrix2(getCol(), operand.getRow());
+
+	for(size_t col=0;col<getCol();++col)
+	{
+		for(elem_map_itor itor=mData[col].mMap.begin();itor!=mData[col].mMap.end();++itor)
+		{
+			for(elem_map_itor itor2=operand.mData[col].mMap.begin();itor2!=operand.mData[col].mMap.end();itor2++)
+			{
+				result.setElem	(	itor->first,
+										itor2->first,
+										result.getElem(itor->first, itor2->first) + (itor->second * itor2->second)
+									);
+			}
+		}
+	}
+
+	return	result;
+}
+
+/**
+ * 쓰레드 앞 전치 행렬 변환 후 곱셈
+ * @return 행렬 곱셈 결과
+ */
+SparseMatrix2	SparseMatrix2::pstmultiply	(	const SparseMatrix2&	operand	///< 피연산자
+												) const
+{
+	if( ( getCol() != operand.getCol() ) &&
+		( getRow() != operand.getRow() ) )
+	{
+		throw	matrix::ErrMsg::createErrMsg("행렬 크기가 올바르지 않습니다.");
+	}
+
+	SparseMatrix2	result	=	SparseMatrix2(getCol(), operand.getRow());
+
+	if( getCol() < THREAD_FUNC_THRESHOLD )
+	{
+		for(size_t col=0;col<getCol();++col)
+		{
+			for(elem_map_itor itor=mData[col].mMap.begin();itor!=mData[col].mMap.end();++itor)
+			{
+				for(elem_map_itor itor2=operand.mData[col].mMap.begin();itor2!=operand.mData[col].mMap.end();itor2++)
+				{
+					result.setElem	(	itor->first,
+											itor2->first,
+											result.getElem(itor->first, itor2->first) + (itor->second * itor2->second)
+										);
+				}
+			}
+		}
+	}
+	else
+	{
+		OpInfo		info;
+
+		info.operandA		=	this;
+		info.operandB		=	&operand;
+		info.result		=	&result;
+
+		doThreadFunc(FUNC_STMULTIPLY, info);
 	}
 
 	return	result;
@@ -770,8 +847,11 @@ void		SparseMatrix2::doThreadFunc		(	FuncKind	kind,
 	case FUNC_ELEM_MUL:
 		orgFuncInfo.func	=	SparseMatrix2::threadElemMul;
 		break;
-	case FUNC_PMULTIPLY:
+	case FUNC_TMULTIPLY:
 		orgFuncInfo.func	=	SparseMatrix2::threadTmultiply;
+		break;
+	case FUNC_STMULTIPLY:
+		orgFuncInfo.func	=	SparseMatrix2::threadStmultiply;
 		break;
 	case FUNC_COMPARE:
 		orgFuncInfo.func	=	SparseMatrix2::threadCompare;
@@ -1132,6 +1212,56 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix2::threadElemMul		(	void*	pData	
 }
 
 THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix2::threadTmultiply	(	void*	pData	)
+{
+	FuncInfo*	info	=	(FuncInfo*)pData;
+	size_t		start	=	info->startCol;
+	size_t		end		=	info->endCol;
+	size_t		range	=	end - start;
+
+	const SparseMatrix2&	operandA	=	*info->opInfo.operandA;
+	const SparseMatrix2&	operandB	=	*info->opInfo.operandB;
+	SparseMatrix2&			result		=	*info->opInfo.result;
+
+	map_node_t*	nodeA	=	&operandA.mData[start];
+	map_node_t*	nodeB	=	&operandB.mData[start];
+	map_node_t*	nodeRet	=	result.mData;
+
+	for(size_t col=0;col<=range;++col)
+	{
+		for(elem_map_itor itor=nodeA[col].mMap.begin();itor!=nodeA[col].mMap.end();++itor)
+		{
+			for(elem_map_itor itor2=nodeB[col].mMap.begin();itor2!=nodeB[col].mMap.end();itor2++)
+			{
+				LOCK(&nodeRet[itor->first].mLock);
+
+				try
+				{
+					elem_t		val		=	nodeRet[itor->first].mMap[itor2->first] + (itor->second * itor2->second);
+
+					if( val != 0 )
+					{
+						nodeRet[itor->first].mMap[itor2->first]	=	val;
+					}
+					else
+					{
+						printf("데이터가 0\n");
+						nodeRet[itor->first].mMap.erase(itor2->first);
+					}
+				}
+				catch( std::out_of_range&	)
+				{
+					printf("범위 초과\n");
+				}
+
+				UNLOCK(&nodeRet[itor->first].mLock);
+			}
+		}
+	}
+
+	return	NULL;
+}
+
+THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix2::threadStmultiply	(	void*	pData	)
 {
 	FuncInfo*	info	=	(FuncInfo*)pData;
 	size_t		start	=	info->startCol;

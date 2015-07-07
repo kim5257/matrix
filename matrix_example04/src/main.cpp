@@ -122,7 +122,7 @@ int		main	(	void	)
 			printf("\n");
 		}
 
-		//matrixC	=	matrixA.stmultiply(matrixB);
+		matrixC	=	matrixA.stmultiply(matrixB);
 
 		printf("C = A^-1 * B\n");
 		for(size_t col=0;col<matrixC.getCol();col++)

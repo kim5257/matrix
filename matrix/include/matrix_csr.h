@@ -41,29 +41,31 @@ public:
 private:
 	size_t				mColSize;			///< 행 크기
 	size_t				mRowSize;			///< 열 크기
-	size_t*				mColStart;
+	size_t*				mRowStart;
 	std::vector<node_t>		mData;
 
 public:
 				MatrixCSR		(	void	);
-				MatrixCSR		(	size_t		col,
-									size_t		row
+				MatrixCSR		(	size_t		row,
+									size_t		col
 								);
 				MatrixCSR		(	const MatrixCSR&		matrix		);
 	virtual		~MatrixCSR		(	void	);
 public:
-	elem_t		getElem		(	size_t				col,
-									size_t				row
+	elem_t		getElem		(	size_t				row,
+									size_t				col
 								) const;
-	void		setElem		(	size_t				col,
-								size_t				row,
+	void		setElem		(	size_t				row,
+								size_t				col,
 								elem_t				elem
 							);
 	MatrixCSR	add			(	const MatrixCSR&	operand	) const;
 	MatrixCSR	sub			(	const MatrixCSR&	operand	) const;
 	MatrixCSR	multiply	(	const MatrixCSR&	operand	) const;
 	MatrixCSR	multiply	(	elem_t		operand	) const;
+	MatrixCSR	transpose	(	void	) const;
 	MatrixCSR	tmultiply	(	const MatrixCSR&	operand	) const;
+	MatrixCSR	stmultiply	(	const MatrixCSR&	operand	) const;
 	const MatrixCSR&		equal		(	const MatrixCSR&	operand	);
 	bool		compare	(	const MatrixCSR&	operand	) const;
 	MatrixCSR	sol_cg	(	const MatrixCSR&	operand	);
@@ -80,14 +82,14 @@ public:
 	inline size_t	getRow		(	void	) const;
 	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	size_t	col,
-									size_t	row
+	void		allocElems		(	size_t	row,
+									size_t	col
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const MatrixCSR&		matrix		);
 	void		chkSameSize	(	const MatrixCSR&		matrix		) const;
-	void		chkBound		(	size_t		col,
-									size_t		row
+	void		chkBound		(	size_t		row,
+									size_t		col
 								) const;
 };
 
