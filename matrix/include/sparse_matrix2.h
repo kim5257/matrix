@@ -5,8 +5,8 @@
  *      Author: asran
  */
 
-#ifndef SPARSE_MATRIX_H_
-#define SPARSE_MATRIX_H_
+#ifndef SPARSE_MATRIX2_H_
+#define SPARSE_MATRIX2_H_
 
 #include <stdio.h>
 #include "matrix_typedef.h"
@@ -40,22 +40,22 @@ public:
 		THREAD_RETURN_TYPE		retVal;
 	};
 private:
-	size_t			mColSize;		///< 행 크기
-	size_t			mRowSize;		///< 열 크기
+	size_t			mRowSize;		///< 행 크기
+	size_t			mColSize;		///< 열 크기
 	map_node_t*		mData;		///< 행렬 데이터
 public:
 				SparseMatrix2		(	void	);
-				SparseMatrix2		(	size_t		col,
-										size_t		row
+				SparseMatrix2		(	size_t		row,
+										size_t		col
 									);
 				SparseMatrix2		(	const SparseMatrix2&		matrix		);
 	virtual		~SparseMatrix2		(	void	);
 public:
-	elem_t		getElem		(	size_t		col,
-								size_t		row
+	elem_t		getElem		(	size_t		row,
+								size_t		col
 							) const;
-	void		setElem		(	size_t		col,
-								size_t		row,
+	void		setElem		(	size_t		row,
+								size_t		col,
 								elem_t		elem
 							);
 	SparseMatrix2	add			(	const SparseMatrix2&	operand	) const;
@@ -84,19 +84,19 @@ public:
 	inline bool	operator==		(	const SparseMatrix2&	operand	) const;
 public:
 	inline bool		isValid		(	void	);
-	inline size_t	getCol		(	void	) const;
 	inline size_t	getRow		(	void	) const;
+	inline size_t	getCol		(	void	) const;
 	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	size_t		col,
-									size_t		row
+	void		allocElems		(	size_t		row,
+									size_t		col
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const SparseMatrix2&		matrix		);
 	void		pcopyElems		(	const SparseMatrix2&		matrix		);
 	void		chkSameSize		(	const SparseMatrix2&		matrix		) const;
-	void		chkBound		(	size_t		col,
-									size_t		row
+	void		chkBound		(	size_t		row,
+									size_t		col
 								) const;
 	void		doThreadFunc	(	FuncKind	kind,
 									OpInfo&		info
@@ -184,22 +184,13 @@ bool	SparseMatrix2::isValid		(	void	)
 {
 	bool	ret		=	false;
 
-	if( (mColSize != 0) &&
-		(mRowSize != 0) )
+	if( (mRowSize != 0) &&
+		(mColSize != 0) )
 	{
 		ret		=	true;
 	}
 
 	return	ret;
-}
-
-/**
-* 행 크기 가져오기
-* @return 행 크기
-*/
-size_t	SparseMatrix2::getCol		(	void	) const
-{
-	return	mColSize;
 }
 
 /**
@@ -212,6 +203,15 @@ size_t	SparseMatrix2::getRow		(	void	) const
 }
 
 /**
+* 행 크기 가져오기
+* @return 행 크기
+*/
+size_t	SparseMatrix2::getCol		(	void	) const
+{
+	return	mColSize;
+}
+
+/**
 * 행렬 요소 데이터 수 가져오기
 * @return 요소 데이터 크기
 */
@@ -219,7 +219,7 @@ size_t	SparseMatrix2::getSize		(	void	) const
 {
 	size_t		sum		=	0;
 
-	for(size_t cnt=0;cnt<getCol();cnt++)
+	for(size_t cnt=0;cnt<getRow();cnt++)
 	{
 		sum		+=	mData[cnt].mMap.size();
 	}
@@ -229,4 +229,4 @@ size_t	SparseMatrix2::getSize		(	void	) const
 
 }
 
-#endif /* SPARSE_MATRIX_H_ */
+#endif /* SPARSE_MATRIX2_H_ */

@@ -9,8 +9,8 @@
 #define INCLUDE_SETTING_H_
 
 //#define	MATRIX_CSR
-//#define	MATRIX_MAP
-#define	MATRIX_VECTOR
+#define	MATRIX_MAP
+//#define	MATRIX_VECTOR
 //#define	MATRIX_VECTOR2
 
 #define	COL_SIZE				(10000)

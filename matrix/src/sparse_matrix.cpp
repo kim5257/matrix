@@ -121,13 +121,23 @@ SparseMatrix	SparseMatrix::add	(	const SparseMatrix&	operand	///< 피연산자
 	{
 		std::vector<node_t>&	vec		=	operand.mData[row].mVector;
 
-		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		for(size_t cnt=0;cnt<vec.size();++cnt)
 		{
+			size_t	col		=	vec[cnt].mCol;
+
 			result.setElem	(	row,
-									itor->mCol,
-									result.getElem(row, itor->mCol) + itor->mElem
+									col,
+									result.getElem(row, col) + vec[cnt].mElem
 								);
 		}
+
+		//for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		//{
+		//	result.setElem	(	row,
+		//							itor->mCol,
+		//							result.getElem(row, itor->mCol) + itor->mElem
+		//						);
+		//}
 	}
 
 	return	result;
@@ -192,13 +202,23 @@ SparseMatrix	SparseMatrix::sub	(	const SparseMatrix&	operand	///< 피연산자
 	{
 		std::vector<node_t>&	vec		=	operand.mData[row].mVector;
 
-		for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		for(size_t cnt=0;cnt<vec.size();++cnt)
 		{
+			size_t	col		=	vec[cnt].mCol;
+
 			result.setElem	(	row,
-									itor->mCol,
-									result.getElem(row, itor->mCol) - itor->mElem
+									col,
+									result.getElem(row, col) - vec[cnt].mElem
 								);
 		}
+
+		//for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
+		//{
+		//	result.setElem	(	row,
+		//							itor->mCol,
+		//							result.getElem(row, itor->mCol) - itor->mElem
+		//						);
+		//}
 	}
 
 	return	result;
@@ -1217,7 +1237,7 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadMultiply	(	void*	pData	)
 				}
 				else
 				{
-					printf("데이터가 0\n");
+					//printf("데이터가 0\n");
 					SparseMatrix::delElem_(nodeRet, row, itor2->mCol);
 				}
 			}
@@ -1258,7 +1278,7 @@ THREAD_RETURN_TYPE THREAD_FUNC_TYPE	SparseMatrix::threadElemMul		(	void*	pData	)
 			}
 			else
 			{
-				printf("데이터가 0\n");
+				//printf("데이터가 0\n");
 				SparseMatrix::delElem_(nodeRet, row, itor->mCol);
 			}
 		}
@@ -1469,15 +1489,6 @@ elem_t		SparseMatrix::getElem_		(	vector_node_t*	data,	///< vector 객체 배열
 		{
 			value	=	itor->mElem;
 		}
-
-		//for(size_t cnt=0;cnt<vec.size();++cnt)
-		//{
-		//	if( vec[cnt].mRow == row )
-		//	{
-		//		value	=	vec[cnt].mElem;
-		//		break;
-		//	}
-		//}
 	}
 
 	return	value;
@@ -1514,35 +1525,6 @@ void		SparseMatrix::setElem_		(	vector_node_t*	data,	///< vector 객체 배열
 	{
 		vec.push_back(node_t(col, elem));
 	}
-
-	//bool			found	=	false;
-	//for(elem_vector_itor itor=vec.begin();itor!=vec.end();++itor)
-	//{
-	//	if( itor->mCol == row )
-	//	{
-	//		if( elem != 0 )
-	//		{
-	//			itor->mElem	=	elem;
-	//		}
-	//		else
-	//		{
-	//			// 설정 값이 0이라면 vector에서 삭제
-	//			// 삭제 후에 itor 값을 vector의 다음 값으로 변경하지 않는 것은
-	//			// 직후 break로 반복문으로 빠져나가므로 불필요한 동작이다.
-	//			vec.erase(itor);
-	//		}
-    //
-	//		found			=	true;
-    //
-	//		break;
-	//	}
-	//}
-    //
-	//if( ( elem != 0 ) &&
-	//	( found == false ) )
-	//{
-	//	vec.push_back(node_t(row, elem));
-	//}
 }
 
 };

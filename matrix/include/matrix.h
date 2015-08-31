@@ -20,22 +20,22 @@ namespace matrix
 class	Matrix
 {
 private:
-	size_t		mColSize;	///< 행 크기
-	size_t		mRowSize;	///< 열 크기
+	size_t		mRowSize;	///< 행 크기
+	size_t		mColSize;	///< 열 크기
 	elem_t*		mData;		///< 행렬 데이터
 public:
 				Matrix			(	void	);
-				Matrix			(	size_t		col,
-									size_t		row
+				Matrix			(	size_t		row,
+									size_t		col
 								);
 				Matrix			(	const Matrix&		matrix		);
 	virtual	~Matrix		(	void	);
 public:
-	elem_t		getElem		(	size_t		col,
-									size_t		row
+	elem_t		getElem		(	size_t		row,
+									size_t		col
 								) const;
-	void		setElem		(	size_t		col,
-									size_t		row,
+	void		setElem		(	size_t		row,
+									size_t		col,
 									elem_t		elem
 								);
 	Matrix		add				(	const Matrix&	operand	) const;
@@ -43,6 +43,7 @@ public:
 	Matrix		multiply		(	const Matrix&	operand	) const;
 	Matrix		multiply		(	elem_t		operand	) const;
 	Matrix		transpose		(	void	) const;
+	Matrix		stmultiply		(	const Matrix&	operand	) const;
 	const Matrix&		equal			(	const Matrix&	operand	);
 	Matrix		sol_cg		(	const Matrix&	operand	);
 public:
@@ -53,17 +54,18 @@ public:
 	inline const Matrix&		operator=		(	const Matrix&	operand	);
 public:
 	inline bool	isValid		(	void	);
-	inline size_t	getCol			(	void	) const;
 	inline size_t	getRow			(	void	) const;
+	inline size_t	getCol			(	void	) const;
+	inline size_t	getSize		(	void	) const;
 private:
-	void		allocElems		(	size_t		col,
-									size_t		row
+	void		allocElems		(	size_t		row,
+									size_t		col
 								);
 	void		freeElems		(	void	);
 	void		copyElems		(	const Matrix&		matrix		);
 	void		chkSameSize	(	const Matrix&		matrix		) const;
-	void		chkBound		(	size_t		col,
-									size_t		row
+	void		chkBound		(	size_t		row,
+									size_t		col
 								) const;
 };
 
@@ -120,13 +122,22 @@ bool	Matrix::isValid		(	void	)
 {
 	bool	ret		=	false;
 
-	if( (mColSize != 0) &&
-		(mRowSize != 0) )
+	if( (mRowSize != 0) &&
+		(mColSize != 0) )
 	{
 		ret		=	true;
 	}
 
 	return	ret;
+}
+
+/**
+ * 열 크기 가져오기
+ * @return		열 크기
+ */
+size_t	Matrix::getRow			(	void	) const
+{
+	return	mRowSize;
 }
 
 /**
@@ -138,13 +149,9 @@ size_t	Matrix::getCol			(	void	) const
 	return	mColSize;
 }
 
-/**
- * 열 크기 가져오기
- * @return		열 크기
- */
-size_t	Matrix::getRow			(	void	) const
+size_t	Matrix::getSize		(	void	) const
 {
-	return	mRowSize;
+	return	getRow() * getCol();
 }
 
 };

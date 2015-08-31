@@ -14,6 +14,27 @@ int		main	(	void	)
 {
 	try
 	{
+		matrix::SparseMatrix	matrixE	=	matrix::SparseMatrix(3,1);
+		matrix::SparseMatrix	matrixF;
+
+		matrixE.setElem(0,0,1);
+		matrixE.setElem(1,0,2);
+		matrixE.setElem(2,0,3);
+
+		matrixF	=	matrixE;
+
+		matrixF	=	matrixE.stmultiply(matrixE);
+
+		printf("F = \n");
+		for(size_t col=0;col<matrixF.getCol();col++)
+		{
+			for(size_t row=0;row<matrixF.getRow();row++)
+			{
+				printf("%6.2f ", matrixF.getElem(col, row));
+			}
+			printf("\n");
+		}
+
 		matrix::SparseMatrix	matrixA	=	matrix::SparseMatrix(4,4);
 		matrix::SparseMatrix	matrixB	=	matrix::SparseMatrix(4,4);
 		matrix::SparseMatrix	matrixD	=	matrix::SparseMatrix(4,4);
