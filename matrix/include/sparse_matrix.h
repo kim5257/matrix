@@ -20,29 +20,10 @@ namespace	matrix
 class	SparseMatrix
 {
 public:
-	enum	FuncKind
-	{
-		FUNC_ADD,			///< 덧셈
-		FUNC_SUB, 			///< 뺄셈
-		FUNC_MULTIPLY,		///< 곱셈
-		FUNC_ELEM_MUL,		///< 행렬 x 단일 값
-		FUNC_TMULTIPLY,		///< 뒤 행렬 전치 변환 후 앞 행렬 곱셈
-		FUNC_STMULTIPLY,	///< 앞 행렬 전치 변환 후 뒤 행렬 곱셈
-		FUNC_COPY,			///< 행렬 복사
-		FUNC_COMPARE,		///< 행렬 비교
-	};
 	enum	CG_LimitType
 	{
 		ABSOLUTE,
 		RELATIVE,
-	};
-	struct		OpInfo
-	{
-		const SparseMatrix*		operandA;
-		const SparseMatrix*		operandB;
-		elem_t						elemOperandB;
-		SparseMatrix*			result;
-		THREAD_RETURN_TYPE		retVal;
 	};
 private:
 	size_t				mRowSize;		///< 행 크기
@@ -66,23 +47,14 @@ public:
 	void		clear			(	void	);
 	void		clear			(	size_t		row		);
 	SparseMatrix	add				(	const SparseMatrix&	operand	) const;
-	SparseMatrix	padd			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sub				(	const SparseMatrix&	operand	) const;
-	SparseMatrix	psub			(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply		(	const SparseMatrix&	operand	) const;
-	SparseMatrix	pmultiply		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	multiply		(	elem_t		operand	) const;
-	SparseMatrix	pmultiply		(	elem_t		operand	) const;
 	SparseMatrix	tmultiply		(	const SparseMatrix&	operand	) const;
-	SparseMatrix	ptmultiply		(	const SparseMatrix&	operand	) const;
 	SparseMatrix	stmultiply		(	const SparseMatrix&	operand	) const;
-	SparseMatrix	pstmultiply	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	square			(	void	);
-	SparseMatrix	psquare		(	void	);
 	const SparseMatrix&		equal		(	const SparseMatrix&	operand	);
-	const SparseMatrix&		pequal		(	const SparseMatrix&	operand	);
 	bool	compare	(	const SparseMatrix&	operand	) const;
-	bool	pcompare	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sol_cg	(	const SparseMatrix&	operand	);
 	SparseMatrix	sol_cg	(	const SparseMatrix&	operand,
 								const SparseMatrix&	init,
@@ -114,22 +86,6 @@ private:
 	void		chkBound		(	size_t		row,
 									size_t		col
 								) const;
-	void		doThreadFunc	(	FuncKind	kind,
-									OpInfo&	info
-								) const;
-	void		doThreadFunc	(	FuncKind	kind,
-									OpInfo&	info
-								);
-private:
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadFunc			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadAdd			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadSub			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadMultiply		(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadElemMul		(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadTmultiply		(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadStmultiply	(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCopy			(	void*	pData	);
-	static THREAD_RETURN_TYPE THREAD_FUNC_TYPE	threadCompare		(	void*	pData	);
 private:
 	static void		delElem_		(	vector_node_t*	data,
 											size_t				row,
@@ -153,7 +109,7 @@ private:
 SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연산자
 													) const
 {
-	return	padd(operand);
+	return	add(operand);
 }
 
 /**
@@ -163,7 +119,7 @@ SparseMatrix		SparseMatrix::operator+		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연산자
 												) const
 {
-	return	psub(operand);
+	return	sub(operand);
 }
 
 /**
@@ -173,7 +129,7 @@ SparseMatrix		SparseMatrix::operator-		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연산자
 													) const
 {
-	return	pmultiply(operand);
+	return	multiply(operand);
 }
 
 /**
@@ -183,7 +139,7 @@ SparseMatrix		SparseMatrix::operator*		(	const SparseMatrix&	operand	///< 피연
 SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 													) const
 {
-	return	pmultiply(operand);
+	return	multiply(operand);
 }
 
 /**
@@ -193,7 +149,7 @@ SparseMatrix		SparseMatrix::operator*		(	elem_t		operand	///< 피연산자
 const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///< 피연산자
 															)
 {
-	return	pequal(operand);
+	return	equal(operand);
 }
 
 /**
@@ -203,7 +159,7 @@ const SparseMatrix&		SparseMatrix::operator=		(	const SparseMatrix&	operand	///<
 bool	SparseMatrix::operator==	(	const SparseMatrix&	operand	///< 피연산자
 										) const
 {
-	return	pcompare(operand);
+	return	compare(operand);
 }
 
 /**
