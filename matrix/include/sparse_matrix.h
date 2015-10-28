@@ -31,6 +31,11 @@ public:
 		FUNC_COPY,			///< 행렬 복사
 		FUNC_COMPARE,		///< 행렬 비교
 	};
+	enum	CG_LimitType
+	{
+		ABSOLUTE,
+		RELATIVE,
+	};
 	struct		OpInfo
 	{
 		const SparseMatrix*		operandA;
@@ -79,6 +84,13 @@ public:
 	bool	compare	(	const SparseMatrix&	operand	) const;
 	bool	pcompare	(	const SparseMatrix&	operand	) const;
 	SparseMatrix	sol_cg	(	const SparseMatrix&	operand	);
+	SparseMatrix	sol_cg	(	const SparseMatrix&	operand,
+								const SparseMatrix&	init,
+								uint32_t				iteration,
+								elem_t					limit,
+								CG_LimitType			limitType,
+								elem_t&				rangeResult
+							);
 public:
 	inline SparseMatrix		operator+		(	const SparseMatrix&	operand	) const;
 	inline SparseMatrix		operator-		(	const SparseMatrix&	operand	) const;

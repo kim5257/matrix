@@ -92,6 +92,14 @@ struct	vector_node_t
 
 		#endif
 	}
+	~vector_node_t ()
+	{
+		#if(PLATFORM == PLATFORM_WINDOWS)
+
+		DeleteCriticalSection ( &mLock );
+
+		#endif
+	}
 };
 
 /////////////////////////////
@@ -143,6 +151,15 @@ struct	vector_node_t2
 
 		#endif
 	}
+
+	~vector_node_t2 ()
+	{
+		#if(PLATFORM == PLATFORM_WINDOWS)
+
+		DeleteCriticalSection ( &mLock );
+
+		#endif
+	}
 };
 
 /////////////////////////////
@@ -175,6 +192,14 @@ struct	map_node_t
 
 		#endif
 	}
+	~map_node_t ()
+	{
+		#if(PLATFORM == PLATFORM_WINDOWS)
+
+		DeleteCriticalSection ( &mLock );
+
+		#endif
+	}
 };
 
 #if(PLATFORM == PLATFORM_WINDOWS)
@@ -201,9 +226,6 @@ typedef	csr_t::const_iterator		csr_itor;		///< 행렬 위치 데이터 참조자
 typedef	std::vector<elem_t>			elem_csr_t;		///< 한 개 행 데이터 형식
 typedef	elem_csr_t::const_iterator	elem_csr_itor;	///< 한 개 행 데이터 참조자
 
-
 };
-
-
 
 #endif /* MATRIX_TYPEDEF_H_ */

@@ -704,15 +704,35 @@ bool			SparseMatrix::pcompare		(	const SparseMatrix&	operand	///< 피연산자
 SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산자
 												)
 {
-	SparseMatrix		x			=	SparseMatrix(this->getCol(), operand.getCol());
+	elem_t	rangeResult = 0.0;
+
+	return sol_cg	(	operand,
+						SparseMatrix(this->getCol(), operand.getCol()),
+						32,
+						0.0001,
+						ABSOLUTE,
+						rangeResult
+					);
+}
+
+SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand,
+													const SparseMatrix&	init,
+													uint32_t				iteration,
+													elem_t					limit,
+													CG_LimitType			limitType,
+													elem_t&				rangeResult
+												)
+{
+	SparseMatrix		x			=	init;
 	SparseMatrix		r			=	operand - ( (*this) * x );
 	SparseMatrix		p			=	r;
 	SparseMatrix		rSold		=	r.stmultiply(r);
 	SparseMatrix		result		=	x;
 	elem_t		min			=	1000;
+	elem_t		preVal		=	0;
 	bool		foundFlag	=	false;
 
-	for(size_t cnt=0;cnt<32;cnt++)
+	for(size_t cnt=0;cnt<iteration;++cnt)
 	{
 		SparseMatrix	ap		=	(*this) * p;
 
@@ -728,18 +748,35 @@ SparseMatrix		SparseMatrix::sol_cg		(	const SparseMatrix&	operand	///< 피연산
 
 		if( min > sqrtVal )
 		{
-			min		=	sqrtVal;
-			result	=	x;
+			min				=	sqrtVal;
+			rangeResult	=	sqrtVal;
+			result			=	x;
 		}
 
-		if( sqrtVal < 0.00001 )
+		switch( limitType )
 		{
-			foundFlag	=	true;
+		case ABSOLUTE:
+			if( sqrtVal < limit )
+			{
+				rangeResult	=	sqrtVal;
+				foundFlag		=	true;
+				break;
+			}
+			break;
+		case RELATIVE:
+			if( (preVal - sqrtVal) < limit )
+			{
+				rangeResult	=	sqrtVal;
+				foundFlag		=	true;
+				break;
+			}
 			break;
 		}
 
 		p		=	r + ( p * (rsNew.getElem(0,0) / rSold.getElem(0,0) ) );
 		rSold	=	rsNew;
+
+		preVal = sqrtVal;
 	}
 
 	if( foundFlag != true )
